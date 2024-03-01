@@ -1,4 +1,4 @@
-<%@ page import="service.impl.userServiceImpl" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="Model.Parameter" %>
 <%@ page import="java.util.List" %>
@@ -9,7 +9,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%
-    if (SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")) {
+    if (SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")) {
         response.sendRedirect("dangnhap.jsp");
     }
 %>
@@ -63,7 +63,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
@@ -208,7 +208,7 @@
                     <div class="progress-wrapper">
                         <p>
                             Số đơn hàng so với tháng trước
-                            <% int ord = (int) (((currentP.getNumber_ord() - lastP.getNumber_ord()) / lastP.getNumber_ord()) * 100);
+                            <% int ord = (int) (((currentP.getNumberOrder() - lastP.getNumberOrder()) / lastP.getNumberOrder()) * 100);
                                 if (ord > 0) {%>
                             <span class="float-right">Tăng <%=ord%>%</span>
                             <%} else {%>
@@ -228,7 +228,7 @@
                         <p>
                             Số khách mua hàng so với tháng trước
                             <%
-                                int curr = (int) (((currentP.getNumber_cus() - lastP.getNumber_cus()) / lastP.getNumber_cus()) * 100);
+                                int curr = (int) (((currentP.getNumberCustomer() - lastP.getNumberCustomer()) / lastP.getNumberCustomer()) * 100);
                                 if (curr > 0) {%>
                             <span class="float-right">Tăng <%=(int)curr%>%</span>
                             <%} else {%>
@@ -271,7 +271,7 @@
                     <p>
                         Lượng sản phẩm bán ra so với tháng trước
                         <%
-                            int pro = (int) (((currentP.getNumber_pro() - lastP.getNumber_pro()) / lastP.getNumber_pro()) * 100);
+                            int pro = (int) (((currentP.getNumberProduct() - lastP.getNumberProduct()) / lastP.getNumberProduct()) * 100);
                             if (pro > 0) {%>
                         <span class="float-right">Tăng <%=pro%>%</span>
                         <%} else {%>

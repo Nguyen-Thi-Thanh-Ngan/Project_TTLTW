@@ -7,28 +7,28 @@ public class User {
     private String name;
     private String sex;
     private String address;
-    private Date birth_day;
-    private String phone_number;
+    private Date birthDay;
+    private String phoneNumber;
     private String email;
-    private String user_name;
+    private String userName;
     private String password;
-    private Role role_id;
+    private Role roleId;
     private String role_idStr;
 
     public User() {
     }
 
-    public User(String id, String name, String sex, String address, Date birth_day, String phone_number, String email, String user_name, String password, Role role_id) {
+    public User(String id, String name, String sex, String address, Date birthDay, String phoneNumber, String email, String userName, String password, Role role_id) {
         this.id = id;
         this.name = name;
         this.sex = sex;
         this.address = address;
-        this.birth_day = birth_day;
-        this.phone_number = phone_number;
+        this.birthDay = birthDay;
+        this.phoneNumber = phoneNumber;
         this.email = email;
-        this.user_name = user_name;
+        this.userName = userName;
         this.password = password;
-        this.role_id = role_id;
+        this.roleId = role_id;
     }
 
     public String getId() {
@@ -63,20 +63,20 @@ public class User {
         this.address = address;
     }
 
-    public Date getBirth_day() {
-        return birth_day;
+    public Date getBirthDay() {
+        return birthDay;
     }
 
-    public void setBirth_day(Date birth_day) {
-        this.birth_day = birth_day;
+    public void setBirthDay(Date birthDay) {
+        this.birthDay = birthDay;
     }
 
-    public String getPhone_number() {
-        return phone_number;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setPhone_number(String phone_number) {
-        this.phone_number = phone_number;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 
     public String getEmail() {
@@ -87,12 +87,12 @@ public class User {
         this.email = email;
     }
 
-    public String getUser_name() {
-        return user_name;
+    public String getUserName() {
+        return userName;
     }
 
-    public void setUser_name(String user_name) {
-        this.user_name = user_name;
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {
@@ -103,12 +103,12 @@ public class User {
         this.password = password;
     }
 
-    public Role getRole_id() {
-        return role_id;
+    public Role getRoleId() {
+        return roleId;
     }
 
-    public void setRole_id(Role role_id) {
-        this.role_id = role_id;
+    public void setRoleId(Role roleId) {
+        this.roleId = roleId;
     }
 
     public String getRole_idStr() {
@@ -126,35 +126,35 @@ public class User {
                 ", name='" + name + '\'' +
                 ", sex='" + sex + '\'' +
                 ", address='" + address + '\'' +
-                ", birth_day=" + birth_day +
-                ", phone_number='" + phone_number + '\'' +
+                ", birth_day=" + birthDay +
+                ", phone_number='" + phoneNumber + '\'' +
                 ", email='" + email + '\'' +
-                ", user_name='" + user_name + '\'' +
+                ", user_name='" + userName + '\'' +
                 ", password='" + password + '\'' +
-                ", role_id=" + role_id +
+                ", role_id=" + roleId +
                 '}';
     }
 
-    public User(String name, String sex, String address, Date birth_day, String phone_number, String email, String user_name, String password, String role_idStr) {
+    public User(String name, String sex, String address, Date birth_day, String phoneNumber, String email, String user_name, String password, String role_idStr) {
         this.name = name;
         this.sex = sex;
         this.address = address;
-        this.birth_day = birth_day;
-        this.phone_number = phone_number;
+        this.birthDay = birth_day;
+        this.phoneNumber = phoneNumber;
         this.email = email;
-        this.user_name = user_name;
+        this.userName = user_name;
         this.password = password;
         this.role_idStr = role_idStr;
     }
 
-    public User(String name, String sex, String address, Date birth_day, String phone_number, String email, String user_name, String password) {
+    public User(String name, String sex, String address, Date birthDay, String phone_number, String email, String userName, String password) {
         this.name = name;
         this.sex = sex;
         this.address = address;
-        this.birth_day = birth_day;
-        this.phone_number = phone_number;
+        this.birthDay = birthDay;
+        this.phoneNumber = phone_number;
         this.email = email;
-        this.user_name = user_name;
+        this.userName = userName;
         this.password = password;
     }
 }

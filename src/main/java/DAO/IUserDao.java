@@ -8,9 +8,9 @@ public interface IUserDao {
     boolean login(User item);
     User register(User item);
     String getIdTop1();
-    boolean isUsernameExists(String username);
-    String getIdByUsername(String username);
-    User getByUsername(String username);
+    boolean isUserNameExists(String username);
+    String getIdByUserName(String username);
+    User getByUserName(String username);
     User getById(String username);
     boolean isEmailExists(String email);
     void resetPass(String email, String password);

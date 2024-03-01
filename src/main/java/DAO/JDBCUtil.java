@@ -6,7 +6,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 public class JDBCUtil {
     public static Connection getConnection() {
-        Connection c = null;
+        Connection conn = null;
 
         try {
             // Đăng ký MySQL Driver với DriverManager
@@ -18,14 +18,14 @@ public class JDBCUtil {
             String password = "";
 
             // Tạo kết nối
-            c = DriverManager.getConnection(url, username, password);
+            conn = DriverManager.getConnection(url, username, password);
 
         } catch (SQLException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
-        return c;
+        return conn;
     }
 
     public static void closeConnection(Connection c) {

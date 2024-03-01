@@ -30,7 +30,7 @@
         <%
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         %>
-        <input type="date" class="form-control form-control-xl" placeholder="Ngày sinh" value="<%=request.getAttribute("user") == null ? "" : sdf.format(((User)request.getAttribute("user")).getBirth_day())%>" name="birthDay" required>
+        <input type="date" class="form-control form-control-xl" placeholder="Ngày sinh" value="<%=request.getAttribute("user") == null ? "" : sdf.format(((User)request.getAttribute("user")).getBirthDay())%>" name="birthDay" required>
         <input type="phone" class="form-control form-control-xl" placeholder="Số điện thoại" value="${success == null && user != null ? user.phone_number : ""}" name="phoneNumber" required>
         <input class="form-control form-control-xl" type="email" placeholder="Email" value="${success == null && user != null ? user.email : ""}" name="email" required>
         <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập" value="${success == null && user != null ? user.user_name : ""}" name="username" required>

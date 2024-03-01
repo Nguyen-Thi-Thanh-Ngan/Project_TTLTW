@@ -1,7 +1,7 @@
 package Controller;
 
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +14,7 @@ import java.io.IOException;
 
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -30,7 +30,7 @@ public class LoginController extends HttpServlet {
             req.setAttribute("success", "Đăng nhập thành công!");
             req.setAttribute("username","");
             req.setAttribute("password","");
-            SessionUtil.getInstance().putKey(req, "user", userService.getIdByUsername(req.getParameter("username")));
+            SessionUtil.getInstance().putKey(req, "user", userService.getIdByUserName(req.getParameter("username")));
             if(userService.getById(SessionUtil.getInstance().getKey(req, "user").toString()).getRole_idStr().equals("1")){
                 resp.sendRedirect("admin.jsp");
             }else{

@@ -30,11 +30,11 @@ public class CartProduct {
         this.product = product;
     }
 
-    public void intcreQuantity(int quantity) {
+    public void increaseQuantity(int quantity) {
         this.quantity += quantity;
     }
 
-    public void decreQuantity(int quantity) {
+    public void decreaseQuantity(int quantity) {
         this.quantity -= quantity;
         if(this.quantity<=0) this.quantity+= quantity;
     }

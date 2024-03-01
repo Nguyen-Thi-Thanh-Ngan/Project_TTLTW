@@ -23,12 +23,12 @@ public class ProductDAO implements DAOInterface<Product> {
                         String id = rs.getString("id");
                         String nameProduct = rs.getString("name");
                         double price = rs.getDouble("price");
-                        String productType_id = rs.getString("product_type_id");
+                        String productTypeId = rs.getString("product_type_id");
                         int quantity = rs.getInt("quantity");
-                        String producer_id = rs.getString("producer_id");
+                        String producerId = rs.getString("producerId");
                         String img = rs.getString("image");
-                        Producer producer = new ProducerDAO().selectById(new Producer(producer_id, null));
-                        ProductType productType = new ProductTypeDAO().selectById(new ProductType(productType_id, null));
+                        Producer producer = new ProducerDAO().selectById(new Producer(producerId, null));
+                        ProductType productType = new ProductTypeDAO().selectById(new ProductType(productTypeId, null));
 
                         Product product = new Product(id, nameProduct, price, productType, quantity, producer, img);
                         list.add(product);

@@ -164,7 +164,7 @@
                             </td>
                             <td><%=order.getStatus()%>
                             </td>
-                            <td><%=order.getPayMent()%>
+                            <td><%=order.getPayment()%>
                             </td>
                             <td><%=order.getOrderDate()%>
                             </td>

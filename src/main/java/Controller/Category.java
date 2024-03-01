@@ -16,10 +16,10 @@ public class Category extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idProducer = request.getParameter("idProducer");
         ProductDAO productDAO = new ProductDAO();
-        ArrayList<Product> list = productDAO.selectByIdProducer(idProducer);
+        ArrayList<Product> listProduct = productDAO.selectByIdProducer(idProducer);
 
 
-        request.setAttribute("listC", list);
+        request.setAttribute("listC", listProduct);
         request.getRequestDispatcher("danhmuctheoNSX.jsp").forward(request, response);
     }
 

@@ -7,7 +7,7 @@
 --%>
 <%@ page import="Cart.Cart" %>
 <%@ page import="utils.SessionUtil" %>
-<%@ page import="service.impl.userServiceImpl" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -36,7 +36,7 @@
                     <li><a href="dangnhap.jsp"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
                 </c:if>
                 <c:if test="${sessionScope.user != null}">
-                    <li><a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a></li>
+                    <li><a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a></li>
                     <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
                 </c:if>
             </ul>

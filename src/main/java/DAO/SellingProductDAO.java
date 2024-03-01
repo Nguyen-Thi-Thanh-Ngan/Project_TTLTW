@@ -1,26 +1,24 @@
 package DAO;
 
-import Model.New_Product;
 import Model.Product;
-import Model.Selling_Product;
+import Model.SellingProduct;
 import db.JDBIConector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SellingProductDAO implements DAOInterface{
     @Override
-    public List<Selling_Product> selectAll() {
-        List<Selling_Product> ketQua = JDBIConector.me().withHandle((handle -> {
-            List<Selling_Product> selling_products = new ArrayList<>();
+    public List<SellingProduct> selectAll() {
+        List<SellingProduct> ketQua = JDBIConector.me().withHandle((handle -> {
+            List<SellingProduct> selling_products = new ArrayList<>();
             handle.createQuery("SELECT id, product_id FROM new_products")
                     .map((rs, ctx) -> {
                         String id = rs.getString("id");
                         String product_id = rs.getString(("product_id"));
 
                         Product product = ProductDAO.getById(product_id);
-                        Selling_Product sellingProduct = new Selling_Product(id, product);
+                        SellingProduct sellingProduct = new SellingProduct(id, product);
                         selling_products.add(sellingProduct);
 
                         return null;

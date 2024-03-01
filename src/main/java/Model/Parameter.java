@@ -4,21 +4,21 @@ import java.sql.Date;
 
 public class Parameter {
     private String id;
-    private double number_cus;
-    private double number_pro;
-    private double number_ord;
+    private double numberCustomer;
+    private double numberProduct;
+    private double numberOrder;
     private double revenue;
-    private Date update_date;
+    private Date updateDate;
     public Parameter() {
     }
 
-    public Parameter(String id, double number_cus, double number_pro, double number_ord, double revenue, Date update_date) {
+    public Parameter(String id, double numberCustomer, double numberProduct, double numberOrder, double revenue, Date updateDate) {
         this.id = id;
-        this.number_cus = number_cus;
-        this.number_pro = number_pro;
-        this.number_ord = number_ord;
+        this.numberCustomer = numberCustomer;
+        this.numberProduct = numberProduct;
+        this.numberOrder = numberOrder;
         this.revenue = revenue;
-        this.update_date = update_date;
+        this.updateDate = updateDate;
     }
 
     public String getId() {
@@ -29,28 +29,28 @@ public class Parameter {
         this.id = id;
     }
 
-    public double getNumber_cus() {
-        return number_cus;
+    public double getNumberCustomer() {
+        return numberCustomer;
     }
 
-    public void setNumber_cus(double number_cus) {
-        this.number_cus = number_cus;
+    public void setNumberCustomer(double numberCustomer) {
+        this.numberCustomer = numberCustomer;
     }
 
-    public double getNumber_pro() {
-        return number_pro;
+    public double getNumberProduct() {
+        return numberProduct;
     }
 
-    public void setNumber_pro(double number_pro) {
-        this.number_pro = number_pro;
+    public void setNumberProduct(double numberProduct) {
+        this.numberProduct = numberProduct;
     }
 
-    public double getNumber_ord() {
-        return number_ord;
+    public double getNumberOrder() {
+        return numberOrder;
     }
 
-    public void setNumber_ord(double number_ord) {
-        this.number_ord = number_ord;
+    public void setNumberOrder(double numberOrder) {
+        this.numberOrder = numberOrder;
     }
 
     public double getRevenue() {
@@ -61,23 +61,23 @@ public class Parameter {
         this.revenue = revenue;
     }
 
-    public Date getUpdate_date() {
-        return update_date;
+    public Date getUpdateDate() {
+        return updateDate;
     }
 
-    public void setUpdate_date(Date update_date) {
-        this.update_date = update_date;
+    public void setUpdateDate(Date updateDate) {
+        this.updateDate = updateDate;
     }
 
     @Override
     public String toString() {
         return "Parameter{" +
                 "id='" + id + '\'' +
-                ", number_cus=" + number_cus +
-                ", number_pro=" + number_pro +
-                ", number_ord=" + number_ord +
+                ", number_cus=" + numberCustomer +
+                ", number_pro=" + numberProduct +
+                ", number_ord=" + numberOrder +
                 ", revenue=" + revenue +
-                ", update_date=" + update_date +
+                ", update_date=" + updateDate +
                 '}';
     }
 }

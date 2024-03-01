@@ -1,24 +1,24 @@
 package DAO;
 
-import Model.New_Product;
+import Model.NewProduct;
 import Model.Product;
 import db.JDBIConector;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewProductDAO implements DAOInterface<New_Product> {
+public class NewProductDAO implements DAOInterface<NewProduct> {
     @Override
-    public List<New_Product> selectAll() {
-        List<New_Product> ketQua = JDBIConector.me().withHandle((handle -> {
-            List<New_Product> newProductDAOS = new ArrayList<>();
+    public List<NewProduct> selectAll() {
+        List<NewProduct> ketQua = JDBIConector.me().withHandle((handle -> {
+            List<NewProduct> newProductDAOS = new ArrayList<>();
             handle.createQuery("SELECT id, product_id FROM new_products")
                     .map((rs, ctx) -> {
                         String id = rs.getString("id");
                         String product_id = rs.getString(("product_id"));
 
                         Product product = ProductDAO.getById(product_id);
-                        New_Product newProduct = new New_Product(id, product);
+                        NewProduct newProduct = new NewProduct(id, product);
                         newProductDAOS.add(newProduct);
 
                         return null;
@@ -29,22 +29,22 @@ public class NewProductDAO implements DAOInterface<New_Product> {
     }
 
     @Override
-    public New_Product selectById(New_Product newProduct) {
+    public NewProduct selectById(NewProduct newProduct) {
         return null;
     }
 
     @Override
-    public int insert(New_Product newProduct) {
+    public int insert(NewProduct newProduct) {
         return 0;
     }
 
     @Override
-    public int delete(New_Product newProduct) {
+    public int delete(NewProduct newProduct) {
         return 0;
     }
 
     @Override
-    public int update(New_Product newProduct) {
+    public int update(NewProduct newProduct) {
         return 0;
     }
 
