@@ -26,7 +26,7 @@
 
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
-
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 </head>
 <body>
 

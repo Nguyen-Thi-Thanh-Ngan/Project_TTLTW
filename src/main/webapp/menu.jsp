@@ -9,6 +9,8 @@
 <html>
 <head>
     <title>Menu</title>
+  <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 </head>
 <body>
 <!-- Menu -->

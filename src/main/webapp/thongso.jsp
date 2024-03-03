@@ -44,6 +44,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <!-- End import lib -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 </head>
 <body class="overlay-scrollbar">

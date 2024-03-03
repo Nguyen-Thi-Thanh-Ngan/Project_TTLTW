@@ -27,7 +27,9 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="css/intro.css">
+    <link rel="stylesheet" href="css/intro.css"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 </head>
 <body>
 <!-- HEADER -->
