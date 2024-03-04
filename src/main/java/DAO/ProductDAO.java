@@ -497,49 +497,6 @@ public class ProductDAO implements DAOInterface<Product> {
         return ketQua;
     }
 
-//    public ArrayList<Product> getPagingProductType(int index) {
-//        ArrayList<Product> ketQua = new ArrayList();
-//        try {
-//            // Bước 1: tạo kết nối đến CSDL
-//            Connection con = JDBCUtil.getConnection();
-//
-//            // Bước 2: tạo ra đối tượng statement
-//            String sql = "SELECT id, name, price, product_type_id, quantity, producer_id, image FROM products WHERE product_type_id = ? ORDER BY id LIMIT 20 OFFSET ?";
-//            PreparedStatement st = con.prepareStatement(sql);
-//
-//            // Bước 3: thực thi câu lệnh SQL
-//            System.out.println(sql);
-//            st.setString(1, new Product().getProductType().getId());
-//            st.setInt(2, (index - 1)*20);
-//            ResultSet rs = st.executeQuery();
-//
-//            // Bước 4:
-//            while (rs.next()) {
-//                String id = rs.getString("id");
-//                String nameProduct = rs.getString("name");
-//                double price = rs.getDouble("price");
-//                String productType_id = rs.getString("product_type_id");
-//                int quantity = rs.getInt("quantity");
-//                String producer_id = rs.getString("producer_id");
-//                String img = rs.getString("image");
-//
-//
-//                Producer producer = (new ProducerDAO().selectById(new Producer(producer_id, null)));
-//                ProductType productType = new ProductTypeDAO().selectById(new ProductType(productType_id, null));
-//                Product product = new Product(id, nameProduct, price, productType, quantity, producer, img);
-//                ketQua.add(product);
-//            }
-//
-//            // Bước 5:
-//            JDBCUtil.closeConnection(con);
-//        } catch (SQLException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//
-//        return ketQua;
-//    }
-
 
     public ArrayList<Product> selectByIdProductType(String idProductType) {
         ArrayList<Product> ketQua = new ArrayList();

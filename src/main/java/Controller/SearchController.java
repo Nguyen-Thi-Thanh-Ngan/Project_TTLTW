@@ -25,7 +25,7 @@ public class SearchController extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String textSearch = request.getParameter("search");
+        String textSearch = request.getParameter("name");
         List<Product> listProduct = ProductDAO.searchByName(textSearch);
         request.setAttribute("list", listProduct);
         request.getRequestDispatcher("SearchProduct.jsp").forward(request, response);

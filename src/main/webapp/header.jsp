@@ -63,9 +63,9 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form action="search" method="post">
-                            <input class="input" name="search" placeholder="Tìm kiếm tại đây">
-                            <input class="search-btn" type="submit" name="btnGo" value="Tìm kiếm">
+                        <form action="search" method="get">
+                            <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
+                            <input class="search-btn" type="submit" name="" value="Tìm kiếm">
                         </form>
                     </div>
                 </div>

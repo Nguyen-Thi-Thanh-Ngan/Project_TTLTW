@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 @WebServlet(name = "Type", value = "/type")
-public class Type extends HttpServlet {
+public class TypeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String idProductType = request.getParameter("idProductType");

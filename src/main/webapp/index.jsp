@@ -74,7 +74,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Tai nghe</h3>
-                        <a href="type?idProductType=Pt_3" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?idProductType=Pt_3"  class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
