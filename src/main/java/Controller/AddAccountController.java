@@ -3,7 +3,7 @@ package Controller;
 import Model.User;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,7 +15,7 @@ import java.text.SimpleDateFormat;
 
 @WebServlet(value = "/account/add")
 public class AddAccountController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -35,7 +35,7 @@ public class AddAccountController extends HttpServlet {
         resp.setContentType("application/json");
         ObjectMapper objectMapper = new ObjectMapper();
         System.out.println(req.getParameter("user"));
-        if(userService.isUsernameExists(req.getParameter("user"))){
+        if(userService.isUserNameExists(req.getParameter("user"))){
             objectMapper.writeValue(resp.getOutputStream(), false);
             return;
         }

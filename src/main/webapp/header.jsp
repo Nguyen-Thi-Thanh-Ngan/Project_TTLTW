@@ -7,7 +7,7 @@
 --%>
 <%@ page import="Cart.Cart" %>
 <%@ page import="utils.SessionUtil" %>
-<%@ page import="service.impl.userServiceImpl" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
@@ -36,7 +36,7 @@
                     <li><a href="dangnhap.jsp"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
                 </c:if>
                 <c:if test="${sessionScope.user != null}">
-                    <li><a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a></li>
+                    <li><a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a></li>
                     <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
                 </c:if>
             </ul>
@@ -53,7 +53,7 @@
                 <!-- LOGO -->
                 <div class="col-md-3">
                     <div class="header-logo">
-                        <a href="#" class="logo">
+                        <a href="index.jsp" class="logo">
                             <img src="img/logo.png" alt="">
                         </a>
                     </div>
@@ -63,9 +63,9 @@
                 <!-- SEARCH BAR -->
                 <div class="col-md-6">
                     <div class="header-search">
-                        <form action="search" method="post">
-                            <input class="input" name="search" placeholder="Tìm kiếm tại đây">
-                            <input class="search-btn" type="submit" name="btnGo" value="Tìm kiếm">
+                        <form action="search" method="get">
+                            <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
+                            <input class="search-btn" type="submit" name="" value="Tìm kiếm">
                         </form>
                     </div>
                 </div>

@@ -1,19 +1,17 @@
 package DAO;
 
-import Model.New_Product;
 import Model.Product;
-import Model.Sale_Product;
+import Model.SaleProduct;
 import db.JDBIConector;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class SaleProductDAO implements DAOInterface{
     @Override
-    public List<Sale_Product> selectAll() {
-        List<Sale_Product> ketQua = JDBIConector.me().withHandle((handle -> {
-            List<Sale_Product> sale_products = new ArrayList<>();
+    public List<SaleProduct> selectAll() {
+        List<SaleProduct> ketQua = JDBIConector.me().withHandle((handle -> {
+            List<SaleProduct> sale_products = new ArrayList<>();
             handle.createQuery("SELECT id, product_id,discount FROM sale_products")
                     .map((rs, ctx) -> {
                         String id = rs.getString("id");
@@ -21,7 +19,7 @@ public class SaleProductDAO implements DAOInterface{
                         double discount = rs.getDouble("discount");
 
                         Product product = ProductDAO.getById(product_id);
-                        Sale_Product saleProduct = new Sale_Product(id, product, discount);
+                        SaleProduct saleProduct = new SaleProduct(id, product, discount);
                         sale_products.add(saleProduct);
 
                         return null;

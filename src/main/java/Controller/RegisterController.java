@@ -2,7 +2,7 @@ package Controller;
 
 import Model.User;
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 import utils.MailUtil;
 import utils.SessionUtil;
 
@@ -19,7 +19,7 @@ import java.util.Random;
 
 @WebServlet(value = "/register")
 public class RegisterController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -42,7 +42,7 @@ public class RegisterController extends HttpServlet {
             e.printStackTrace();
         }
         if(req.getParameter("password").toString().equals(req.getParameter("confirmPassword").toString())){
-            if(userService.isUsernameExists(req.getParameter("username").toString())){
+            if(userService.isUserNameExists(req.getParameter("username").toString())){
                 req.setAttribute("error", "Tên người dùng đã tồn tại!");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("dangky.jsp");
                 dispatcher.forward(req, resp);

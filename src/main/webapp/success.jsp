@@ -1,4 +1,4 @@
-<%@ page import="service.impl.userServiceImpl" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
@@ -25,6 +25,8 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <!-- End import lib -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 
     <style>
         body {

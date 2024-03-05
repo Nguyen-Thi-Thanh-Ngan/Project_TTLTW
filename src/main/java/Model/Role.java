@@ -2,14 +2,14 @@ package Model;
 
 public class Role {
     private String id;
-    private String role_name;
+    private String roleName;
 
     public Role() {
     }
 
-    public Role(String id, String role_name) {
+    public Role(String id, String roleName) {
         this.id = id;
-        this.role_name = role_name;
+        this.roleName = roleName;
     }
 
     public String getId() {
@@ -20,19 +20,19 @@ public class Role {
         this.id = id;
     }
 
-    public String getRole_name() {
-        return role_name;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setRole_name(String role_name) {
-        this.role_name = role_name;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
     }
 
     @Override
     public String toString() {
         return "Role{" +
                 "id='" + id + '\'' +
-                ", role_name='" + role_name + '\'' +
+                ", role_name='" + roleName + '\'' +
                 '}';
     }
 }

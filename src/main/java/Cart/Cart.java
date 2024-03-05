@@ -21,7 +21,7 @@ public class Cart {
         CartProduct cartProduct;
         if (data.containsKey(add)) {
             cartProduct = data.get(add);
-            cartProduct.intcreQuantity(quantity);
+            cartProduct.increaseQuantity(quantity);
         } else {
             cartProduct = new CartProduct(quantity, p);
         }

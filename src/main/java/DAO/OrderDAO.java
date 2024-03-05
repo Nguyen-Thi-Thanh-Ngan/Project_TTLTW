@@ -7,7 +7,6 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class OrderDAO implements DAOInterface<Order> {
     @Override
@@ -121,7 +120,7 @@ public class OrderDAO implements DAOInterface<Order> {
             }
             st.setString(3, order.getAddress());
             st.setString(4, order.getStatus());
-            st.setString(5, order.getPayMent());
+            st.setString(5, order.getPayment());
             st.setDate(6, order.getOrderDate());
             st.setDate(7, order.getDeliveryDate());
 
@@ -198,7 +197,7 @@ public class OrderDAO implements DAOInterface<Order> {
             st.setString(1, order.getUser().getId());
             st.setString(2, order.getAddress());
             st.setString(3, order.getStatus());
-            st.setString(4, order.getPayMent());
+            st.setString(4, order.getPayment());
             st.setDate(5, order.getOrderDate());
             st.setDate(6, order.getDeliveryDate());
             st.setString(7, order.getId());

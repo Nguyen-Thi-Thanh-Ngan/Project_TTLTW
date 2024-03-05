@@ -1,7 +1,7 @@
 package Controller;
 
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,7 +12,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/account/delete")
 public class DeleteAccountController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

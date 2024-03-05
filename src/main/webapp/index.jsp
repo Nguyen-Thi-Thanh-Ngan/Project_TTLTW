@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Phù hợp mọi loại màn hình -->
-
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <title>Trang chủ - Phone Accessories</title>
 
@@ -29,6 +29,7 @@
 
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <jsp:useBean id="a" class="DAO.SaleProductDAO" scope="request"></jsp:useBean>
     <jsp:useBean id="b" class="DAO.SellingProductDAO" scope="request"></jsp:useBean>
@@ -73,7 +74,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Tai nghe</h3>
-                        <a href="type?idProductType=Pt_3" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?idProductType=Pt_3"  class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -121,33 +122,33 @@
                         <!-- tab -->
                         <div id="tab1" class="tab-pane active">
                             <!-- product -->
-                            <c:forEach items="${c.selectAll()}" var="productNew">
-                                <div class="col-md-4 col-xs-6">
-                                    <div class="product">
-                                        <div class="product-img">
-                                            <img src="${productNew.product.img}" alt="">
-                                            <div class="product-label">
-                                                <span class="new">Mới</span>
-                                            </div>
-                                        </div>
-                                        <div class="product-body">
-                                            <p class="product-category">${productNew.product.producer.name}</p>
-                                            <h3 class="product-name"><a href="sanpham.jsp?id=${productNew.product.id}">${productNew.product.name}</a></h3>
-                                            <fmt:formatNumber value="${productNew.product.price}" type="number"
-                                                              pattern="#,##0" var="formattedPrice"/>
-                                            <h4 class="product-price">${formattedPrice} VNĐ</h4>
-                                            <div class="product-rating">
-                                            </div>
-                                        </div>
-                                        <div class="add-to-cart">
-                                            <form action="addcart" method="post">
-                                                <input type="hidden" name="id" value="${ productNew.product.id }">
-                                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                                            </form>
-                                        </div>
-                                    </div>
-                                </div>
-                            </c:forEach>
+<%--                            <c:forEach items="${c.selectAll()}" var="productNew">--%>
+<%--                                <div class="col-md-4 col-xs-6">--%>
+<%--                                    <div class="product">--%>
+<%--                                        <div class="product-img">--%>
+<%--                                            <img src="${productNew.product.img}" alt="">--%>
+<%--                                            <div class="product-label">--%>
+<%--                                                <span class="new">Mới</span>--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="product-body">--%>
+<%--                                            <p class="product-category">${productNew.product.producer.name}</p>--%>
+<%--                                            <h3 class="product-name"><a href="sanpham.jsp?id=${productNew.product.id}">${productNew.product.name}</a></h3>--%>
+<%--                                            <fmt:formatNumber value="${productNew.product.price}" type="number"--%>
+<%--                                                              pattern="#,##0" var="formattedPrice"/>--%>
+<%--                                            <h4 class="product-price">${formattedPrice} VNĐ</h4>--%>
+<%--                                            <div class="product-rating">--%>
+<%--                                            </div>--%>
+<%--                                        </div>--%>
+<%--                                        <div class="add-to-cart">--%>
+<%--                                            <form action="addcart" method="post">--%>
+<%--                                                <input type="hidden" name="id" value="${ productNew.product.id }">--%>
+<%--                                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>--%>
+<%--                                            </form>--%>
+<%--                                        </div>--%>
+<%--                                    </div>--%>
+<%--                                </div>--%>
+<%--                            </c:forEach>--%>
                             <!-- /product -->
 
                             <!-- /tab -->

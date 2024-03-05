@@ -16,7 +16,7 @@ public class SessionUtil {
         req.getSession().setAttribute(key, value);
     }
 
-    public void delKey(HttpServletRequest req, String key){
+    public void deleteKey(HttpServletRequest req, String key){
         req.getSession().removeAttribute(key);
     }
 

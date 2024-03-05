@@ -2,14 +2,11 @@ package Controller;
 
 import Cart.Cart;
 import Cart.CartProduct;
-import DAO.IUserDao;
 import DAO.OrderDAO;
 import DAO.OrderDetailsDAO;
 import DAO.UserDAO;
-import DAO.impl.userDaoImpl;
 import service.IUserService;
-import service.UserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 import Model.*;
 
 import javax.servlet.RequestDispatcher;
@@ -20,9 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.sql.Date;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet(name = "OrderController", value = "/order")
@@ -32,7 +27,7 @@ public class OrderController extends HttpServlet {
 
     private UserDAO userDAO = new UserDAO();
 
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
     private static int countIdOrder = 0;
     private static int countIdOrderDetail = 0;
 
@@ -51,36 +46,30 @@ public class OrderController extends HttpServlet {
 
         if (cart != null) {
 
-            Date order_date = new Date(System.currentTimeMillis() + 3600000);
+            Date orderDate = new Date(System.currentTimeMillis() + 3600000);
             long sevenDaysInMillis = 3 * 24 * 60 * 60 * 1000;
-            Date delivery_date = new Date(order_date.getTime() + sevenDaysInMillis);
+            Date deliverDate = new Date(orderDate.getTime() + sevenDaysInMillis);
 
-            String id_order = "or_" + generateUniqueOrderId();
+            String idOrder = "or_" + generateUniqueOrderId();
 
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String address = request.getParameter("delivery_address");
             String phone = request.getParameter("phone_number");
-            String payment_method = request.getParameter("payment");
+            String paymentMethod = request.getParameter("payment");
 
             if (email != null && !email.isEmpty()) {
                 User user = userDAO.getUserByEmail(email);
                 user.setId(userDAO.getUserByEmail(email).getId());
 
-                Order order = new Order(id_order, user, address, "", payment_method, order_date, delivery_date);
+                Order order = new Order(idOrder, user, address, "", paymentMethod, orderDate, deliverDate);
                 orderDAO.insert(order);
-
                 List<CartProduct> cartProducts = cart.getCartProducts();
-
                 for (CartProduct cartProduct : cartProducts) {
-
-                    String id_orderDetail = "od_" + generateUniqueOrderDetailId();
-
+                    String idOrderDetail = "od_" + generateUniqueOrderDetailId();
                     OrderDetails orderDetails = new OrderDetails();
-
                     double amount = cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
-
-                    orderDetails.setId(id_orderDetail);
+                    orderDetails.setId(idOrderDetail);
                     orderDetails.setOrder(order);
                     orderDetails.setProduct(cartProduct.getProduct());
                     orderDetails.setQuantity(cartProduct.getQuantity());

@@ -138,10 +138,10 @@ public class UserDAO implements DAOInterface<User> {
             st.setString(2, user.getName());
             st.setString(3, user.getSex());
             st.setString(4, user.getAddress());
-            st.setDate(5, user.getBirth_day());
-            st.setString(6, user.getPhone_number());
+            st.setDate(5, user.getBirthDay());
+            st.setString(6, user.getPhoneNumber());
             st.setString(7, user.getEmail());
-            st.setString(8, user.getUser_name());
+            st.setString(8, user.getUserName());
             st.setString(9, user.getPassword());
 
 
@@ -218,10 +218,10 @@ public class UserDAO implements DAOInterface<User> {
             st.setString(1, user.getName());
             st.setString(2, user.getSex());
             st.setString(3, user.getAddress());
-            st.setDate(4, user.getBirth_day());
-            st.setString(5, user.getPhone_number());
+            st.setDate(4, user.getBirthDay());
+            st.setString(5, user.getPhoneNumber());
             st.setString(6, user.getEmail());
-            st.setString(7, user.getUser_name());
+            st.setString(7, user.getUserName());
             st.setString(8, user.getPassword());
             st.setString(9, user.getId());
 
