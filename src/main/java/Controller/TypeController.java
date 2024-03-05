@@ -2,7 +2,6 @@ package Controller;
 
 import DAO.ProductDAO;
 import Model.Product;
-
 import javax.servlet.*;
 import javax.servlet.http.*;
 import javax.servlet.annotation.*;
@@ -10,17 +9,16 @@ import javax.servlet.annotation.*;
 import java.io.IOException;
 import java.util.ArrayList;
 
-@WebServlet(name = "Category", value = "/category")
-public class Category extends HttpServlet {
+@WebServlet(name = "Type", value = "/type")
+public class TypeController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        String idProducer = request.getParameter("idProducer");
+        String idProductType = request.getParameter("idProductType");
         ProductDAO productDAO = new ProductDAO();
-        ArrayList<Product> listProduct = productDAO.selectByIdProducer(idProducer);
+        ArrayList<Product> list = productDAO.selectByIdProductType(idProductType);
 
-
-        request.setAttribute("listC", listProduct);
-        request.getRequestDispatcher("danhmuctheoNSX.jsp").forward(request, response);
+        request.setAttribute("listT", list);
+        request.getRequestDispatcher("danhmuctheoloaisanpham.jsp").forward(request, response);
     }
 
     @Override

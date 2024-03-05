@@ -1,9 +1,9 @@
-<%@ page import="service.impl.userServiceImpl" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
+    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
         response.sendRedirect("dangnhap.jsp");
     }
 %>
@@ -15,7 +15,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="icon" type="image/png" href="./img/logo.png"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 
     <!-- Import lib -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -52,7 +53,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">

@@ -7,7 +7,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Phù hợp mọi loại màn hình -->
-
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <title>Trang chủ - Phone Accessories</title>
 
@@ -29,6 +29,7 @@
 
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <jsp:useBean id="a" class="DAO.SaleProductDAO" scope="request"></jsp:useBean>
     <jsp:useBean id="b" class="DAO.SellingProductDAO" scope="request"></jsp:useBean>
@@ -73,7 +74,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Tai nghe</h3>
-                        <a href="type?idProductType=Pt_3" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?idProductType=Pt_3"  class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>

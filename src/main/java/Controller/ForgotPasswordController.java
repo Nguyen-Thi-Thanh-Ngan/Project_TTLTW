@@ -1,7 +1,7 @@
 package Controller;
 
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 import utils.MailUtil;
 import utils.SessionUtil;
 
@@ -16,7 +16,7 @@ import java.util.Random;
 
 @WebServlet(value = "/quenmatkhau")
 public class ForgotPasswordController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

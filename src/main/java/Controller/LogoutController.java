@@ -13,7 +13,7 @@ import java.io.IOException;
 public class LogoutController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        SessionUtil.getInstance().delKey(req, "user");
+        SessionUtil.getInstance().deleteKey(req, "user");
         resp.sendRedirect("index.jsp");
     }
 }

@@ -32,18 +32,18 @@ public class ParameterController extends HttpServlet {
             Parameter p = new Parameter();
 
             String id = String.valueOf(Date.valueOf(LocalDate.now()));
-            double number_cus = Double.parseDouble(request.getParameter("countCus"));
-            double number_ord = Double.parseDouble(request.getParameter("countOrd"));
-            double number_pro = Double.parseDouble(request.getParameter("countPro"));
+            double numberCustomer = Double.parseDouble(request.getParameter("countCus"));
+            double numberOrder = Double.parseDouble(request.getParameter("countOrd"));
+            double numberProduct = Double.parseDouble(request.getParameter("countPro"));
             double revenue = Double.parseDouble(request.getParameter("calculateRev"));
-            Date update_date = Date.valueOf(LocalDate.now());
+            Date updateDate = Date.valueOf(LocalDate.now());
 
             p.setId(id);
-            p.setNumber_cus(number_cus);
-            p.setNumber_ord(number_ord);
-            p.setNumber_pro(number_pro);
+            p.setNumberCustomer(numberCustomer);
+            p.setNumberOrder(numberOrder);
+            p.setNumberProduct(numberProduct);
             p.setRevenue(revenue);
-            p.setUpdate_date(update_date);
+            p.setUpdateDate(updateDate);
 
             parameterDAO.insert(p);
         }

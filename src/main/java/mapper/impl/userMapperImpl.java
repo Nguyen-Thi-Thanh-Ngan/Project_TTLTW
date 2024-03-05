@@ -16,12 +16,12 @@ public class userMapperImpl implements IRowMapper<User> {
 			model.setName(rs.getString("name"));
 			model.setSex(rs.getString("sex"));
 			model.setAddress(rs.getString("address"));
-			model.setPhone_number(rs.getString("phone_number"));
+			model.setPhoneNumber(rs.getString("phone_number"));
 			model.setEmail(rs.getString("email"));
-			model.setUser_name(rs.getString("user_name"));
+			model.setUserName(rs.getString("user_name"));
 			model.setRole_idStr(rs.getString("role_id"));
 			model.setPassword(rs.getString("password"));
-			model.setBirth_day(rs.getDate("birth_day"));
+			model.setBirthDay(rs.getDate("birth_day"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

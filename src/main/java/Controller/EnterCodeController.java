@@ -2,7 +2,7 @@ package Controller;
 
 import Model.User;
 import service.IUserService;
-import service.impl.userServiceImpl;
+import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -15,7 +15,7 @@ import java.io.IOException;
 
 @WebServlet(value = "/entercode")
 public class EnterCodeController extends HttpServlet {
-    private IUserService userService = new userServiceImpl();
+    private IUserService userService = new UserServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -28,7 +28,7 @@ public class EnterCodeController extends HttpServlet {
         if(SessionUtil.getInstance().getKey(req, "email") != null){
             String code = SessionUtil.getInstance().getKey(req, "codes").toString();
             if(code.equals(req.getParameter("code"))){
-                SessionUtil.getInstance().delKey(req, "code");
+                SessionUtil.getInstance().deleteKey(req, "code");
                 resp.sendRedirect("resetpassword");
                 return;
             }
@@ -49,8 +49,8 @@ public class EnterCodeController extends HttpServlet {
                             dispatcher.forward(req, resp);
                         }else{
                             req.setAttribute("success", "Đăng ký thành công!");
-                            SessionUtil.getInstance().delKey(req, "code");
-                            SessionUtil.getInstance().delKey(req, "userObj");
+                            SessionUtil.getInstance().deleteKey(req, "code");
+                            SessionUtil.getInstance().deleteKey(req, "userObj");
                             SessionUtil.getInstance().putKey(req, "user", rsRegister);
                             RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
                             dispatcher.forward(req, resp);

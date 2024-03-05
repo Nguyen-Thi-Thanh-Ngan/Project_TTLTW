@@ -31,6 +31,7 @@
 
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
     <jsp:useBean id="b" class="DAO.ProducerDAO" scope="request"></jsp:useBean>

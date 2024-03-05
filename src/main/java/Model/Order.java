@@ -7,19 +7,19 @@ public class Order {
     private User user;
     private String address;
     private String status;
-    private String payMent;
+    private String payment;
     private Date orderDate;
     private Date deliveryDate;
 
     public Order() {
     }
 
-    public Order(String id, User user, String address, String status, String payMent, Date orderDate, Date deliveryDate) {
+    public Order(String id, User user, String address, String status, String payment, Date orderDate, Date deliveryDate) {
         this.id = id;
         this.user = user;
         this.address = address;
         this.status = status;
-        this.payMent = payMent;
+        this.payment = payment;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
     }
@@ -56,12 +56,12 @@ public class Order {
         this.status = status;
     }
 
-    public String getPayMent() {
-        return payMent;
+    public String getPayment() {
+        return payment;
     }
 
-    public void setPayMent(String payMent) {
-        this.payMent = payMent;
+    public void setPayment(String payment) {
+        this.payment = payment;
     }
 
     public Date getOrderDate() {
@@ -87,7 +87,7 @@ public class Order {
                 ", user=" + user +
                 ", address='" + address + '\'' +
                 ", status='" + status + '\'' +
-                ", payMent='" + payMent + '\'' +
+                ", payMent='" + payment + '\'' +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
                 '}';

@@ -35,6 +35,7 @@
 
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 
     <jsp:useBean id="a" class="DAO.OrderDetailsDAO" scope="request"/>
@@ -86,16 +87,20 @@
                             <h3 class="title">Thông tin thanh toán</h3>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="name" placeholder="Họ và tên" required value="${name}">
+                            <input class="input" type="text" name="name" placeholder="Họ và tên" required
+                                   value="${name}">
                         </div>
                         <div class="form-group">
-                            <input class="input" type="email" name="email" placeholder="Email" required value="${email}">
+                            <input class="input" type="email" name="email" placeholder="Email" required
+                                   value="${email}">
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng" required>
+                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng"
+                                   required>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required value="${phone_number}">
+                            <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
+                                   value="${phone_number}">
                         </div>
 
                     </div>
@@ -158,7 +163,7 @@
                                 <strong class="order-total"><fmt:formatNumber value="<%=totalAmout%>" type="number"
                                                                               pattern="#,##0"
                                                                               var="formattedPrice"/>
-                                    <h5 class="product-price">${formattedPrice} VNĐ</h5></strong>
+                                    <h5 class="product-price total">${formattedPrice} VNĐ</h5></strong>
                             </div>
                         </div>
                     </div>
@@ -173,9 +178,8 @@
                                 Chuyển khoản trực tiếp
                             </label>
                             <div class="caption">
-                                <p>Quý khách vui lòng chuyển khoản qua số tài khoản: 0973206403 với nội dung là : Số
-                                    điện
-                                    thoại + Họ và tên</p>
+                                <p>Quý khách vui lòng quét mã để chuyển khoản với nội dung: Họ tên người mua + số điện thoại</p>
+                                <img id="qr_code" alt="qr_code" src="" style="width: 200px; height: 200px"/>
                             </div>
                         </div>
                         <div class="input-radio">
@@ -197,7 +201,8 @@
                             <span></span>
                             Tôi đã đọc và chấp nhận <a href="chinhsachbaomat.jsp">các điều khoản trên</a>
                         </label>
-                        <button onclick="validateForm()" data-toggle="modal" class="primary-btn order-submit">Đặt hàng</button>
+                        <button onclick="validateForm()" data-toggle="modal" class="primary-btn order-submit">Đặt hàng
+                        </button>
                     </div>
                     <!-- /Order Details -->
                 </div>
@@ -215,7 +220,9 @@
                     <h4 class="modal-title">Bạn đã đặt hàng thành công</h4>
                 </div>
                 <div class="modal-footer">
-                    <button id="confirmOrderBtn" onclick="confirmOrder()" type="button" class="btn btn-danger">Xác nhận</button>
+                    <button id="confirmOrderBtn" onclick="confirmOrder()" type="button" class="btn btn-danger">Xác
+                        nhận
+                    </button>
                 </div>
             </div>
         </div>
@@ -237,12 +244,26 @@
 <script src="js/main.js"></script>
 
 <script>
+    $("#payment-1").change(() => {
+        var productPriceText = $('.product-price.total').text();
+        productPriceText = productPriceText.replace(' VNĐ', '');
+        console.log(productPriceText)
+        productPriceText = productPriceText.replace('.', '');
+        console.log(productPriceText)
+        var price = parseInt(productPriceText);
+        payByVNPay(price);
+    });
+
     function validateForm() {
         var orderForm = document.getElementById('orderForm');
         var selectedPayment = document.querySelector('input[name="payment"]:checked');
         var checkbox = document.getElementById('terms');
+        // if () {
+        //
+        // }
         if (checkbox.checked && orderForm.checkValidity() && selectedPayment) {
             $('#oderEmployeeModal').modal('show');
+
         } else {
             alert("Vui lòng điền đầy đủ thông tin và đồng ý với các điều khoản.");
         }
@@ -251,7 +272,34 @@
     function confirmOrder() {
         $('#oderEmployeeModal').modal('hide');
         window.location.href = 'index.jsp';
+    };
+
+    function payByVNPay(amount) {
+        $.ajax({
+            type: "POST",
+            url: "https://api.vietqr.io/v2/generate",
+            header: {
+                'x-client-id': '1ef21eff-beb1-4dfa-951f-e9db9dd22863',
+                'x-api-key': '1afe4e54-e325-4296-9a1e-5027fcd70bfb',
+                'Content-Type': 'application/json'
+            },
+            data:{
+                "accountNo": "022042003",
+                "accountName": "Nguyễn Thanh Bình",
+                "acqId": "970422",
+                "addInfo": "Thanh Toán mua hàng",
+                "amount": amount,
+                "template": "compact"
+            },
+            success: function (response) {
+                $("#qr_code").attr("src", response.data.qrDataURL);
+            },
+            error: function (xhr, status, error) {
+                console.error("Error sending payment method:", error);
+            }
+        });
     }
+
 
 </script>
 
