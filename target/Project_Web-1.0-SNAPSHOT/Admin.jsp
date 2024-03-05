@@ -54,11 +54,6 @@
                 <c:if test="${sessionScope.user != null}">
                     <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
                 </c:if>
-            </div>
-        </li>
-        <li class="nav-item">
-            <div class="avt dropdown">
-                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
                         <a href="logout" class="dropdown-menu-link">
@@ -69,6 +64,12 @@
                         </a>
                     </li>
                 </ul>
+            </div>
+        </li>
+        <li class="nav-item">
+            <div class="avt dropdown">
+                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+
             </div>
         </li>
     </ul>

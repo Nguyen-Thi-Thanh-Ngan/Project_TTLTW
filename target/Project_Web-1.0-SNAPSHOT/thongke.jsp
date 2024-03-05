@@ -60,54 +60,14 @@
 
     <!-- nav right -->
     <ul class="navbar-nav nav-right">
-        <li class="nav-item dropdown">
-            <a class="nav-link">
-                <i class="fas fa-bell dropdown-toggle" data-toggle="notification-menu"></i>
-                <span class="navbar-badge">1</span>
-            </a>
-            <ul id="notification-menu" class="dropdown-menu notification-menu">
-                <div class="dropdown-menu-header">
-						<span>
-							Thông báo
-						</span>
-                </div>
-                <div class="dropdown-menu-content overlay-scrollbar scrollbar-hover">
-                    <li class="dropdown-menu-item">
-                        <a href="#" class="dropdown-menu-link">
-                            <div>
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <span>
-									Thông báo kết thúc khuyến mãi
-									<br>
-									<span>
-										15/07/2020
-									</span>
-								</span>
-                        </a>
-                    </li>
-                </div>
-                <div class="dropdown-menu-footer">
-						<span>
-						</span>
-                </div>
-            </ul>
-        </li>
-
-        <li class="nav-item avt-wrapper">
+        <li class="nav-item">
             <div class="avt dropdown">
-                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+                <c:if test="${sessionScope.user != null}">
+                    <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+                </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
-                        <a class="dropdown-menu-link">
-                            <div>
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                            <span>Thông tin cá nhân</span>
-                        </a>
-                    </li>
-                    <li class="dropdown-menu-item">
-                        <a href="dangnhap.jsp" class="dropdown-menu-link">
+                        <a href="logout" class="dropdown-menu-link">
                             <div>
                                 <i class="fas fa-sign-out-alt"></i>
                             </div>
@@ -117,7 +77,14 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item">
+            <div class="avt dropdown">
+                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+
+            </div>
+        </li>
     </ul>
+
     <!-- end nav right -->
 </div>
 <!-- end navbar -->
