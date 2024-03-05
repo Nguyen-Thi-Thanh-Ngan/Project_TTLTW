@@ -36,14 +36,14 @@
         <input type="phone" class="form-control form-control-xl" placeholder="Số điện thoại" value="${success == null && user != null ? user.phone_number : ""}" name="phoneNumber" required>
         <input class="form-control form-control-xl" type="email" placeholder="Email" value="${success == null && user != null ? user.email : ""}" name="email" required>
         <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập" value="${success == null && user != null ? user.user_name : ""}" name="username" required>
-        <input class="form-control form-control-xl" type="password" placeholder="Mật khẩu" value="${success == null && user != null ? user.password : ""}" name="password" required>
+        <input class="form-control form-control-xl" type="password" placeholder="Mật khẩu" value="${success == null && user != null ? user.password : ""}" name="password" id="password" required>
         <input class="form-control form-control-xl" type="password" placeholder="Nhập lại mật khẩu" value="${success == null && user != null ? confirmPassword : ""}" name="confirmPassword" required>
     </form>
     <div class="terms">
         <input type="checkbox" id="checkbox">
         <label for="checkbox">Tôi đồng ý những<a href="chinhsachbaomat.jsp"> chính sách của cửa hàng</a></label>
     </div>
-    <button onclick="submitForm()">Đăng ký</button>
+    <button onclick="validatePassword()">Đăng ký</button>
 <div class="member">
     Đã có tài khoản? <a href="dangnhap.jsp">Đăng nhập ở đây</a>
 </div>
@@ -57,6 +57,17 @@
 <script src="js/main.js"></script>
 
 <script>
+    function validatePassword() {
+        var password = document.getElementById("password").value;
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9]{8,}$/;
+
+        if (!regex.test(password)) {
+            alert("Mật khẩu phải chứa ít nhất 8 ký tự và không chư ký tự đặc biệt");
+        } else {
+            submitForm();
+        }
+    }
+
     function submitForm() {
         var registrationForm = document.getElementById('registrationForm');
         var checkbox = document.getElementById('checkbox');
