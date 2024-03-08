@@ -122,33 +122,33 @@
                         <!-- tab -->
                         <div id="tab1" class="tab-pane active">
                             <!-- product -->
-<%--                            <c:forEach items="${c.selectAll()}" var="productNew">--%>
-<%--                                <div class="col-md-4 col-xs-6">--%>
-<%--                                    <div class="product">--%>
-<%--                                        <div class="product-img">--%>
-<%--                                            <img src="${productNew.product.img}" alt="">--%>
-<%--                                            <div class="product-label">--%>
-<%--                                                <span class="new">Mới</span>--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="product-body">--%>
-<%--                                            <p class="product-category">${productNew.product.producer.name}</p>--%>
-<%--                                            <h3 class="product-name"><a href="sanpham.jsp?id=${productNew.product.id}">${productNew.product.name}</a></h3>--%>
-<%--                                            <fmt:formatNumber value="${productNew.product.price}" type="number"--%>
-<%--                                                              pattern="#,##0" var="formattedPrice"/>--%>
-<%--                                            <h4 class="product-price">${formattedPrice} VNĐ</h4>--%>
-<%--                                            <div class="product-rating">--%>
-<%--                                            </div>--%>
-<%--                                        </div>--%>
-<%--                                        <div class="add-to-cart">--%>
-<%--                                            <form action="addcart" method="post">--%>
-<%--                                                <input type="hidden" name="id" value="${ productNew.product.id }">--%>
-<%--                                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>--%>
-<%--                                            </form>--%>
-<%--                                        </div>--%>
-<%--                                    </div>--%>
-<%--                                </div>--%>
-<%--                            </c:forEach>--%>
+                            <c:forEach items="${c.selectAll()}" var="productNew">
+                                <div class="col-md-4 col-xs-6">
+                                    <div class="product">
+                                        <div class="product-img">
+                                            <img src="${productNew.product.img}" alt="">
+                                            <div class="product-label">
+                                                <span class="new">Mới</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-body">
+                                            <p class="product-category">${productNew.product.producer.name}</p>
+                                            <h3 class="product-name"><a href="sanpham.jsp?id=${productNew.product.id}">${productNew.product.name}</a></h3>
+                                            <fmt:formatNumber value="${productNew.product.price}" type="number"
+                                                              pattern="#,##0" var="formattedPrice"/>
+                                            <h4 class="product-price">${formattedPrice} VNĐ</h4>
+                                            <div class="product-rating">
+                                            </div>
+                                        </div>
+                                        <div class="add-to-cart">
+                                            <form action="addcart" method="post">
+                                                <input type="hidden" name="id" value="${ productNew.product.id }">
+                                                <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:forEach>
                             <!-- /product -->
 
                             <!-- /tab -->
