@@ -1,6 +1,6 @@
-package Cart;
+package model;
 
-import Model.Product;
+import model.Product;
 
 public class CartProduct {
     private int quantity;
