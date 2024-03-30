@@ -1,17 +1,17 @@
-<%@ page import="Cart.Cart" %>
+    <%@ page import="Cart.Cart" %>
 <%@ page import="Cart.CartProduct" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Product" %>
+<%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"  language="java" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" language="java" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Giỏ hàng</title>
@@ -76,7 +76,7 @@
 <div class="container main-section">
     <div class="row">
 
-    <div class="col-lg-12 pl-3 pt-3">
+        <div class="col-lg-12 pl-3 pt-3">
             <table class="table table-hover border bg-white">
                 <thead>
                 <tr>
@@ -108,21 +108,37 @@
                                 <img src="<%=cartProduct.getProduct().getImg()%>" alt="..." class="img-responsive"/>
                             </div>
                             <div class="col-lg-10">
-                                <h5 class="nomargin"> <b> <%=cartProduct.getProduct().getName()%></b> </h5>
-                                <p> </p>
+                                <h5 class="nomargin"><b><%=cartProduct.getProduct().getName()%>
+                                </b></h5>
+                                <p></p>
                             </div>
                         </div>
                     </td>
                     <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number" pattern="#,##0"
                                       var="formattedPrice"/>
-                    <td> <strong> ${formattedPrice} VND</strong> </td>
+                    <td><strong> ${formattedPrice} VND</strong></td>
+                    <%--                        Cập nhật số lượng--%>
                     <td data-th="Quantity">
-                        <b> <%= cartProduct.getQuantity() %> </b>
+                        <form action="updatecart" method="post">
+                            <table class="table table-hover border bg-white" >
+                                <td style="border: none"><b> <input type="text" name="quantity1"
+                                                                    value="<%= cartProduct.getQuantity() %>"
+                                                                    style="width: 45px"> </b>
+                                </td>
+
+                                <td style="border: none"><input type="hidden" name="productId"
+                                                                value="<%= cartProduct.getProduct().getId()%>">
+                                    <input type="submit" class="btn btn-success btn-block" value="Cập nhật">
+                                </td>
+                            </table>
+                        </form>
+                        <%--                        Cập nhật số lượng--%>
                     </td>
 
-                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()*cartProduct.getQuantity()%>" type="number" pattern="#,##0"
+                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()*cartProduct.getQuantity()%>"
+                                      type="number" pattern="#,##0"
                                       var="formattedPrice1"/>
-                    <td> <strong> ${formattedPrice1} VND</strong> </td>
+                    <td><strong> ${formattedPrice1} VND</strong></td>
                     <td class="actions" data-th="" style="width:10%;">
                         <!-- Delete-->
                         <div id="deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>" class="modal fade">
@@ -131,11 +147,15 @@
                                     <form action="delcart" method="post">
                                         <div class="modal-header">
                                             <h4 class="modal-title">Xóa sản phẩm này khỏi giỏ hàng</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                                &times;
+                                            </button>
                                         </div>
                                         <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                                            <input type="hidden" name="productId" value="<%= cartProduct.getProduct().getId()%>">
+                                            <input type="button" class="btn btn-default" data-dismiss="modal"
+                                                   value="Hủy">
+                                            <input type="hidden" name="productId"
+                                                   value="<%= cartProduct.getProduct().getId()%>">
                                             <input type="submit" class="btn btn-danger" value="Xóa">
                                         </div>
                                     </form>
@@ -143,37 +163,55 @@
                             </div>
                         </div>
                         <!--/ Delete-->
-                        <button data-toggle="modal" data-target="#deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>" class="btn btn-danger btn-sm"> <i class="fa fa-trash-o"> </i> </button>
+                        <button data-toggle="modal"
+                                data-target="#deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>"
+                                class="btn btn-danger btn-sm"><i class="fa fa-trash-o"> </i></button>
                     </td>
                 </tr>
                 <%
-                        }
+                    }
                 %>
                 </tbody>
                 <tfoot>
+
                 <tr>
-                    <td> <a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm </a> </td>
-                    <td colspan="2" class="hidden-xs"> </td>
+                    <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm
+                    </a></td>
+                    <td colspan="2" class="hidden-xs"></td>
 
                     <td class="hidden-xs text-center" style="width:10%;">
-                        <fmt:formatNumber value="<%= cart.amount(cartProducts) %>" type="number" pattern="#,##0"
+                        <%--                        tính tổng tiền tất cả sản phẩm--%>
+                        <%
+                            double totalAmount = 0;
+                            Map<String, CartProduct> cartItems = cart.getData();
+                            for (Map.Entry<String, CartProduct> entry : cartItems.entrySet()) {
+                                CartProduct cartProduct = entry.getValue();
+                                Product product = cartProduct.getProduct();
+                                double productTotal = cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
+                                totalAmount += productTotal;
+                            }
+                        %>
+                        <%--                        tính tổng tiền tất cả sản phẩm--%>
+                        <fmt:formatNumber value="<%= totalAmount %>" type="number" pattern="#,##0"
                                           var="formattedPrice2"/>
                         <strong>Tổng tiền : ${formattedPrice2} VND</strong>
                     </td>
 
-                    <td> <a href="thanhtoan.jsp" class="btn btn-success btn-block"> Thanh toán <i class="fa fa-angle-right"> </i> </a> </td>
+                    <td><a href="thanhtoan.jsp" class="btn btn-success btn-block"> Thanh toán <i
+                            class="fa fa-angle-right"> </i> </a></td>
                 </tr>
                 </tfoot>
             </table>
         </div>
         <%
-            } else { %>
+        } else { %>
         <!-- Xử lý khi giỏ hàng không tồn tại -->
-        <a  style=" text-align: center; margin-left: 500px; font-size: 30px" >
+        <a style=" text-align: center; margin-left: 500px; font-size: 30px">
             <strong>Giỏ hàng trống</strong>
             <br>
             <br>
-            <a href="index.jsp" class="btn btn-success " style="margin-left: 540px;"> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm </a>
+            <a href="index.jsp" class="btn btn-success " style="margin-left: 540px;"> <i class="fa fa-angle-left"> </i>
+                Tiếp tục mua sắm </a>
             <br>
         </a>
         <% } %>
