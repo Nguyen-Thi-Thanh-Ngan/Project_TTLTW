@@ -1,0 +1,83 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+.row{
+    display: flex;
+    border: none;
+}
+.row .form{
+    border: 3px solid #a94442;
+    border-radius: 10px;
+    width: 50%;
+    height: 50%;
+}
+.row .form .col-md-7{
+    width: 100%;
+}
+.row .form .col-md-7 .billing-details{
+    margin: 10px 10px 20px 10px;
+}
+.row .form .col-md-7 .billing-details .section-title{
+    font-weight: bolder;
+}
+.row .form .col-md-7 .billing-details .form-group .top{
+    font-weight: bolder;
+    border: 1px solid #a94442;
+    background: #a94442;
+    width: 100%;
+}
+.row .form .col-md-7 .billing-details .form-group .bot{
+    border: 1px solid #a94442;
+    width: 100%;
+}
+.row .order-detail{
+    border: 3px solid #a94442;
+    margin: 0 30px 0 30px;
+    height: 480px;
+    border-radius: 10px;
+}
+.row .detail{
+    height: 330px;
+}
+.row .detail .card-content{
+    border-top: 4px solid #761c19;
+    border-bottom: 4px solid #761c19;
+    max-height: 300px;
+    overflow: auto;
+}
+thead tr{
+    background-color: #a94442;
+}
+tbody tr{
+    background-color: wheat;
+}
+tr{
+    border-top: 1px solid black;
+    border-bottom: 1px solid black;
+}
+th, td{
+    padding: 5px;
+}
+.title-2{
+    font-size: 15px;
+    font-weight: bolder;
+    padding: 10px;
+}
+.title-3{
+    margin-top: 8px;
+    font-size: 15px;
+    font-weight: bolder;
+    padding: 10px;
+}
+.row .order-detail .history{
+    height: 70px;
+}
+.row .order-detail .history .complete{
+    border: 1px solid;
+    max-height: 50px;
+    overflow: auto;
+}
+.fa-circle-right{
+    color: #a94442;
+}
