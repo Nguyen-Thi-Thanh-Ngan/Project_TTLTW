@@ -1,3 +1,4 @@
+
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page import="DAO.OrderDAO" %>
 <%@ page import="Model.Order" %>
@@ -91,6 +92,7 @@
                                 <tbody>
                                 <%
                                     OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
+
                                     ProductDAO productDAO = new ProductDAO();
                                     List<OrderDetails> listOrderDetails = orderDetailsDAO.getByIdOrder(request.getParameter("id"));
                                     for (OrderDetails orderDetails : listOrderDetails){
@@ -106,6 +108,17 @@
                                 </tr>
                                 <%
 
+
+                                    List<OrderDetails> listOrderDetails = orderDetailsDAO.getByIdOrder(request.getParameter("id"));
+                                    for (OrderDetails orderDetails : listOrderDetails){
+                                %>
+                                <tr>
+                                    <td><img src="<%=orderDetails.getProduct().getImg()%>"></td>
+                                    <td><%=orderDetails.getProduct().getName()%></td>
+                                    <td><%=orderDetails.getQuantity()%></td>
+                                    <td><%=orderDetails.getPrice()%></td>
+                                </tr>
+                                <%
                                     }
                                 %>
                                 </tbody>
@@ -176,4 +189,8 @@
 <script src="js/main.js"></script>
 
 </body>
+
 </html>
+
+</html>
+
