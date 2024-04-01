@@ -27,6 +27,31 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
         return orderDetails.isEmpty() ? null : orderDetails.get();
     }
 
+    public List<OrderDetails> getByIdOrder(String order_id) {
+        try {
+            return JDBIConector.me().withHandle(handle -> handle.createQuery("SELECT id, order_id, product_id, quantity, price, discount, amount FROM order_details WHERE order_id=?")
+                    .bind(0, order_id)
+                    .map((rs, ctx) -> {
+                        String oddId = rs.getString("id");
+                        String orderId = rs.getString("order_id");
+                        String productId = rs.getString("product_id");
+                        int quantity = rs.getInt("quantity");
+                        double price = rs.getDouble("price");
+                        double discount = rs.getDouble("discount");
+                        double amount = rs.getDouble("amount");
+                        Order order = new Order(orderId, null, null, null, null, null, null);
+                        Product product = new Product(productId, null, 0, null, 0, null, null);
+                        return new OrderDetails(oddId, order, product, quantity, price, discount, amount);
+                    })
+                    .list()
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra lỗi để debug
+            return null;
+        }
+    }
+
+
     @Override
     public int insert(OrderDetails orderDetails) {
 
@@ -213,7 +238,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
     }
     public static void main(String[] args) {
         OrderDetailsDAO odd = new OrderDetailsDAO();
-        OrderDetails o = odd.selectById(new OrderDetails("od_1", null, null, '0', '0', '0', '0'));
-        System.out.println(odd.selectAll());
+        List<OrderDetails> o = odd.getByIdOrder("or_1");
+        System.out.println(o);
     }
 }

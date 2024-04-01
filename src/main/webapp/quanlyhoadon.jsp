@@ -4,6 +4,8 @@
 <%@ page import="Model.User" %>
 <%@ page import="DAO.UserDAO" %>
 <%@ page import="DAO.OrderDAO" %>
+<%@ page import="utils.SessionUtil" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +52,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
@@ -67,7 +69,6 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
-
             </div>
         </li>
     </ul>

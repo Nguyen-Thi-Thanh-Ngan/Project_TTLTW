@@ -31,7 +31,7 @@ public class AdminOrderController extends HttpServlet {
 
         Order order = new Order();
 
-        String id = String.valueOf(counter.getAndIncrement());
+        String id = "or_" + String.valueOf(counter.getAndIncrement());
         String userId = request.getParameter("userId");
         String address = request.getParameter("address");
         String oderStatus =  request.getParameter("status");

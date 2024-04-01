@@ -96,9 +96,31 @@ public class OrderDAO implements DAOInterface<Order> {
         }
     }
 
+    public static Order getByIdUser(String user_id) {
+        try {
+            return JDBIConector.me().withHandle(handle ->
+                    handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
+                                    " payment_method, order_date, delivery_date FROM orders WHERE user_id=?")
+                            .bind(0, user_id)
+                            .map((rs, ctx) -> {
+                                String orderId = rs.getString("id");
+                                String address = rs.getString("delivery_address");
+                                String orderStatus = rs.getString("order_status");
+                                String paymentMethod = rs.getString("payment_method");
+                                Date orderDate = rs.getDate("order_date");
+                                Date deliveryDate = rs.getDate("delivery_date");
 
-
-
+//                                User user = new UserDAO().selectById(new User(userId, null, null, null, null, null, null, null, null, null));
+                                return new Order(orderId, null, address, orderStatus, paymentMethod, orderDate, deliveryDate);
+                            })
+                            .findFirst()
+                            .orElse(null)
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra lỗi để debug
+            return null;
+        }
+    }
 
     @Override
     public int insert(Order order) {
@@ -288,11 +310,13 @@ public class OrderDAO implements DAOInterface<Order> {
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
 
-       List<Order> a = orderDAO.selectAll();
-       for (Order o : a){
-           String u = o.getUser().getId();
-       }
-        System.out.println();
+//       List<Order> a = orderDAO.selectAll();
+//       for (Order o : a){
+//           String u = o.getUser().getId();
+//       }
+//        System.out.println();
+
+        System.out.println(getByIdUser("u_3"));
 
     }
 }
