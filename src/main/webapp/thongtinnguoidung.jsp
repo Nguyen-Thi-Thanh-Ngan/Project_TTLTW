@@ -38,6 +38,13 @@
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
     <jsp:useBean id="a" class="DAO.UserDAO" scope="request"/>
+
+    <style>
+        .top, .card-content th{
+            color: white;
+        }
+    </style>
+
 </head>
 <body>
 
@@ -68,6 +75,40 @@
                         %>
                         <div class="form-group">
                             <div class="top">Tên Người Dùng</div>
+
+                            <div class="bot"><%=user.getName()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Giới tính</div>
+                            <div class="bot"><%=user.getSex()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Ngày sinh nhật</div>
+                            <div class="bot"><%=user.getBirthDay()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Email</div>
+                            <div class="bot"><%=user.getEmail()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Số điện thoại</div>
+                            <div class="bot"><%=user.getPhoneNumber()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Địa chỉ giao hàng</div>
+                            <div class="bot"><%=user.getAddress()%>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="top">Tên đăng nhập</div>
+                            <div class="bot"><%=user.getUserName()%>
+                            </div>
+
                             <div class="bot"><%=user.getName()%></div>
                         </div>
                         <div class="form-group">
@@ -93,13 +134,18 @@
                         <div class="form-group">
                             <div class="top">Tên đăng nhập</div>
                             <div class="bot"><%=user.getUserName()%></div>
+
                         </div>
                     </div>
                     <!-- /Billing Details -->
                 </div>
             </form>
             <div class="order-detail">
+
+                <div class="detail" style="width: 777px">
+
                 <div class="detail">
+
                     <div class="title-2">Đơn hàng đã đặt</div>
                     <div>
                         <div class="card-content">
@@ -119,10 +165,17 @@
                                 <%
                                     OrderDAO orderDAO = new OrderDAO();
                                     List<Order> orders = orderDAO.selectAll();
+
+                                    for (Order order : orders) {
+                                        if (order.getUser().getId().equals(request.getParameter("id"))) {
+                                %>
+                                <tr style="background-color: #fff2db">
+
                                     for (Order order : orders){
                                         if(order.getUser().getId().equals(request.getParameter("id"))){
                                 %>
                                 <tr>
+
                                     <td><%=order.getId()%>
                                     </td>
                                     <td><%=order.getAddress()%>
@@ -136,11 +189,23 @@
                                     <td><%=order.getDeliveryDate()%>
                                     </td>
                                     <td>
+
+                                        <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
+                                            <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
+                                        </a>
+                                    </td>
+                                </tr>
+                                <%
+                                        }
+                                    }
+                                %>
+
                                         <a href="chitietdonhang.jsp?id=<%=order.getId()%>"><i class="fa-solid fa-circle-right"></i></a>
                                     </td>
                                 </tr>
                                 <%}
                                         }%>
+
                                 </tbody>
                             </table>
                         </div>
@@ -172,4 +237,8 @@
 <script src="js/main.js"></script>
 
 </body>
+
 </html>
+
+</html>
+

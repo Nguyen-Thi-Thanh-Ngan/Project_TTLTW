@@ -27,7 +27,7 @@ public class OrderDAO implements DAOInterface<Order> {
                         Date deliveryDate = rs.getDate("delivery_date");
 
                         User user = new UserDAO().selectById(new User(userId, null, null, null, null,
-                                null, null, null, null,null));
+                                null, null, null, null, null));
 
                         Order order = new Order(id, user, deliveryAddress, orderStatus, paymentMethod, orderDate, deliveryDate);
                         orders.add(order);
@@ -41,6 +41,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
         return ketQua;
     }
+
     @Override
     public Order selectById(Order orderP) {
         try {
@@ -99,22 +100,21 @@ public class OrderDAO implements DAOInterface<Order> {
     public static Order getByIdUser(String user_id) {
         try {
             return JDBIConector.me().withHandle(handle ->
-                    handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
-                                    " payment_method, order_date, delivery_date FROM orders WHERE user_id=?")
-                            .bind(0, user_id)
-                            .map((rs, ctx) -> {
-                                String orderId = rs.getString("id");
-                                String address = rs.getString("delivery_address");
-                                String orderStatus = rs.getString("order_status");
-                                String paymentMethod = rs.getString("payment_method");
-                                Date orderDate = rs.getDate("order_date");
-                                Date deliveryDate = rs.getDate("delivery_date");
-
+                            handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
+                                            " payment_method, order_date, delivery_date FROM orders WHERE user_id=?")
+                                    .bind(0, user_id)
+                                    .map((rs, ctx) -> {
+                                        String orderId = rs.getString("id");
+                                        String address = rs.getString("delivery_address");
+                                        String orderStatus = rs.getString("order_status");
+                                        String paymentMethod = rs.getString("payment_method");
+                                        Date orderDate = rs.getDate("order_date");
+                                        Date deliveryDate = rs.getDate("delivery_date");
 //                                User user = new UserDAO().selectById(new User(userId, null, null, null, null, null, null, null, null, null));
-                                return new Order(orderId, null, address, orderStatus, paymentMethod, orderDate, deliveryDate);
-                            })
-                            .findFirst()
-                            .orElse(null)
+                                        return new Order(orderId, null, address, orderStatus, paymentMethod, orderDate, deliveryDate);
+                                    })
+                                    .findFirst()
+                                    .orElse(null)
             );
         } catch (Exception e) {
             e.printStackTrace(); // In ra lỗi để debug
@@ -172,7 +172,7 @@ public class OrderDAO implements DAOInterface<Order> {
             Connection con = JDBCUtil.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "DELETE from orders "+
+            String sql = "DELETE from orders " +
                     " WHERE id=?";
 
             PreparedStatement st = con.prepareStatement(sql);
@@ -183,8 +183,8 @@ public class OrderDAO implements DAOInterface<Order> {
             ketQua = st.executeUpdate();
 
             // Bước 4:
-            System.out.println("Bạn đã thực thi: "+ sql);
-            System.out.println("Có "+ ketQua+" dòng bị thay đổi!");
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
 
             // Bước 5:
             JDBCUtil.closeConnection(con);
@@ -205,14 +205,14 @@ public class OrderDAO implements DAOInterface<Order> {
             Connection con = JDBCUtil.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "UPDATE orders "+
+            String sql = "UPDATE orders " +
                     " SET " +
-                    " user_id=?"+","+
-                    " delivery_address=?"+","+
-                    " order_status=?"+","+
-                    " payment_method=?"+","+
-                    " order_date=?"+","+
-                    " delivery_date=?"+
+                    " user_id=?" + "," +
+                    " delivery_address=?" + "," +
+                    " order_status=?" + "," +
+                    " payment_method=?" + "," +
+                    " order_date=?" + "," +
+                    " delivery_date=?" +
                     " WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -231,8 +231,8 @@ public class OrderDAO implements DAOInterface<Order> {
             ketQua = st.executeUpdate();
 
             // Bước 4:
-            System.out.println("Bạn đã thực thi: "+ sql);
-            System.out.println("Có "+ ketQua+" dòng bị thay đổi!");
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
 
             // Bước 5:
             JDBCUtil.closeConnection(con);
@@ -275,6 +275,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
         return count;
     }
+
     public int countCustomersWithOrdersInMonth(LocalDate localDate) {
         int count = 0;
         try {

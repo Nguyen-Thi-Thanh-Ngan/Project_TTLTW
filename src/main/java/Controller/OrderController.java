@@ -80,7 +80,7 @@ public class OrderController extends HttpServlet {
                     orderDetailsDAO.insert(orderDetails);
                 }
                 session.removeAttribute("cart");
-            }else{
+            } else {
                 request.setAttribute("error", "Tên người dùng hoặc email hoặc số điện thoại không chính xác!");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("thanhtoan.jsp");
                 dispatcher.forward(request, response);
