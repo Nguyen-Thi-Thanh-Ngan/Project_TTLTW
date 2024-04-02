@@ -14,8 +14,6 @@ public class JDBCUtil {
 
             // Các thông số
 
-            String url = "jdbc:mySQL://localhost:3306/banlinhkiendienthoai";
-
             String url = "jdbc:mySQL://localhost:3306/project_web";
 
             String username = "root";

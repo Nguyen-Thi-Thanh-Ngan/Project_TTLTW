@@ -107,18 +107,6 @@
                                     <td>${formattedPrice} VNĐ</td>
                                 </tr>
                                 <%
-
-
-                                    List<OrderDetails> listOrderDetails = orderDetailsDAO.getByIdOrder(request.getParameter("id"));
-                                    for (OrderDetails orderDetails : listOrderDetails){
-                                %>
-                                <tr>
-                                    <td><img src="<%=orderDetails.getProduct().getImg()%>"></td>
-                                    <td><%=orderDetails.getProduct().getName()%></td>
-                                    <td><%=orderDetails.getQuantity()%></td>
-                                    <td><%=orderDetails.getPrice()%></td>
-                                </tr>
-                                <%
                                     }
                                 %>
                                 </tbody>

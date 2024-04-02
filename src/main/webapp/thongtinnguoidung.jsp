@@ -40,7 +40,7 @@
     <jsp:useBean id="a" class="DAO.UserDAO" scope="request"/>
 
     <style>
-        .top, .card-content th{
+        .top, .card-content th {
             color: white;
         }
     </style>
@@ -75,40 +75,6 @@
                         %>
                         <div class="form-group">
                             <div class="top">Tên Người Dùng</div>
-
-                            <div class="bot"><%=user.getName()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Giới tính</div>
-                            <div class="bot"><%=user.getSex()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Ngày sinh nhật</div>
-                            <div class="bot"><%=user.getBirthDay()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Email</div>
-                            <div class="bot"><%=user.getEmail()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Số điện thoại</div>
-                            <div class="bot"><%=user.getPhoneNumber()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Địa chỉ giao hàng</div>
-                            <div class="bot"><%=user.getAddress()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Tên đăng nhập</div>
-                            <div class="bot"><%=user.getUserName()%>
-                            </div>
-
                             <div class="bot"><%=user.getName()%></div>
                         </div>
                         <div class="form-group">
@@ -134,111 +100,99 @@
                         <div class="form-group">
                             <div class="top">Tên đăng nhập</div>
                             <div class="bot"><%=user.getUserName()%></div>
-
                         </div>
+                        <!-- /Billing Details -->
                     </div>
-                    <!-- /Billing Details -->
                 </div>
             </form>
             <div class="order-detail">
 
                 <div class="detail" style="width: 777px">
 
-                <div class="detail">
+                    <div class="detail">
 
-                    <div class="title-2">Đơn hàng đã đặt</div>
-                    <div>
-                        <div class="card-content">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Địa chỉ giao hàng</th>
-                                    <th>Trạng thái đơn hàng</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Ngày đặt hàng</th>
-                                    <th>Ngày nhận hàng</th>
-                                    <th>Chi tiết đơn hàng</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <%
-                                    OrderDAO orderDAO = new OrderDAO();
-                                    List<Order> orders = orderDAO.selectAll();
+                        <div class="title-2">Đơn hàng đã đặt</div>
+                        <div>
+                            <div class="card-content">
+                                <table>
+                                    <thead>
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Địa chỉ giao hàng</th>
+                                        <th>Trạng thái đơn hàng</th>
+                                        <th>Phương thức thanh toán</th>
+                                        <th>Ngày đặt hàng</th>
+                                        <th>Ngày nhận hàng</th>
+                                        <th>Chi tiết đơn hàng</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%
+                                        OrderDAO orderDAO = new OrderDAO();
+                                        List<Order> orders = orderDAO.selectAll();
 
-                                    for (Order order : orders) {
-                                        if (order.getUser().getId().equals(request.getParameter("id"))) {
-                                %>
-                                <tr style="background-color: #fff2db">
+                                        for (Order order : orders) {
+                                            if (order.getUser().getId().equals(request.getParameter("id"))) {
+                                    %>
+                                    <tr style="background-color: #fff2db">
 
-                                    for (Order order : orders){
-                                        if(order.getUser().getId().equals(request.getParameter("id"))){
-                                %>
-                                <tr>
+                                        <td><%=order.getId()%>
+                                        </td>
+                                        <td><%=order.getAddress()%>
+                                        </td>
+                                        <td><%=order.getStatus()%>
+                                        </td>
+                                        <td><%=order.getPayment()%>
+                                        </td>
+                                        <td><%=order.getOrderDate()%>
+                                        </td>
+                                        <td><%=order.getDeliveryDate()%>
+                                        </td>
+                                        <td>
 
-                                    <td><%=order.getId()%>
-                                    </td>
-                                    <td><%=order.getAddress()%>
-                                    </td>
-                                    <td><%=order.getStatus()%>
-                                    </td>
-                                    <td><%=order.getPayment()%>
-                                    </td>
-                                    <td><%=order.getOrderDate()%>
-                                    </td>
-                                    <td><%=order.getDeliveryDate()%>
-                                    </td>
-                                    <td>
-
-                                        <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
-                                            <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
-                                        </a>
-                                    </td>
-                                </tr>
-                                <%
+                                            <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
+                                                <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png"
+                                                     width="35px" height="35px" style="margin-left: 20px" alt="">
+                                            </a>
+                                        </td>
+                                    </tr>
+                                    <%
+                                            }
                                         }
-                                    }
-                                %>
+                                    %>
 
-                                        <a href="chitietdonhang.jsp?id=<%=order.getId()%>"><i class="fa-solid fa-circle-right"></i></a>
-                                    </td>
-                                </tr>
-                                <%}
-                                        }%>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="history">
+                        <div class="title-3">Lịch sử đơn hàng</div>
+                        <div class="complete">
 
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
-                <div class="history">
-                    <div class="title-3">Lịch sử đơn hàng</div>
-                    <div class="complete">
-
-                    </div>
-                </div>
+                <!-- /row -->
             </div>
-            <!-- /row -->
+            <!-- /container -->
         </div>
-        <!-- /container -->
+        <!-- /SECTION -->
     </div>
-    <!-- /SECTION -->
-</div>
-<!-- FOOTER -->
-<jsp:include page="footer.jsp"/>
-<!-- /FOOTER -->
+    <!-- FOOTER -->
+    <jsp:include page="footer.jsp"/>
+    <!-- /FOOTER -->
 
-<!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+    <!-- jQuery Plugins -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+    <script src="js/main.js"></script>
 
 </body>
 
 </html>
 
-</html>
 
