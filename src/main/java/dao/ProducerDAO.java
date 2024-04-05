@@ -2,6 +2,7 @@ package dao;
 
 import model.*;
 import db.JDBIConector;
+import utils.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

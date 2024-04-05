@@ -3,6 +3,7 @@ package dao;
 import model.Product;
 import model.ProductDetails;
 import db.JDBIConector;
+import utils.JDBCUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
