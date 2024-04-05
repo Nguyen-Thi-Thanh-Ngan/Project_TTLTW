@@ -513,7 +513,6 @@ public class ProductDAO implements DAOInterface<Product> {
             // Bước 3: thực thi câu lệnh SQL
             System.out.println(sql);
             ResultSet rs = st.executeQuery();
-
             // Bước 4:
             while (rs.next()) {
                 Product pro = new Product();
@@ -533,7 +532,6 @@ public class ProductDAO implements DAOInterface<Product> {
             // Bước 5:
             JDBCUtil.closeConnection(con);
         } catch (SQLException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 

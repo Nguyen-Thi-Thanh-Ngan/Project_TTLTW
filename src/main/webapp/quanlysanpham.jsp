@@ -7,6 +7,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%List<Product> itemProduct = (List<Product>) request.getAttribute("item");%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -26,7 +27,8 @@
     <link rel="stylesheet" type="text/css" href="./css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/style.css"/>
     <!-- End import lib -->
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
@@ -167,11 +169,20 @@
     <div class="row">
         <div class="col-8 col-m-12 col-sm-12">
             <div class="card">
-                <div class="card-header" style="display: flex">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; ">
                     <h3>
                         Quản lý sản phẩm
                     </h3>
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form action="admin-search" method="get">
+                                <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
+                                <input class="search-btn" type="submit" name="" value="Tìm kiếm">
+                            </form>
+                        </div>
+                    </div>
+                    <a href="#addEmployeeModal" class="btn" data-toggle="modal"
+                       style="background-color: #d10024; color: white">
                         <span>Thêm sản phẩm mới</span></a>
 
                 </div>
@@ -190,10 +201,11 @@
                         </thead>
                         <tbody>
                         <%
-                            ProductDAO productDAO = new ProductDAO();
-                            List<Product> listProduct = productDAO.getAll();
-                            request.setAttribute("listAll", listProduct);
-                            for (Product p : listProduct) {
+                            if (itemProduct == null) {
+                                ProductDAO productDAO = new ProductDAO();
+                                List<Product> listProduct = productDAO.getAll();
+                                request.setAttribute("listAll", listProduct);
+                                for (Product p : listProduct) {
                         %>
                         <tr>
                             <td><%=p.getId()%>
@@ -217,7 +229,8 @@
                                 <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
                             </td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-product-id="<%=p.getId()%>">
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-product-id="<%=p.getId()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
@@ -226,6 +239,43 @@
                             </td>
                         </tr>
                         <%
+                            }
+                        } else {
+                            for (Product p : itemProduct) {
+                        %>
+                        <tr>
+                            <td><%=p.getId()%>
+                            </td>
+                            <td><%=p.getName()%>
+                            </td>
+                            <td>
+                                <div>
+                                    <fmt:formatNumber value="<%=p.getPrice()%>" type="number" pattern="#,##0"
+                                                      var="formattedPrice"/>
+                                    <h6 class="product-price">${formattedPrice} VNĐ</h6>
+                                </div>
+                            </td>
+                            <td><%=p.getProductType().getId()%>
+                            </td>
+                            <td><%=p.getQuantity()%>
+                            </td>
+                            <td><%=p.getProducer().getId()%>
+                            </td>
+                            <td>
+                                <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
+                            </td>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-product-id="<%=p.getId()%>">
+                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
+                                   onclick="deleteProduct(<%=p.getId()%>)">
+                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                        <%
+                                }
                             }
                         %>
                         </tbody>
@@ -477,7 +527,7 @@
         $.ajax({
             url: "edit",
             type: "Post",
-            data:{
+            data: {
                 id: id,
                 name: name,
                 price: price,
