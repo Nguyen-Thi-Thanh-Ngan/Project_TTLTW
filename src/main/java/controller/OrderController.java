@@ -1,13 +1,13 @@
-package Controller;
+package controller;
 
-import Cart.Cart;
-import Cart.CartProduct;
-import DAO.OrderDAO;
-import DAO.OrderDetailsDAO;
-import DAO.UserDAO;
+import cart.Cart;
+import cart.CartProduct;
+import dao.OrderDAO;
+import dao.OrderDetailsDAO;
+import dao.UserDAO;
 import service.IUserService;
 import service.impl.UserServiceImpl;
-import Model.*;
+import model.*;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;

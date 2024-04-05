@@ -1,8 +1,8 @@
-package DAO.impl;
+package dao.impl;
 
-import DAO.IUserDao;
+import dao.IUserDao;
 import mapper.impl.userMapperImpl;
-import Model.User;
+import model.User;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import Cart.Cart;
+import cart.Cart;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

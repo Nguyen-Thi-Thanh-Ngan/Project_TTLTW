@@ -1,4 +1,4 @@
-package model;
+package cart;
 
 import model.Product;
 

@@ -1,6 +1,6 @@
-package Controller;
+package controller;
 
-import Model.User;
+import model.User;
 import service.IUserService;
 import service.impl.UserServiceImpl;
 import utils.MailUtil;

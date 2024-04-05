@@ -1,7 +1,7 @@
-package DAO;
+package dao;
 
-import Model.Product;
-import Model.SellingProduct;
+import model.Product;
+import model.SellingProduct;
 import db.JDBIConector;
 
 import java.util.ArrayList;

@@ -1,8 +1,8 @@
-<%@ page import="Model.Product" %>
-<%@ page import="DAO.ProductDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="dao.ProductDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="DAO.ProductTypeDAO" %>
-<%@ page import="DAO.ProducerDAO" %>
+<%@ page import="dao.ProductTypeDAO" %>
+<%@ page import="dao.ProducerDAO" %>
 <%@ page import="java.util.Objects" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -31,9 +31,9 @@
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
-    <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="DAO.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="DAO.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.ProductTypeDAO" scope="request"></jsp:useBean>
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -459,11 +459,48 @@
 <!--Script Xóa Sản Phẩm-->
 
 <!--Script Sửa Sản Phẩm-->
-<script>
+<script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var productId = button.data('product-id');
+        const button = $(event.relatedTarget);
+        const productId = button.data('product-id');
+        const rowData = button.parents("tr");
+        const arrayInfoData = rowData.find("td");
+        const id = arrayInfoData.eq(0).text();
+        const name = arrayInfoData.eq(1).text();
+        const price = arrayInfoData.eq(2).find(".product-price").text();
+        const model = arrayInfoData.eq(3).text();
+        const inventory = arrayInfoData.eq(4).text();
+        const productCode = arrayInfoData.eq(5).text();
+        const urlImage = arrayInfoData.eq(6).find("img").attr("src");
 
+        console.log(price.substring(0, price.length - 4).replaceAll("/.", ""));
+        $.ajax({
+            url: "edit",
+            type: "Post",
+            data:{
+                id: id,
+                name: name,
+                price: price,
+                productType: model,
+                quantity: inventory,
+                productCode: productCode,
+                urlImage: urlImage
+            },
+            dataType: "json",
+            success: function (data) {
+                console.log(data);
+                console.log(id)
+                console.log(name)
+                console.log(price)
+                console.log(model)
+                console.log(inventory)
+                console.log(productCode)
+                console.log(urlImage)
+            }
+        })
+
+
+        console.log(`Hello ${id}`);
         $('#editForm input[name="id"]').val(productId);
     });
 
@@ -477,10 +514,10 @@
 <!--Script Thông báo Xóa Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean deleteSuccess = (Boolean)request.getSession().getAttribute("deleteSuccess"); %>
+        <% Boolean deleteSuccess = (Boolean)session.getAttribute("deleteSuccess"); %>
         <% if (deleteSuccess != null && deleteSuccess) { %>
         $('#deleteSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("deleteSuccess"); %>
+        <% session.removeAttribute("deleteSuccess"); %>
         <% } %>
     });
 </script>
@@ -489,10 +526,10 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean addProductSuccess = (Boolean)request.getSession().getAttribute("addProductSuccess"); %>
+        <% Boolean addProductSuccess = (Boolean)session.getAttribute("addProductSuccess"); %>
         <% if (Objects.nonNull(addProductSuccess) && addProductSuccess) { %>
         $('#addProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("addProductSuccess"); %>
+        <% session.removeAttribute("addProductSuccess"); %>
         <% } %>
     });
 </script>
@@ -501,10 +538,10 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean editProductSuccess = (Boolean)request.getSession().getAttribute("editProductSuccess"); %>
+        <% Boolean editProductSuccess = (Boolean)session.getAttribute("editProductSuccess"); %>
         <% if (Objects.nonNull(editProductSuccess) && editProductSuccess) { %>
         $('#editProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("editProductSuccess"); %>
+        <% session.removeAttribute("editProductSuccess"); %>
         <% } %>
     });
 </script>

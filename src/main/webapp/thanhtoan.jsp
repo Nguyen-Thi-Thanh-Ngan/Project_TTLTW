@@ -1,8 +1,8 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="Model.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Cart.CartProduct" %>
-<%@ page import="Cart.Cart" %>
+<%@ page import="cart.CartProduct" %>
+<%@ page import="cart.Cart" %>
 <%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,8 +38,8 @@
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 
-    <jsp:useBean id="a" class="DAO.OrderDetailsDAO" scope="request"/>
-    <jsp:useBean id="b" class="DAO.OrderDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.OrderDetailsDAO" scope="request"/>
+    <jsp:useBean id="b" class="dao.OrderDAO" scope="request"/>
 </head>
 <body>
 
@@ -299,7 +299,6 @@
             }
         });
     }
-
 
 </script>
 

@@ -1,7 +1,6 @@
-package Controller;
+package controller;
 
-import DAO.ProductDAO;
-import Model.Product;
+import dao.ProductDAO;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

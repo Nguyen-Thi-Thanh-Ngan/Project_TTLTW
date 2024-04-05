@@ -1,9 +1,7 @@
-package DAO;
+package dao;
 
-import Model.Producer;
-import Model.Product;
-import Model.ProductDetails;
-import Model.ProductType;
+import model.Product;
+import model.ProductDetails;
 import db.JDBIConector;
 
 import java.sql.Connection;

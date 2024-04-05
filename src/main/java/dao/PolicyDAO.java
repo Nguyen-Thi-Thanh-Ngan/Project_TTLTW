@@ -1,5 +1,5 @@
-package DAO;
-import Model.Policy;
+package dao;
+import model.Policy;
 import db.JDBIConector;
 
 import java.util.List;

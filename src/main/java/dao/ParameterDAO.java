@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.Parameter;
+import model.Parameter;
 import db.JDBIConector;
 import org.jdbi.v3.core.JdbiException;
 

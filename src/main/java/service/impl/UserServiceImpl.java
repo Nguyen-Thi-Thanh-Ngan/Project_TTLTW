@@ -1,10 +1,10 @@
 package service.impl;
 
-import DAO.IRoleDao;
-import DAO.IUserDao;
-import DAO.impl.RoleDaoImpl;
-import DAO.impl.UserDaoImpl;
-import Model.User;
+import dao.IRoleDao;
+import dao.IUserDao;
+import dao.impl.RoleDaoImpl;
+import dao.impl.UserDaoImpl;
+import model.User;
 import service.IUserService;
 
 import java.util.List;

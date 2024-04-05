@@ -1,16 +1,14 @@
 package service;
 
-import DAO.RoleDAO;
-import DAO.UserDAO;
-import Model.Role;
-import Model.User;
+import dao.RoleDAO;
+import dao.UserDAO;
+import model.Role;
+import model.User;
 import db.JDBIConector;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 public class UserService {

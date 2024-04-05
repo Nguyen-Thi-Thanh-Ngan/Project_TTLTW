@@ -1,5 +1,6 @@
-package model;
+package cart;
 
+import model.Product;
 import service.ProductService;
 
 import java.util.ArrayList;

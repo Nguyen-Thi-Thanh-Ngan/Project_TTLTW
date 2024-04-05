@@ -1,26 +1,24 @@
-package Controller;
+package controller;
 
-import DAO.ProducerDAO;
-import DAO.ProductDAO;
-import DAO.ProductTypeDAO;
-import Model.Producer;
-import Model.Product;
-import Model.ProductType;
+import dao.ProducerDAO;
+import dao.ProductDAO;
+import dao.ProductTypeDAO;
+import model.Producer;
+import model.Product;
+import model.ProductType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet(name = "AddProductController", value = "/add")
 public class AddProductController extends HttpServlet {
-    private ProductDAO productDAO = new ProductDAO();
-    private ProductTypeDAO productTypeDAO = new ProductTypeDAO();
-    private ProducerDAO producerDAO = new ProducerDAO();
+    private final ProductDAO productDAO = new ProductDAO();
+    private final ProductTypeDAO productTypeDAO = new ProductTypeDAO();
+    private final ProducerDAO producerDAO = new ProducerDAO();
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         doPost(request, response);
     }

@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.Role;
+import model.Role;
 
 public interface IRoleDao {
     Role getByName(String name);

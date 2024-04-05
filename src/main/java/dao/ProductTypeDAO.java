@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.*;
+import model.*;
 import db.JDBIConector;
 
 import java.sql.Connection;

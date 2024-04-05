@@ -12,7 +12,7 @@
 		e.stopPropagation();
 	});
 
-	/////////////////////////////////////////
+
 
 	// Products Slick
 	$('.products-slick').each(function() {

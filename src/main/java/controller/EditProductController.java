@@ -1,11 +1,11 @@
-package Controller;
+package controller;
 
-import DAO.ProducerDAO;
-import DAO.ProductDAO;
-import DAO.ProductTypeDAO;
-import Model.Producer;
-import Model.Product;
-import Model.ProductType;
+import dao.ProducerDAO;
+import dao.ProductDAO;
+import dao.ProductTypeDAO;
+import model.Producer;
+import model.Product;
+import model.ProductType;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.ArrayList;
 
 @WebServlet(name = "EditProductController", value = "/edit")
 public class EditProductController extends HttpServlet {
@@ -30,9 +29,14 @@ public class EditProductController extends HttpServlet {
         try {
             String id = request.getParameter("id");
             String name = request.getParameter("name");
-            double price = Double.parseDouble(request.getParameter("price"));
+            String priceFormat = request.getParameter("price").substring(0, request.getParameter("price").length() - 4);
+            String result = "";
+            for(int i = 0; i  < priceFormat.length(); i++){
+                result += priceFormat.charAt(i) == '.' ? "" : priceFormat.charAt(i);
+            }
+            double price = Double.parseDouble(result);
             String productTypeId = request.getParameter("productType");
-            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            int quantity = Integer.parseInt(request.getParameter("quantity").trim());
             String productCategoryId = request.getParameter("productCategory");
             String img = request.getParameter("img");
 

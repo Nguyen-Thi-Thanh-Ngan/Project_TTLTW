@@ -1,6 +1,6 @@
-package DAO;
+package dao;
 
-import Model.Role;
+import model.Role;
 import db.JDBIConector;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package Controller;
+package controller;
 
 
-import DAO.ParameterDAO;
-import Model.Parameter;
+import dao.ParameterDAO;
+import model.Parameter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;

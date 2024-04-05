@@ -1,7 +1,7 @@
-package DAO.impl;
+package dao.impl;
 
-import DAO.IRoleDao;
-import Model.Role;
+import dao.IRoleDao;
+import model.Role;
 import mapper.impl.RoleMapperImpl;
 
 import java.util.List;
