@@ -19,6 +19,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 @WebServlet(name = "OrderController", value = "/order")
 public class OrderController extends HttpServlet {
@@ -28,8 +29,7 @@ public class OrderController extends HttpServlet {
     private UserDAO userDAO = new UserDAO();
 
     private IUserService userService = new UserServiceImpl();
-    private static int countIdOrder = 0;
-    private static int countIdOrderDetail = 0;
+    private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -50,7 +50,7 @@ public class OrderController extends HttpServlet {
             long sevenDaysInMillis = 3 * 24 * 60 * 60 * 1000;
             Date deliverDate = new Date(orderDate.getTime() + sevenDaysInMillis);
 
-            String idOrder = "or_" + generateUniqueOrderId();
+            String idOrder = "or_" + String.valueOf(counter.getAndIncrement());
 
             String name = request.getParameter("name");
             String email = request.getParameter("email");
@@ -66,7 +66,7 @@ public class OrderController extends HttpServlet {
                 orderDAO.insert(order);
                 List<CartProduct> cartProducts = cart.getCartProducts();
                 for (CartProduct cartProduct : cartProducts) {
-                    String idOrderDetail = "od_" + generateUniqueOrderDetailId();
+                    String idOrderDetail = "od_" + String.valueOf(counter.getAndIncrement());
                     OrderDetails orderDetails = new OrderDetails();
                     double amount = cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
                     orderDetails.setId(idOrderDetail);
@@ -90,13 +90,6 @@ public class OrderController extends HttpServlet {
         response.sendRedirect("thanhtoan.jsp");
     }
 
-    private synchronized String generateUniqueOrderId() {
-        countIdOrder++;
-        return String.valueOf(countIdOrder);
-    }
 
-    private synchronized String generateUniqueOrderDetailId() {
-        countIdOrderDetail++;
-        return String.valueOf(countIdOrderDetail);
-    }
 }
+

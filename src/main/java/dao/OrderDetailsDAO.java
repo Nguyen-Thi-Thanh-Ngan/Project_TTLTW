@@ -4,11 +4,13 @@ import model.*;
 import db.JDBIConector;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
+public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
+
     @Override
     public List<OrderDetails> selectAll() {
         List<OrderDetails> orderDetails = JDBIConector.me().withHandle((handle ->
@@ -17,6 +19,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
         ));
         return orderDetails;
     }
+
     @Override
     public OrderDetails selectById(OrderDetails orderDetailsP) {
         Optional<OrderDetails> orderDetails = JDBIConector.me().withHandle((handle ->
@@ -26,6 +29,41 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
         ));
         return orderDetails.isEmpty() ? null : orderDetails.get();
     }
+
+    public List<OrderDetails> getByIdOrder(String order_id) {
+
+
+        try {
+            return JDBIConector.me().withHandle(handle -> handle.createQuery("SELECT order_details.id, order_details.order_id, product_id, order_details.quantity, order_details.price, order_details.discount, amount, products.name, products.image FROM order_details, products WHERE products.id = order_details.product_id and order_id=?")
+
+                    .bind(0, order_id)
+                    .map((rs, ctx) -> {
+                        String oddId = rs.getString("id");
+                        String orderId = rs.getString("order_id");
+                        String productId = rs.getString("product_id");
+
+                        String name = rs.getString("name");
+                        String img = rs.getString("image");
+
+
+                        int quantity = rs.getInt("quantity");
+                        double price = rs.getDouble("price");
+                        double discount = rs.getDouble("discount");
+                        double amount = rs.getDouble("amount");
+                        Order order = new Order(orderId, null, null, null, null, null, null);
+
+                        Product product = new Product(productId, name, 0, null, 0, null, img);
+
+                        return new OrderDetails(oddId, order, product, quantity, price, discount, amount);
+                    })
+                    .list()
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra lỗi để debug
+            return null;
+        }
+    }
+
 
     @Override
     public int insert(OrderDetails orderDetails) {
@@ -79,7 +117,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
             Connection con = JDBCUtil.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "DELETE from order_details "+
+            String sql = "DELETE from order_details " +
                     " WHERE id=?";
 
             PreparedStatement st = con.prepareStatement(sql);
@@ -90,8 +128,8 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
             ketQua = st.executeUpdate();
 
             // Bước 4:
-            System.out.println("Bạn đã thực thi: "+ sql);
-            System.out.println("Có "+ ketQua+" dòng bị thay đổi!");
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
 
             // Bước 5:
             JDBCUtil.closeConnection(con);
@@ -112,14 +150,14 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
             Connection con = JDBCUtil.getConnection();
 
             // Bước 2: tạo ra đối tượng statement
-            String sql = "UPDATE orders "+
+            String sql = "UPDATE orders " +
                     " SET " +
-                    " order_id=?"+
-                    " product_id=?"+
-                    " quantity=?"+
-                    " price=?"+
-                    " discount=?"+
-                    " amount=?"+
+                    " order_id=?" +
+                    " product_id=?" +
+                    " quantity=?" +
+                    " price=?" +
+                    " discount=?" +
+                    " amount=?" +
                     " WHERE id=?";
             PreparedStatement st = con.prepareStatement(sql);
 
@@ -138,8 +176,8 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
             ketQua = st.executeUpdate();
 
             // Bước 4:
-            System.out.println("Bạn đã thực thi: "+ sql);
-            System.out.println("Có "+ ketQua+" dòng bị thay đổi!");
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
 
             // Bước 5:
             JDBCUtil.closeConnection(con);
@@ -150,6 +188,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 
         return ketQua;
     }
+
     public int countSoldProductsInThisMonth() {
         int count = 0;
         try {
@@ -211,9 +250,13 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails>{
 
         return revenue;
     }
+
     public static void main(String[] args) {
         OrderDetailsDAO odd = new OrderDetailsDAO();
-        OrderDetails o = odd.selectById(new OrderDetails("od_1", null, null, '0', '0', '0', '0'));
-        System.out.println(odd.selectAll());
+
+        List<OrderDetails> o = odd.getByIdOrder("or_1711955239956");
+        System.out.println(o);
+
+
     }
 }

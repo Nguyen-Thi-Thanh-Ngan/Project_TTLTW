@@ -594,7 +594,8 @@ public class ProductDAO implements DAOInterface<Product> {
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
 //        System.out.println(searchByName("Loa siêu trầm JBL PASION 12SP 300W"));
-//        System.out.println(getById("100"));
+        System.out.println(getById("100"));
+//        System.out.println(p.selectAll());
 
     }
 

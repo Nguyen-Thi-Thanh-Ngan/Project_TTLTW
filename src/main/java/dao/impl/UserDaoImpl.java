@@ -6,7 +6,7 @@ import model.User;
 
 import java.util.List;
 
-public class UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
+public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
     @Override
     public boolean login(User item) {
         String sql = "select * from users where user_name = ? and password = ?";

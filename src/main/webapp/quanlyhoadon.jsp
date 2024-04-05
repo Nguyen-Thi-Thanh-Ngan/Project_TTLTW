@@ -4,6 +4,8 @@
 <%@ page import="model.User" %>
 <%@ page import="dao.UserDAO" %>
 <%@ page import="dao.OrderDAO" %>
+<%@ page import="utils.SessionUtil" %>
+<%@ page import="service.impl.UserServiceImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -50,7 +52,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a><i class="fa fa-user-o"></i> <%= new userServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
@@ -67,7 +69,6 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
-
             </div>
         </li>
     </ul>
@@ -264,19 +265,19 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Mã khách hàng</label>
-                                <select name="userId" class="form-control" required>
-                                    <option value="" disabled selected>Chọn mã khách hàng</option>
+                            <select name="userId" class="form-control" required>
+                                <option value="" disabled selected>Chọn mã khách hàng</option>
                                 <% List<User> u = new UserDAO().selectAll();
                                     for (User user : u) {%>
-                                    <option value="<%= user.getId() %>"><%= user.getId() %></option>
+                                <option value="<%= user.getId() %>"><%= user.getId() %></option>
                                 <%
                                     }
                                 %>
-                                </select>
+                            </select>
                         </div>
                         <div class="form-group">
                             <label>Địa chỉ giao hàng</label>
-                                <input type="text" name="address" class="form-control" required>
+                            <input type="text" name="address" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Trạng thái đơn hàng</label>
@@ -300,11 +301,11 @@
                         </div>
                         <div class="form-group">
                             <label>Ngày đặt hàng</label>
-                                <input type="date" name="dateOder" class="form-control" required>
+                            <input type="date" name="dateOder" class="form-control" required>
                         </div>
                         <div class="form-group">
                             <label>Ngày nhận hàng</label>
-                                <input type="date" name="doneDate" class="form-control" required>
+                            <input type="date" name="doneDate" class="form-control" required>
                         </div>
                     </div>
                     <div class="modal-footer">
