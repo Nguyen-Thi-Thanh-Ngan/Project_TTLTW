@@ -29,14 +29,9 @@ public class EditProductController extends HttpServlet {
         try {
             String id = request.getParameter("id");
             String name = request.getParameter("name");
-            String priceFormat = request.getParameter("price").substring(0, request.getParameter("price").length() - 4);
-            String result = "";
-            for(int i = 0; i  < priceFormat.length(); i++){
-                result += priceFormat.charAt(i) == '.' ? "" : priceFormat.charAt(i);
-            }
-            double price = Double.parseDouble(result);
+            double price = Double.parseDouble(request.getParameter("price"));
             String productTypeId = request.getParameter("productType");
-            int quantity = Integer.parseInt(request.getParameter("quantity").trim());
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
             String productCategoryId = request.getParameter("productCategory");
             String img = request.getParameter("img");
 

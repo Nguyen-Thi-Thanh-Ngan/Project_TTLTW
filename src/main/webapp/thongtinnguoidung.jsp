@@ -1,9 +1,9 @@
-<%@ page import="Model.User" %>
-<%@ page import="DAO.UserDAO" %>
-<%@ page import="DAO.OrderDAO" %>
-<%@ page import="Model.Order" %>
+<%@ page import="model.User" %>
+<%@ page import="dao.UserDAO" %>
+<%@ page import="dao.OrderDAO" %>
+<%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.OrderDetails" %>
+<%@ page import="model.OrderDetails" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="DAO.UserDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.UserDAO" scope="request"/>
 
     <style>
         .top, .card-content th {
