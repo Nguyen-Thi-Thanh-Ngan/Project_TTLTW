@@ -62,7 +62,7 @@ public class OrderController extends HttpServlet {
                 User user = userDAO.getUserByEmail(email);
                 user.setId(userDAO.getUserByEmail(email).getId());
 
-                Order order = new Order(idOrder, user, address, "", paymentMethod, orderDate, deliverDate);
+                Order order = new Order(idOrder, user, address, "xác nhận đơn hàng", paymentMethod, orderDate, deliverDate);
                 orderDAO.insert(order);
                 List<CartProduct> cartProducts = cart.getCartProducts();
                 for (CartProduct cartProduct : cartProducts) {

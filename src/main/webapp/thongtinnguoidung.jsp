@@ -75,40 +75,6 @@
                         %>
                         <div class="form-group">
                             <div class="top">Tên Người Dùng</div>
-
-                            <div class="bot"><%=user.getName()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Giới tính</div>
-                            <div class="bot"><%=user.getSex()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Ngày sinh nhật</div>
-                            <div class="bot"><%=user.getBirthDay()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Email</div>
-                            <div class="bot"><%=user.getEmail()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Số điện thoại</div>
-                            <div class="bot"><%=user.getPhoneNumber()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Địa chỉ giao hàng</div>
-                            <div class="bot"><%=user.getAddress()%>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <div class="top">Tên đăng nhập</div>
-                            <div class="bot"><%=user.getUserName()%>
-                            </div>
-
                             <div class="bot"><%=user.getName()%></div>
                         </div>
                         <div class="form-group">
@@ -134,7 +100,6 @@
                         <div class="form-group">
                             <div class="top">Tên đăng nhập</div>
                             <div class="bot"><%=user.getUserName()%></div>
-
                         </div>
                     </div>
                     <!-- /Billing Details -->
@@ -170,26 +135,13 @@
                                         if (order.getUser().getId().equals(request.getParameter("id"))) {
                                 %>
                                 <tr style="background-color: #fff2db">
-
-                                    for (Order order : orders){
-                                        if(order.getUser().getId().equals(request.getParameter("id"))){
-                                %>
-                                <tr>
-
-                                    <td><%=order.getId()%>
-                                    </td>
-                                    <td><%=order.getAddress()%>
-                                    </td>
-                                    <td><%=order.getStatus()%>
-                                    </td>
-                                    <td><%=order.getPayment()%>
-                                    </td>
-                                    <td><%=order.getOrderDate()%>
-                                    </td>
-                                    <td><%=order.getDeliveryDate()%>
-                                    </td>
+                                    <td><%=order.getId()%></td>
+                                    <td><%=order.getAddress()%></td>
+                                    <td><%=order.getStatus()%></td>
+                                    <td><%=order.getPayment()%></td>
+                                    <td><%=order.getOrderDate()%></td>
+                                    <td><%=order.getDeliveryDate()%></td>
                                     <td>
-
                                         <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
                                             <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
                                         </a>
@@ -199,13 +151,6 @@
                                         }
                                     }
                                 %>
-
-                                        <a href="chitietdonhang.jsp?id=<%=order.getId()%>"><i class="fa-solid fa-circle-right"></i></a>
-                                    </td>
-                                </tr>
-                                <%}
-                                        }%>
-
                                 </tbody>
                             </table>
                         </div>

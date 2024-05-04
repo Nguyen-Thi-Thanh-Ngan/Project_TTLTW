@@ -311,13 +311,14 @@ public class OrderDAO implements DAOInterface<Order> {
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();
 
-//       List<Order> a = orderDAO.selectAll();
-//       for (Order o : a){
-//           String u = o.getUser().getId();
-//       }
-//        System.out.println();
+       List<Order> a = orderDAO.selectAll();
+       for (Order o : a){
+           String u = o.getUser().getId();
+           System.out.println(u);
+       }
 
-        System.out.println(getByIdUser("u_3"));
+
+//        System.out.println(getByIdUser("u_3"));
 
     }
 }
