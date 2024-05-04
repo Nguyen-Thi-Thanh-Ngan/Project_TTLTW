@@ -217,7 +217,14 @@
                                 <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
                             </td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-product-id="<%=p.getId()%>">
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-product-id="<%=p.getId()%>"
+                                   data-product-name="<%=p.getName()%>"
+                                   data-product-price="<%=p.getPrice()%>"
+                                   data-product-productTypeId="<%=p.getProductType().getId()%>"
+                                   data-product-quantity="<%=p.getQuantity()%>"
+                                   data-product-prducerId="<%=p.getProducer().getId()%>"
+                                   data-product-img="<%=p.getImg()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
@@ -463,8 +470,20 @@
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var productId = button.data('product-id');
+        var productName = button.data('product-name');
+        var productPrice = button.data('product-price');
+        var productTypeId = button.data('product-productTypeId');
+        var productQuantity = button.data('product-quantity');
+        var productProducerId = button.data('product-producerId');
+        var productImg = button.data('product-img');
 
         $('#editForm input[name="id"]').val(productId);
+        $('#editForm input[name="name"]').val(productName);
+        $('#editForm input[name="price"]').val(productPrice);
+        $('#editForm input[name="productTypeId"]').val(productTypeId);
+        $('#editForm input[name="quantity"]').val(productQuantity);
+        $('#editForm input[name="producerId"]').val(productProducerId);
+        $('#editForm input[name="img"]').val(productImg);
     });
 
     function submitEditForm() {

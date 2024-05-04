@@ -62,7 +62,7 @@ public class OrderController extends HttpServlet {
                 User user = userDAO.getUserByEmail(email);
                 user.setId(userDAO.getUserByEmail(email).getId());
 
-                Order order = new Order(idOrder, user, address, "", paymentMethod, orderDate, deliverDate);
+                Order order = new Order(idOrder, user, address, "xác nhận đơn hàng", paymentMethod, orderDate, deliverDate);
                 orderDAO.insert(order);
                 List<CartProduct> cartProducts = cart.getCartProducts();
                 for (CartProduct cartProduct : cartProducts) {
@@ -80,7 +80,7 @@ public class OrderController extends HttpServlet {
                     orderDetailsDAO.insert(orderDetails);
                 }
                 session.removeAttribute("cart");
-            }else{
+            } else {
                 request.setAttribute("error", "Tên người dùng hoặc email hoặc số điện thoại không chính xác!");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("thanhtoan.jsp");
                 dispatcher.forward(request, response);
@@ -90,6 +90,4 @@ public class OrderController extends HttpServlet {
         response.sendRedirect("thanhtoan.jsp");
     }
 
-
 }
-
