@@ -91,7 +91,7 @@ public class UserDAO implements DAOInterface<User> {
         ));
         return user.isEmpty() ? null : user.get();
     }
-    public User getById(String userP) {
+    public static User getById(String userP) {
         Optional<User> user = JDBIConector.me().withHandle((handle ->
                 handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                                 "email, user_name, password, role_id FROM users WHERE id = ?")

@@ -7,7 +7,7 @@ body{
     border: none;
 }
 .row .form{
-    border: 3px solid #d10024;
+    border: 3px solid #a94442;
     border-radius: 10px;
     width: 50%;
     height: 50%;
@@ -22,20 +22,17 @@ body{
     font-weight: bolder;
 }
 .row .form .col-md-7 .billing-details .form-group .top{
-    display: flex;
-    justify-content: center;
-    align-items: center;
     font-weight: bolder;
-    border: 1px solid #d10024;
-    background: #d10024;
+    border: 1px solid #a94442;
+    background: #a94442;
     width: 100%;
 }
 .row .form .col-md-7 .billing-details .form-group .bot{
-    border: 1px solid #d10024;
+    border: 1px solid #a94442;
     width: 100%;
 }
 .row .order-detail{
-    border: 3px solid #d10024;
+    border: 3px solid #a94442;
     margin: 0 30px 0 30px;
     height: 480px;
     border-radius: 10px;
@@ -44,13 +41,13 @@ body{
     height: 330px;
 }
 .row .detail .card-content{
-    /*border-top: 4px solid #d10024;*/
-    /*border-bottom: 4px solid #d10024;*/
+    border-top: 4px solid #761c19;
+    border-bottom: 4px solid #761c19;
     max-height: 300px;
     overflow: auto;
 }
 thead tr{
-    background-color: #d10024;
+    background-color: #a94442;
 }
 tbody tr{
     background-color: wheat;
@@ -81,9 +78,7 @@ th, td{
     max-height: 50px;
     overflow: auto;
 }
-.fa-circle-right{
-    color: #d10024;
-
+.fa-circle-right {
+    color: #a94442;
 }
-
 

@@ -5,8 +5,6 @@
 <%@ page import="Model.OrderDetails" %>
 <%@ page import="DAO.OrderDetailsDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.Product" %>
-<%@ page import="DAO.ProducerDAO" %>
 <%@ page import="DAO.ProductDAO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -92,11 +90,8 @@
                                 <tbody>
                                 <%
                                     OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-
-                                    ProductDAO productDAO = new ProductDAO();
                                     List<OrderDetails> listOrderDetails = orderDetailsDAO.getByIdOrder(request.getParameter("id"));
                                     for (OrderDetails orderDetails : listOrderDetails){
-
                                 %>
                                 <tr>
                                     <td><img src="<%=orderDetails.getProduct().getImg()%>" width="70px" height="70px"></td>
@@ -106,6 +101,8 @@
                                                       pattern="#,##0" var="formattedPrice"/>
                                     <td>${formattedPrice} VNĐ</td>
                                 </tr>
+
+
                                 <%
                                     }
                                 %>
@@ -177,8 +174,5 @@
 <script src="js/main.js"></script>
 
 </body>
-
-</html>
-
 </html>
 

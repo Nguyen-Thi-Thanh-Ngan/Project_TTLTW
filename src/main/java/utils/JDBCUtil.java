@@ -1,4 +1,5 @@
-package utils;
+package DAO;
+
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,10 +14,10 @@ public class JDBCUtil {
 
             // Các thông số
 
-            String url = "jdbc:mySQL://localhost:3306/banlinhkiendienthoai";
 
+            String url = "jdbc:mySQL://localhost:3306/project_web";
             String username = "root";
-            String password = "123456";
+            String password = "";
 
             // Tạo kết nối
             conn = DriverManager.getConnection(url, username, password);
@@ -40,3 +41,4 @@ public class JDBCUtil {
     }
 
 }
+
