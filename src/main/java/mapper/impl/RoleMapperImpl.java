@@ -1,6 +1,6 @@
 package mapper.impl;
 
-import Model.Role;
+import model.Role;
 import mapper.IRowMapper;
 
 import java.sql.ResultSet;

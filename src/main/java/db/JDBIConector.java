@@ -26,7 +26,7 @@ public class JDBIConector {
     public JDBIConector() {
     }
 
-    public static Jdbi me() {
+    public static Jdbi getConnect() {
         if (jdbi == null) connect();
         return jdbi;
     }

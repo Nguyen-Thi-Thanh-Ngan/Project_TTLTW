@@ -5,7 +5,7 @@
   Time: 10:17 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="Cart.Cart" %>
+<%@ page import="cart.Cart" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="service.impl.UserServiceImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>

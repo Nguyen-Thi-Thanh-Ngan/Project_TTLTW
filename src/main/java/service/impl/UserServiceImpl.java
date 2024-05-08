@@ -1,10 +1,11 @@
 package service.impl;
 
-import DAO.IRoleDao;
-import DAO.IUserDao;
-import DAO.impl.RoleDaoImpl;
-import DAO.impl.UserDaoImpl;
-import Model.User;
+import dao.IRoleDao;
+import dao.IUserDao;
+import dao.impl.RoleDaoImpl;
+import dao.impl.UserDaoImpl;
+import model.User;
+import org.mindrot.jbcrypt.BCrypt;
 import service.IUserService;
 
 import java.util.List;
@@ -24,6 +25,10 @@ public class UserServiceImpl implements IUserService {
     @Override
     public String register(User user) {
         user.setId(createId());
+        String pass = user.getPassword();
+        //mã hõa mật khẩu
+        String passEn = BCrypt.hashpw(pass, BCrypt.gensalt(12));
+        user.setPassword(passEn);
         User userNew = dao.register(user);
         return userNew == null ? null : userNew.getId();
     }
