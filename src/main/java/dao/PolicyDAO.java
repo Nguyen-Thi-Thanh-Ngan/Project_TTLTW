@@ -9,7 +9,7 @@ import java.util.stream.Collectors;
 public class PolicyDAO implements DAOInterface<Policy>{
     @Override
     public List<Policy> selectAll() {
-        List<Policy> policies = JDBIConector.me().withHandle((handle ->
+        List<Policy> policies = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, content, title FROM policy")
                         .mapToBean(Policy.class).stream().collect(Collectors.toList())
         ));
@@ -18,7 +18,7 @@ public class PolicyDAO implements DAOInterface<Policy>{
 
     @Override
     public Policy selectById(Policy policyP) {
-        Optional<Policy> policy = JDBIConector.me().withHandle((handle ->
+        Optional<Policy> policy = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, content, title FROM policy WHERE id=?")
                         .bind(0, policyP.getId())
                         .mapToBean(Policy.class).stream().findFirst()

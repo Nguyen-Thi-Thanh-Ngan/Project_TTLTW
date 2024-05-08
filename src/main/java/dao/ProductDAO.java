@@ -17,7 +17,7 @@ import java.util.stream.IntStream;
 public class ProductDAO implements DAOInterface<Product> {
     @Override
     public List<Product> selectAll() {
-        List<Product> products = JDBIConector.me().withHandle((handle -> {
+        List<Product> products = JDBIConector.getConnect().withHandle((handle -> {
             List<Product> list = new ArrayList<>();
             handle.createQuery("SELECT id, name, price, product_type_id, quantity, producer_id, image FROM products")
                     .map((rs, ctx) -> {
@@ -41,7 +41,7 @@ public class ProductDAO implements DAOInterface<Product> {
     }
 
     public static List<Product> getAll() {
-        List<Product> products = JDBIConector.me().withHandle((handle -> {
+        List<Product> products = JDBIConector.getConnect().withHandle((handle -> {
             List<Product> list = new ArrayList<>();
             handle.createQuery("SELECT id, name, price, product_type_id, quantity, producer_id, image FROM products")
                     .map((rs, ctx) -> {
@@ -64,7 +64,7 @@ public class ProductDAO implements DAOInterface<Product> {
         return products;
     }
     public static Product getById(String id) {
-        Optional<Product> product = JDBIConector.me().withHandle((handle ->
+        Optional<Product> product = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name, price, product_type_id, quantity," +
                                 " producer_id, image FROM products WHERE id = ?")
                         .bind(0, id)
@@ -88,7 +88,7 @@ public class ProductDAO implements DAOInterface<Product> {
 
     @Override
     public Product selectById(Product productP) {
-        Optional<Product> product = JDBIConector.me().withHandle((handle ->
+        Optional<Product> product = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name, price, product_type_id, quantity," +
                                 " producer_id, image FROM products WHERE id = ?")
                         .bind(0, productP.getId())
@@ -111,7 +111,7 @@ public class ProductDAO implements DAOInterface<Product> {
     }
 
     public static List<Product> searchByName(String text) {
-        List<Product> products = JDBIConector.me().withHandle(handle -> {
+        List<Product> products = JDBIConector.getConnect().withHandle(handle -> {
             List<Product> list = new ArrayList<>();
             String[] keywords = text.split("\\s+"); // Tách các từ trong chuỗi
 
@@ -569,7 +569,7 @@ public class ProductDAO implements DAOInterface<Product> {
         return ketQua;
     }
     public static Product selectbyId(String id) {
-        Optional<Product> product = JDBIConector.me().withHandle((handle ->
+        Optional<Product> product = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name, price, product_type_id, quantity," +
                                 " producer_id, image FROM products WHERE id = ?")
                         .bind(0, id)

@@ -12,7 +12,7 @@ import java.util.Optional;
 public class UserDAO implements DAOInterface<User> {
     @Override
     public List<User> selectAll() {
-        List<User> ketQua = JDBIConector.me().withHandle((handle ->
+        List<User> ketQua = JDBIConector.getConnect().withHandle((handle ->
         {
             List<User> users = new ArrayList<>();
             handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, email, user_name, password, role_id FROM users")
@@ -22,7 +22,7 @@ public class UserDAO implements DAOInterface<User> {
                         String sex = rs.getString("sex");
                         String address = rs.getString("address");
                         Date birth_day = rs.getDate("birth_day");
-                        String phone_number = rs.getString("phone_number");
+                        String phoneNumber = rs.getString("phone_number");
                         String email = rs.getString("email");
                         String user_name = rs.getString("user_name");
                         String password = rs.getString("password");
@@ -30,7 +30,7 @@ public class UserDAO implements DAOInterface<User> {
 
                         Role role = new RoleDAO().selectById(new Role(role_id, null));
 
-                        User user = new User(id, name, sex, address, birth_day, phone_number, email, user_name, password, role);
+                        User user = new User(id, name, sex, address, birth_day, phoneNumber, email, user_name, password, role);
                         users.add(user);
 
                         return null;
@@ -40,7 +40,7 @@ public class UserDAO implements DAOInterface<User> {
         return ketQua;
     }
     public User getUserByEmail(String email) {
-        Optional<User> user = JDBIConector.me().withHandle(handle ->
+        Optional<User> user = JDBIConector.getConnect().withHandle(handle ->
                 handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                                 "email, user_name, password, role_id FROM users WHERE email = ?")
                         .bind(0, email)
@@ -50,14 +50,14 @@ public class UserDAO implements DAOInterface<User> {
                             String sex = rs.getString("sex");
                             String address = rs.getString("address");
                             Date birth_day = rs.getDate("birth_day");
-                            String phone_number = rs.getString("phone_number");
+                            String phoneNumber = rs.getString("phone_number");
                             String email1 = rs.getString("email");
                             String user_name = rs.getString("user_name");
                             String password = rs.getString("password");
                             String role_id = rs.getString("role_id");
 
                             Role role = new RoleDAO().selectById(new Role(role_id, null));
-                            return new User(id, name, sex, address, birth_day, phone_number, email1, user_name, password, role);
+                            return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
                         })
                         .findFirst()
         );
@@ -68,7 +68,7 @@ public class UserDAO implements DAOInterface<User> {
 
     @Override
     public User selectById(User userP) {
-        Optional<User> user = JDBIConector.me().withHandle((handle ->
+        Optional<User> user = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                                 "email, user_name, password, role_id FROM users WHERE id = ?")
                         .bind(0, userP.getId())
@@ -78,21 +78,21 @@ public class UserDAO implements DAOInterface<User> {
                             String sex = rs.getString("sex");
                             String address = rs.getString("address");
                             Date birth_day = rs.getDate("birth_day");
-                            String phone_number = rs.getString("phone_number");
+                            String phoneNumber = rs.getString("phone_number");
                             String email1 = rs.getString("email");
                             String user_name = rs.getString("user_name");
                             String password = rs.getString("password");
                             String role_id = rs.getString("role_id");
 
                             Role role = new RoleDAO().selectById(new Role(role_id, null));
-                            return new User(id, name, sex, address, birth_day, phone_number, email1, user_name, password, role);
+                            return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
                         })
                         .findFirst()
         ));
         return user.isEmpty() ? null : user.get();
     }
     public static User getById(String userP) {
-        Optional<User> user = JDBIConector.me().withHandle((handle ->
+        Optional<User> user = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                                 "email, user_name, password, role_id FROM users WHERE id = ?")
                         .bind(0, userP)
@@ -102,14 +102,14 @@ public class UserDAO implements DAOInterface<User> {
                             String sex = rs.getString("sex");
                             String address = rs.getString("address");
                             Date birth_day = rs.getDate("birth_day");
-                            String phone_number = rs.getString("phone_number");
+                            String phoneNumber = rs.getString("phone_number");
                             String email1 = rs.getString("email");
                             String user_name = rs.getString("user_name");
                             String password = rs.getString("password");
                             String role_id = rs.getString("role_id");
 
                             Role role = new RoleDAO().selectById(new Role(role_id, null));
-                            return new User(id, name, sex, address, birth_day, phone_number, email1, user_name, password, role);
+                            return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
                         })
                         .findFirst()
         ));

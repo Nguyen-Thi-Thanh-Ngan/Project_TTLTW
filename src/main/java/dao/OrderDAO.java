@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderDAO implements DAOInterface<Order> {
     @Override
     public List<Order> selectAll() {
-        List<Order> ketQua = JDBIConector.me().withHandle((handle ->
+        List<Order> ketQua = JDBIConector.getConnect().withHandle((handle ->
         {
             List<Order> orders = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class OrderDAO implements DAOInterface<Order> {
     @Override
     public Order selectById(Order orderP) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                     handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                     " payment_method, order_date, delivery_date FROM orders WHERE id=?")
                             .bind(0, orderP.getId())
@@ -73,7 +73,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
     public static Order getById(String id) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                     handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                     " payment_method, order_date, delivery_date FROM orders WHERE id=?")
                             .bind(0, id)
@@ -100,7 +100,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
     public static Order getByIdUser(String user_id) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                             handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                             " payment_method, order_date, delivery_date FROM orders WHERE user_id=?")
                                     .bind(0, user_id)

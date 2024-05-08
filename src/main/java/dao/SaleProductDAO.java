@@ -10,7 +10,7 @@ import java.util.List;
 public class SaleProductDAO implements DAOInterface{
     @Override
     public List<SaleProduct> selectAll() {
-        List<SaleProduct> ketQua = JDBIConector.me().withHandle((handle -> {
+        List<SaleProduct> ketQua = JDBIConector.getConnect().withHandle((handle -> {
             List<SaleProduct> sale_products = new ArrayList<>();
             handle.createQuery("SELECT id, product_id,discount FROM sale_products")
                     .map((rs, ctx) -> {

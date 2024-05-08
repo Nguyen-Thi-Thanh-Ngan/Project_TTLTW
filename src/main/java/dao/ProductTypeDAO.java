@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ProductTypeDAO implements DAOInterface<ProductType>{
     @Override
     public List<ProductType> selectAll() {
-        List<ProductType> productTypes = JDBIConector.me().withHandle((handle ->
+        List<ProductType> productTypes = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM product_types")
                         .mapToBean(ProductType.class).stream().collect(Collectors.toList())
         ));
@@ -23,7 +23,7 @@ public class ProductTypeDAO implements DAOInterface<ProductType>{
 
     @Override
     public ProductType selectById(ProductType productTypeP) {
-        Optional<ProductType> productType = JDBIConector.me().withHandle((handle ->
+        Optional<ProductType> productType = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM product_types WHERE id = ?")
                         .bind(0, productTypeP.getId())
                         .mapToBean(ProductType.class).stream().findFirst()
@@ -132,7 +132,7 @@ public class ProductTypeDAO implements DAOInterface<ProductType>{
     }
 
     public static ProductType getById(String id) {
-        Optional<ProductType> productType = JDBIConector.me().withHandle((handle ->
+        Optional<ProductType> productType = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM product_types WHERE id = ?")
                         .bind(0, id)
                         .map((rs, ctx) -> {

@@ -127,7 +127,7 @@ public class ProductDetailsDAO implements DAOInterface<ProductDetails>{
     }
 
     public ProductDetails getProductDetail(Product product){
-        Optional<ProductDetails> productDetails = JDBIConector.me().withHandle((handle ->
+        Optional<ProductDetails> productDetails = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT pd.id, pd.product_id, pd.content, pd.quantity " +
                                         "FROM product_details pd " +
                                         "JOIN products p ON pd.product_id = p.id " +

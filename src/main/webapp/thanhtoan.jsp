@@ -99,8 +99,8 @@
                                    required>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
-                                   value="${phone_number}">
+                            <input class="input" type="tel" name="phoneNumber" placeholder="Số điện thoại" required
+                                   value="${phoneNumber}">
                         </div>
 
                     </div>

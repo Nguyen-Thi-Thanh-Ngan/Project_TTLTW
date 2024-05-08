@@ -55,7 +55,7 @@ public class OrderController extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String address = request.getParameter("delivery_address");
-            String phone = request.getParameter("phone_number");
+            String phone = request.getParameter("phoneNumber");
             String paymentMethod = request.getParameter("payment");
 
             if (email != null && !email.isEmpty()) {

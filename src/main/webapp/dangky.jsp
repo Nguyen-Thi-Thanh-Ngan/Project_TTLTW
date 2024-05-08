@@ -33,7 +33,7 @@
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         %>
         <input type="date" class="form-control form-control-xl" placeholder="Ngày sinh" value="<%=request.getAttribute("user") == null ? "" : sdf.format(((User)request.getAttribute("user")).getBirthDay())%>" name="birthDay" required>
-        <input type="phone" class="form-control form-control-xl" placeholder="Số điện thoại" value="${success == null && user != null ? user.phone_number : ""}" name="phoneNumber" required>
+        <input type="tel" class="form-control form-control-xl" placeholder="Số điện thoại" value="${success == null && user != null ? user.phone_number : ""}" name="phoneNumber" required>
         <input class="form-control form-control-xl" type="email" placeholder="Email" value="${success == null && user != null ? user.email : ""}" name="email" required>
         <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập" value="${success == null && user != null ? user.user_name : ""}" name="username" required>
         <input class="form-control form-control-xl" type="password" placeholder="Mật khẩu" value="${success == null && user != null ? user.password : ""}" name="password" id="password" required>
@@ -59,7 +59,10 @@
 <script>
     function validatePassword() {
         var password = document.getElementById("password").value;
-        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z0-9]{8,}$/;
+        /*Tối thiểu 8 ký tự
+        * Tối đa 20 ký tự
+        * Gồm chữ hoa, chữ thường, ký tự đặt biệt*/
+        var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+])[a-zA-Z\d!@#$%^&*()_+]{8,20}$/;
 
         if (!regex.test(password)) {
             alert("Mật khẩu phải chứa ít nhất 8 ký tự và không chư ký tự đặc biệt");

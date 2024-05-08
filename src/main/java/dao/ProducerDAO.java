@@ -14,7 +14,7 @@ import java.util.stream.Collectors;
 public class ProducerDAO implements DAOInterface<Producer> {
     @Override
     public List<Producer> selectAll() {
-        List<Producer> producers = JDBIConector.me().withHandle((handle ->
+        List<Producer> producers = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM producers")
                         .mapToBean(Producer.class).stream().collect(Collectors.toList())
         ));
@@ -23,7 +23,7 @@ public class ProducerDAO implements DAOInterface<Producer> {
 
     @Override
     public Producer selectById(Producer producerP) {
-        Optional<Producer> producer = JDBIConector.me().withHandle((handle ->
+        Optional<Producer> producer = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM producers WHERE id=?")
                         .bind(0, producerP.getId())
                         .mapToBean(Producer.class).stream().findFirst()
@@ -132,7 +132,7 @@ public class ProducerDAO implements DAOInterface<Producer> {
     }
 
     public static Producer getById(String id) {
-        Optional<Producer> producer = JDBIConector.me().withHandle((handle ->
+        Optional<Producer> producer = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, name FROM producers WHERE id=?")
                         .bind(0, id)
                         .map((rs, ctx) -> {

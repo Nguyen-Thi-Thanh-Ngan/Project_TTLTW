@@ -13,7 +13,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
 
     @Override
     public List<Parameter> selectAll() {
-        return JDBIConector.me().withHandle((handle ->
+        return JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, number_cus, number_pro, number_ord, revenue, update_date FROM parameter")
                         .mapToBean(Parameter.class).stream().collect(Collectors.toList())
         ));
@@ -23,7 +23,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
 
     @Override
     public Parameter selectById(Parameter parameter) {
-        Optional<Parameter> parameter1 = JDBIConector.me().withHandle((handle ->
+        Optional<Parameter> parameter1 = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, number_cus, number_pro, number_ord, revenue, update_date FROM parameter WHERE id = ?")
                         .bind(0, parameter.getId())
                         .mapToBean(Parameter.class).stream().findFirst()
@@ -34,7 +34,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
     @Override
     public int insert(Parameter parameter) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                     handle.createUpdate("INSERT INTO parameter (id, number_cus, number_pro, number_ord, revenue, update_date) VALUES (?, ?, ?, ?, ?, ?)")
                             .bind(0, parameter.getId())
                             .bind(1, parameter.getNumberCustomer())
@@ -52,7 +52,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
     @Override
     public int delete(Parameter parameter) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                     handle.createUpdate("DELETE FROM parameter WHERE id = ?")
                             .bind(0, parameter.getId())
                             .execute());
@@ -65,7 +65,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
     @Override
     public int update(Parameter parameter) {
         try {
-            return JDBIConector.me().withHandle(handle ->
+            return JDBIConector.getConnect().withHandle(handle ->
                     handle.createUpdate("UPDATE parameter SET number_cus = ?, number_pro = ?, number_ord = ?, revenue = ?, update_date = ? WHERE id = ?")
                             .bind(0, parameter.getNumberCustomer())
                             .bind(1, parameter.getNumberProduct())
@@ -85,7 +85,7 @@ public class ParameterDAO implements DAOInterface<Parameter> {
                 "FROM parameter " +
                 "WHERE MONTH(update_date) = ? AND YEAR(update_date) = ?";
 
-        return JDBIConector.me().withHandle(handle ->
+        return JDBIConector.getConnect().withHandle(handle ->
                 handle.createQuery(sql)
                         .bind(0, month)
                         .bind(1, year)

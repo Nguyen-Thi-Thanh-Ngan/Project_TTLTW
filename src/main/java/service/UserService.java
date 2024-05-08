@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<User> users = JDBIConector.me().withHandle((handle -> {
+        List<User> users = JDBIConector.getConnect().withHandle((handle -> {
             return handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                             "email, user_name, password, role_id FROM users")
                     .map((rs, ctx) -> {
@@ -38,14 +38,14 @@ public class UserService {
                         String sex = rs.getString("sex");
                         String address = rs.getString("address");
                         Date birth_day = rs.getDate("birth_day");
-                        String phone_number = rs.getString("phone_number");
+                        String phoneNumber = rs.getString("phone_number");
                         String email = rs.getString("email");
                         String user_name = rs.getString("user_name");
                         String password = rs.getString("password");
                         String role_id = rs.getString("role_id");
 
                         Role role = new RoleDAO().selectById(new Role(role_id, null));
-                        return new User(id, name, sex, address, birth_day, phone_number, email, user_name, password, role);
+                        return new User(id, name, sex, address, birth_day, phoneNumber, email, user_name, password, role);
                     }).stream().collect(Collectors.toList());
         }));
         System.out.println(users);

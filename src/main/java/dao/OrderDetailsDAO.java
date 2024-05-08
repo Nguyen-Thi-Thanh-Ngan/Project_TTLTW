@@ -5,7 +5,6 @@ import db.JDBIConector;
 import utils.JDBCUtil;
 
 import java.sql.*;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -14,7 +13,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 
     @Override
     public List<OrderDetails> selectAll() {
-        List<OrderDetails> orderDetails = JDBIConector.me().withHandle((handle ->
+        List<OrderDetails> orderDetails = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, order_id, product_id, quantity, price, discount, amount FROM order_details")
                         .mapToBean(OrderDetails.class).stream().collect(Collectors.toList())
         ));
@@ -23,7 +22,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 
     @Override
     public OrderDetails selectById(OrderDetails orderDetailsP) {
-        Optional<OrderDetails> orderDetails = JDBIConector.me().withHandle((handle ->
+        Optional<OrderDetails> orderDetails = JDBIConector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, order_id, product_id, quantity, price, discount, amount FROM order_details WHERE id=?")
                         .bind(0, orderDetailsP.getId())
                         .mapToBean(OrderDetails.class).stream().findFirst()
@@ -33,7 +32,7 @@ public class OrderDetailsDAO implements DAOInterface<OrderDetails> {
 
     public List<OrderDetails> getByIdOrder(String order_id) {
         try {
-            return JDBIConector.me().withHandle(handle -> handle.createQuery("SELECT order_details.id, order_details.order_id, product_id, order_details.quantity, order_details.price, order_details.discount, amount, products.name, products.image FROM order_details, products WHERE products.id = order_details.product_id and order_id=?")
+            return JDBIConector.getConnect().withHandle(handle -> handle.createQuery("SELECT order_details.id, order_details.order_id, product_id, order_details.quantity, order_details.price, order_details.discount, amount, products.name, products.image FROM order_details, products WHERE products.id = order_details.product_id and order_id=?")
                     .bind(0, order_id)
                     .map((rs, ctx) -> {
                         String oddId = rs.getString("id");
