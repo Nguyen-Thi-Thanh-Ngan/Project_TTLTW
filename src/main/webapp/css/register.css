@@ -23,7 +23,8 @@ body{
     background-color: #fff;
     border-radius: 10px;
     text-align:  center;
-    box-shadow: 0 20px 35px rgba(0,0,0,0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+    position: relative;
 }
 h1{
     font-size: 2rem;
@@ -135,9 +136,6 @@ input:focus{
     font-family: 'Arial', sans-serif;
 }
 
-.wrapper {
-    text-align: center;
-}
 .success-message a {
     color: rgb(17,107,143);
     text-decoration: none; /* Remove underline */
