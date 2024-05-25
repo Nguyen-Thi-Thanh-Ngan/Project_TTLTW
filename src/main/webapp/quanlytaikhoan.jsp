@@ -399,7 +399,7 @@
                 $('#editEmployeeModal').modal('show');
             },
             error: (rs) => {
-                console.log(rs);
+                console.loger(rs);
             }
         });
 
@@ -470,7 +470,7 @@
                             }
                         },
                         error: (rs) => {
-                            console.log(rs);
+                            console.loger(rs);
                         }
                     });
                 } else {
@@ -478,7 +478,7 @@
                 }
             },
             error: (rs) => {
-                console.log(rs);
+                console.loger(rs);
             }
         });
     });

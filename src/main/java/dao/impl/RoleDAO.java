@@ -1,15 +1,16 @@
-package dao;
+package dao.impl;
 
+import dao.DAOInterface;
 import model.Role;
-import db.JDBIConector;
+import db.JDBIConnector;
 
 import java.util.List;
 import java.util.Optional;
 
-public class RoleDAO implements DAOInterface<Role>{
+public class RoleDAO implements DAOInterface<Role> {
     @Override
     public List<Role> selectAll() {
-        List<Role> roles = JDBIConector.getConnect().withHandle((handle ->
+        List<Role> roles = JDBIConnector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, role_name FROM roles")
                         .mapToBean(Role.class).list()
         ));
@@ -18,7 +19,7 @@ public class RoleDAO implements DAOInterface<Role>{
 
     @Override
     public Role selectById(Role roleP) {
-        Optional<Role> role = JDBIConector.getConnect().withHandle((handle ->
+        Optional<Role> role = JDBIConnector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, role_name FROM roles WHERE id=?")
                         .bind(0, roleP.getId())
                         .mapToBean(Role.class).stream().findFirst()

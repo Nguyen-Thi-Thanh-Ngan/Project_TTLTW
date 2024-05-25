@@ -1,10 +1,10 @@
-package service;
+package service.impl;
 
-import dao.RoleDAO;
-import dao.UserDAO;
+import dao.impl.RoleDAO;
+import dao.impl.UserDAO;
 import model.Role;
 import model.User;
-import db.JDBIConector;
+import db.JDBIConnector;
 
 import java.sql.Date;
 import java.sql.SQLException;
@@ -29,7 +29,7 @@ public class UserService {
     }
 
     public static void main(String[] args) throws SQLException {
-        List<User> users = JDBIConector.getConnect().withHandle((handle -> {
+        List<User> users = JDBIConnector.getConnect().withHandle((handle -> {
             return handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                             "email, user_name, password, role_id FROM users")
                     .map((rs, ctx) -> {

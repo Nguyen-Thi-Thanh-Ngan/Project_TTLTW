@@ -1,7 +1,7 @@
 
 <%@ page import="model.Product" %>
-<%@ page import="dao.ProductDAO" %>
-<%@ page import="dao.ProductDetailsDAO" %>
+<%@ page import="dao.impl.ProductDAO" %>
+<%@ page import="dao.impl.ProductDetailsDAO" %>
 <%@ page import="model.ProductDetails" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -35,8 +35,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.ProductDAO" scope="request"/>
-    <jsp:useBean id="b" class="dao.ProductDetailsDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"/>
+    <jsp:useBean id="b" class="dao.impl.ProductDetailsDAO" scope="request"/>
 </head>
 <body>
 <!-- HEADER -->

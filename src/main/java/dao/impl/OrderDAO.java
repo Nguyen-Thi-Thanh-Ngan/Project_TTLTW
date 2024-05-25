@@ -1,8 +1,8 @@
-package dao;
+package dao.impl;
 
+import dao.DAOInterface;
 import model.*;
-import db.JDBIConector;
-import utils.JDBCUtil;
+import db.JDBIConnector;
 
 import java.sql.*;
 import java.time.LocalDate;
@@ -12,7 +12,7 @@ import java.util.List;
 public class OrderDAO implements DAOInterface<Order> {
     @Override
     public List<Order> selectAll() {
-        List<Order> ketQua = JDBIConector.getConnect().withHandle((handle ->
+        List<Order> ketQua = JDBIConnector.getConnect().withHandle((handle ->
         {
             List<Order> orders = new ArrayList<>();
 
@@ -46,7 +46,7 @@ public class OrderDAO implements DAOInterface<Order> {
     @Override
     public Order selectById(Order orderP) {
         try {
-            return JDBIConector.getConnect().withHandle(handle ->
+            return JDBIConnector.getConnect().withHandle(handle ->
                     handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                     " payment_method, order_date, delivery_date FROM orders WHERE id=?")
                             .bind(0, orderP.getId())
@@ -73,7 +73,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
     public static Order getById(String id) {
         try {
-            return JDBIConector.getConnect().withHandle(handle ->
+            return JDBIConnector.getConnect().withHandle(handle ->
                     handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                     " payment_method, order_date, delivery_date FROM orders WHERE id=?")
                             .bind(0, id)
@@ -100,7 +100,7 @@ public class OrderDAO implements DAOInterface<Order> {
 
     public static Order getByIdUser(String user_id) {
         try {
-            return JDBIConector.getConnect().withHandle(handle ->
+            return JDBIConnector.getConnect().withHandle(handle ->
                             handle.createQuery("SELECT id, user_id, delivery_address, order_status," +
                                             " payment_method, order_date, delivery_date FROM orders WHERE user_id=?")
                                     .bind(0, user_id)
@@ -125,189 +125,60 @@ public class OrderDAO implements DAOInterface<Order> {
 
     @Override
     public int insert(Order order) {
-        int ketQua = 0;
-        try {
-            // Bước 1: tạo kết nối đến CSDL
-            Connection con = JDBCUtil.getConnection();
-
-            // Bước 2: tạo ra đối tượng statement
-            String sql = "INSERT INTO orders (id, user_id, delivery_address, order_status, payment_method, order_date, delivery_date) " +
-                    " VALUES (?,?,?,?,?,?,?)";
-
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, order.getId());
-            if (order.getUser() != null) {
-                st.setString(2, order.getUser().getId());
-            } else {
-                st.setNull(2, Types.VARCHAR);
-            }
-            st.setString(3, order.getAddress());
-            st.setString(4, order.getStatus());
-            st.setString(5, order.getPayment());
-            st.setDate(6, order.getOrderDate());
-            st.setDate(7, order.getDeliveryDate());
-
-
-            // Bước 3: thực thi câu lệnh SQL
-            ketQua = st.executeUpdate();
-
-            // Bước 4:
-            System.out.println("Bạn đã thực thi: " + sql);
-            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
-
-            // Bước 5:
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        int ketQua = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO orders (id, user_id, delivery_address, order_status, payment_method, order_date, delivery_date) " +
+                    " VALUES (?,?,?,?,?,?,?)").execute();
+        });
         return ketQua;
     }
 
     @Override
     public int delete(Order order) {
-        int ketQua = 0;
-        try {
-            // Bước 1: tạo kết nối đến CSDL
-            Connection con = JDBCUtil.getConnection();
-
-            // Bước 2: tạo ra đối tượng statement
-            String sql = "DELETE from orders " +
-                    " WHERE id=?";
-
-            PreparedStatement st = con.prepareStatement(sql);
-            st.setString(1, order.getId());
-
-            // Bước 3: thực thi câu lệnh SQL
-            System.out.println(sql);
-            ketQua = st.executeUpdate();
-
-            // Bước 4:
-            System.out.println("Bạn đã thực thi: " + sql);
-            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
-
-            // Bước 5:
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        int ketQua = JDBIConnector.getConnect().withHandle(handle ->
+                    handle.createUpdate("DELETE FROM orders WHERE id = :id")
+                            .bind("id", order.getId())
+                            .execute()
+            );
         return ketQua;
     }
 
     @Override
     public int update(Order order) {
-
-        int ketQua = 0;
-        try {
-            // Bước 1: tạo kết nối đến CSDL
-            Connection con = JDBCUtil.getConnection();
-
-            // Bước 2: tạo ra đối tượng statement
-            String sql = "UPDATE orders " +
-                    " SET " +
-                    " user_id=?" + "," +
-                    " delivery_address=?" + "," +
-                    " order_status=?" + "," +
-                    " payment_method=?" + "," +
-                    " order_date=?" + "," +
-                    " delivery_date=?" +
-                    " WHERE id=?";
-            PreparedStatement st = con.prepareStatement(sql);
-
-            st.setString(1, order.getUser().getId());
-            st.setString(2, order.getAddress());
-            st.setString(3, order.getStatus());
-            st.setString(4, order.getPayment());
-            st.setDate(5, order.getOrderDate());
-            st.setDate(6, order.getDeliveryDate());
-            st.setString(7, order.getId());
-
-
-            // Bước 3: thực thi câu lệnh SQL
-
-            System.out.println(sql);
-            ketQua = st.executeUpdate();
-
-            // Bước 4:
-            System.out.println("Bạn đã thực thi: " + sql);
-            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
-
-            // Bước 5:
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-
+        int ketQua = JDBIConnector.getConnect().withHandle(handle ->
+                handle.createUpdate("UPDATE orders " +
+                                "SET user_id = :userId, delivery_address = :address, order_status = :status, " +
+                                "payment_method = :payment, order_date = :orderDate, delivery_date = :deliveryDate " +
+                                "WHERE id = :id")
+                        .bindBean(order)
+                        .execute()
+        );
         return ketQua;
     }
 
+
     public int countOrdersInMonth(LocalDate localDate) {
-        int count = 0;
-        try {
-            // Bước 1: tạo kết nối đến CSDL
-            Connection con = JDBCUtil.getConnection();
-
-            // Bước 2: tạo ra đối tượng statement
-            String sql = "SELECT COUNT(*) FROM orders WHERE MONTH(order_date) = ? AND YEAR(order_date) = ?";
-            PreparedStatement st = con.prepareStatement(sql);
-
-            st.setInt(1, localDate.getMonthValue());
-            st.setInt(2, localDate.getYear());
-
-            // Bước 3: thực thi câu lệnh SQL
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-
-            // Bước 4:
-            System.out.println("Bạn đã thực thi: " + sql);
-            System.out.println("Số lượng đơn hàng trong tháng: " + count);
-
-            // Bước 5:
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        int count =  JDBIConnector.getConnect().withHandle(handle ->
+                    handle.createQuery("SELECT COUNT(*) FROM orders WHERE MONTH(order_date) = :month AND YEAR(order_date) = :year")
+                            .bind("month", localDate.getMonthValue())
+                            .bind("year", localDate.getYear())
+                            .mapTo(Integer.class)
+                            .one()
+            );
         return count;
     }
+
 
     public int countCustomersWithOrdersInMonth(LocalDate localDate) {
-        int count = 0;
-        try {
-            // Bước 1: tạo kết nối đến CSDL
-            Connection con = JDBCUtil.getConnection();
-
-            // Bước 2: tạo ra đối tượng statement
-            String sql = "SELECT COUNT(DISTINCT user_id) FROM orders WHERE MONTH(order_date) = ? AND YEAR(order_date) = ?";
-            PreparedStatement st = con.prepareStatement(sql);
-
-            st.setInt(1, localDate.getMonthValue());
-            st.setInt(2, localDate.getYear());
-
-            // Bước 3: thực thi câu lệnh SQL
-            ResultSet rs = st.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-
-            // Bước 4:
-            System.out.println("Bạn đã thực thi: " + sql);
-            System.out.println("Số lượng khách hàng đã mua hàng trong tháng: " + count);
-
-            // Bước 5:
-            JDBCUtil.closeConnection(con);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
+        int count =  JDBIConnector.getConnect().withHandle(handle ->
+                    handle.createQuery("SELECT COUNT(DISTINCT user_id) FROM orders WHERE MONTH(order_date) = :month AND YEAR(order_date) = :year")
+                            .bind("month", localDate.getMonthValue())
+                            .bind("year", localDate.getYear())
+                            .mapTo(Integer.class)
+                            .one()
+            );
         return count;
     }
+
 
     public static void main(String[] args) {
         OrderDAO orderDAO = new OrderDAO();

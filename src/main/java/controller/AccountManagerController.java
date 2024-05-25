@@ -14,7 +14,6 @@ import java.io.IOException;
 @WebServlet(value = "/quanlytaikhoan")
 public class AccountManagerController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
-
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setAttribute("users", userService.findAll());

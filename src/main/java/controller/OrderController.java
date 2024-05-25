@@ -2,9 +2,9 @@ package controller;
 
 import cart.Cart;
 import cart.CartProduct;
-import dao.OrderDAO;
-import dao.OrderDetailsDAO;
-import dao.UserDAO;
+import dao.impl.OrderDAO;
+import dao.impl.OrderDetailsDAO;
+import dao.impl.UserDAO;
 import service.IUserService;
 import service.impl.UserServiceImpl;
 import model.*;

@@ -31,11 +31,10 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.SaleProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="dao.SellingProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="dao.NewProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.SaleProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.SellingProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.NewProductDAO" scope="request"></jsp:useBean>
     <jsp:useBean id="d" class="model.ProductType" scope="request"></jsp:useBean>
-
 </head>
 <body>
 <!-- HEADER -->
