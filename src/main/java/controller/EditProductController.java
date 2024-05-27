@@ -1,8 +1,8 @@
 package controller;
 
-import dao.ProducerDAO;
-import dao.ProductDAO;
-import dao.ProductTypeDAO;
+import dao.impl.ProducerDAO;
+import dao.impl.ProductDAO;
+import dao.impl.ProductTypeDAO;
 import model.Producer;
 import model.Product;
 import model.ProductType;

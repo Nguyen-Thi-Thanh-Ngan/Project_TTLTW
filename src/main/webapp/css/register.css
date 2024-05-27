@@ -23,7 +23,8 @@ body{
     background-color: #fff;
     border-radius: 10px;
     text-align:  center;
-    box-shadow: 0 20px 35px rgba(0,0,0,0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+    position: relative;
 }
 h1{
     font-size: 2rem;
@@ -58,16 +59,13 @@ form select {
     background: #e4e4e4;
 }
 button{
-    /*font-size:1rem;*/
-    /*margin-top:1.8rem;*/
     padding:10px 0;
     border-radius: 20px;
     outline:none;
     width: 90%;
     color:#fff;
-    /*cursor:pointer;*/
+    cursor:pointer;
     background: #D10024;
-    /*border: none;*/
 }
 button:hover{
     background: #af011a;
@@ -135,9 +133,6 @@ input:focus{
     font-family: 'Arial', sans-serif;
 }
 
-.wrapper {
-    text-align: center;
-}
 .success-message a {
     color: rgb(17,107,143);
     text-decoration: none; /* Remove underline */

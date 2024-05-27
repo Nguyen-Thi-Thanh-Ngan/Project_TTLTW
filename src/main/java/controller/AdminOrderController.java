@@ -1,7 +1,7 @@
 package controller;
 
-import dao.OrderDAO;
-import dao.UserDAO;
+import dao.impl.OrderDAO;
+import dao.impl.UserDAO;
 import model.Order;
 
 import javax.servlet.ServletException;

@@ -1,11 +1,11 @@
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%@ page import="DAO.OrderDAO" %>
-<%@ page import="Model.Order" %>
-<%@ page import="Model.OrderDetails" %>
-<%@ page import="DAO.OrderDetailsDAO" %>
+<%@ page import="dao.impl.OrderDAO" %>
+<%@ page import="model.Order" %>
+<%@ page import="model.OrderDetails" %>
+<%@ page import="dao.impl.OrderDetailsDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="DAO.ProductDAO" %>
+<%@ page import="dao.impl.ProductDAO" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">

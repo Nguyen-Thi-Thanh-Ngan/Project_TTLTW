@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<% List<Product> data = (List<Product>) request.getAttribute("list");%>
+<% List<Product> data = (List<Product>) request.getAttribute("listProduct");%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,21 +33,15 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="dao.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="dao.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.ProductTypeDAO" scope="request"></jsp:useBean>
 
 </head>
 <body>
-<!-- HEADER -->
 <jsp:include page="header.jsp"/>
-<!-- /HEADER -->
-
-<!-- MENU -->
 <jsp:include page="menu.jsp"/>
-<!-- /MENU -->
 
-<!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
     <!-- container -->
     <div class="container">

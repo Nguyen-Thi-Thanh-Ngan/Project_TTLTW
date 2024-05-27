@@ -36,7 +36,7 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
 
-    <jsp:useBean id="a" class="dao.NewProductDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.NewProductDAO" scope="request"/>
 </head>
 <body>
 <!-- HEADER -->

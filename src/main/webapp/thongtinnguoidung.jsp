@@ -1,6 +1,6 @@
 <%@ page import="model.User" %>
-<%@ page import="dao.UserDAO" %>
-<%@ page import="dao.OrderDAO" %>
+<%@ page import="dao.impl.UserDAO" %>
+<%@ page import="dao.impl.OrderDAO" %>
 <%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.OrderDetails" %>
@@ -37,7 +37,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.UserDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.UserDAO" scope="request"/>
 
     <style>
         .top, .card-content th{

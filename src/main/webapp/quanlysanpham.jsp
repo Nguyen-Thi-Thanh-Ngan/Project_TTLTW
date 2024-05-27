@@ -1,8 +1,8 @@
 <%@ page import="model.Product" %>
-<%@ page import="dao.ProductDAO" %>
+<%@ page import="dao.impl.ProductDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="dao.ProductTypeDAO" %>
-<%@ page import="dao.ProducerDAO" %>
+<%@ page import="dao.impl.ProductTypeDAO" %>
+<%@ page import="dao.impl.ProducerDAO" %>
 <%@ page import="java.util.Objects" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -33,9 +33,9 @@
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
-    <jsp:useBean id="a" class="dao.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="dao.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="dao.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.ProductTypeDAO" scope="request"></jsp:useBean>
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -523,7 +523,7 @@
         const productCode = arrayInfoData.eq(5).text();
         const urlImage = arrayInfoData.eq(6).find("img").attr("src");
 
-        console.log(price.substring(0, price.length - 4).replaceAll("/.", ""));
+        console.loger(price.substring(0, price.length - 4).replaceAll("/.", ""));
         $.ajax({
             url: "edit",
             type: "Post",
@@ -538,19 +538,19 @@
             },
             dataType: "json",
             success: function (data) {
-                console.log(data);
-                console.log(id)
-                console.log(name)
-                console.log(price)
-                console.log(model)
-                console.log(inventory)
-                console.log(productCode)
-                console.log(urlImage)
+                console.loger(data);
+                console.loger(id)
+                console.loger(name)
+                console.loger(price)
+                console.loger(model)
+                console.loger(inventory)
+                console.loger(productCode)
+                console.loger(urlImage)
             }
         })
 
 
-        console.log(`Hello ${id}`);
+        console.loger(`Hello ${id}`);
         $('#editForm input[name="id"]').val(productId);
     });
 

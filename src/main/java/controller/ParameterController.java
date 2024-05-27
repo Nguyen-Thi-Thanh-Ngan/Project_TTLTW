@@ -1,7 +1,7 @@
 package controller;
 
 
-import dao.ParameterDAO;
+import dao.impl.ParameterDAO;
 import model.Parameter;
 
 import javax.servlet.ServletException;
