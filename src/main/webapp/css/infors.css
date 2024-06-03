@@ -38,13 +38,20 @@ body{
     border-radius: 10px;
 }
 .row .detail{
-    height: 330px;
+    height: 280px;
+    width: 777px;
 }
-.row .detail .card-content{
+.row .detail .card-content, .card-content-his{
     border-top: 4px solid #761c19;
     border-bottom: 4px solid #761c19;
-    max-height: 300px;
+    max-height: 250px;
     overflow: auto;
+}
+.card-content-his{
+    max-height: 146px;
+}
+.top, .card-content th, .card-content-his th{
+    color: white;
 }
 thead tr{
     background-color: #a94442;
@@ -70,12 +77,11 @@ th, td{
     font-weight: bolder;
     padding: 10px;
 }
-.row .order-detail .history{
-    height: 70px;
+.row .history{
+    height: 95px;
 }
 .row .order-detail .history .complete{
     border: 1px solid;
-    max-height: 50px;
     overflow: auto;
 }
 .fa-circle-right {
