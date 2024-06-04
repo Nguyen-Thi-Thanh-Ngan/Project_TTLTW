@@ -18,7 +18,6 @@
           content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <!-- Import lib -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -29,7 +28,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="./css/style.css"/>
-    <!-- End import lib -->
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
@@ -183,7 +181,8 @@
                     </div>
                     <a href="#addEmployeeModal" class="btn" data-toggle="modal"
                        style="background-color: #d10024; color: white">
-                        <span>Thêm sản phẩm mới</span></a>
+                        <span>Thêm sản phẩm mới</span>
+                    </a>
 
                 </div>
                 <div class="card-content">
@@ -487,10 +486,10 @@
 
 <!-- import script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="js/admin.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="js/admin.js"></script>
 <!-- end import script -->
 
 <!--Script-->
@@ -538,14 +537,14 @@
             },
             dataType: "json",
             success: function (data) {
-                console.loger(data);
-                console.loger(id)
-                console.loger(name)
-                console.loger(price)
-                console.loger(model)
-                console.loger(inventory)
-                console.loger(productCode)
-                console.loger(urlImage)
+                console.log(data);
+                console.log(id)
+                console.log(name)
+                console.log(price)
+                console.log(model)
+                console.log(inventory)
+                console.log(productCode)
+                console.log(urlImage)
             }
         })
 

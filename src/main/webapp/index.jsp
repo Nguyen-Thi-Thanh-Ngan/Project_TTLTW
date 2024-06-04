@@ -59,7 +59,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Adapter<br> Cáp sạc</h3>
-                        <a href="type?idProductType=Pt_1" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?id=Pt_1" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -73,7 +73,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Tai nghe</h3>
-                        <a href="type?idProductType=Pt_3"  class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?id=Pt_3"  class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -87,7 +87,7 @@
                     </div>
                     <div class="shop-body">
                         <h3>Ốp lưng</h3>
-                        <a href="type?idProductType=Pt_2" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
+                        <a href="type?id=Pt_2" class="cta-btn">Đến ngay <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
             </div>
@@ -140,7 +140,7 @@
                                             </div>
                                         </div>
                                         <div class="add-to-cart">
-                                            <form action="addcart" method="post">
+                                            <form action="add-cart" method="post">
                                                 <input type="hidden" name="id" value="${ productNew.product.id }">
                                                 <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                                             </form>
@@ -201,7 +201,7 @@
                                         <div class="product-rating"></div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <form action="addcart" method="post">
+                                        <form action="add-cart" method="post">
                                             <input type="hidden" name="id" value="${ productSelling.product.id }">
                                             <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                                         </form>
@@ -256,10 +256,10 @@
                                                               pattern="#,##0" var="formattedDiscount"/>
                                             <h4 class="product-price">${formattedPrice} VNĐ</h4>
                                             <h6 class="product-btns"> Giảm ngay: ${formattedDiscount} VND</h6>
-                                            <div class="product-rating"></div>
+                                            <div class="product-rating"></div>j
                                         </div>
                                         <div class="add-to-cart">
-                                            <form action="addcart" method="post">
+                                            <form action="add-cart" method="post">
                                                 <input type="hidden" name="id" value="${ productSale.product.id}">
                                                 <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                                             </form>

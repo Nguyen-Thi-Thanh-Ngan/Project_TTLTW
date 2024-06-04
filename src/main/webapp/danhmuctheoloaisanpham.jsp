@@ -125,7 +125,7 @@
                                 </div>
                             </div>
                             <div class="add-to-cart">
-                                <form action="addcart" method="post">
+                                <form action="add-cart" method="post">
                                     <input type="hidden" name="id" value="<%= p.getId() %>">
                                     <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                                 </form>

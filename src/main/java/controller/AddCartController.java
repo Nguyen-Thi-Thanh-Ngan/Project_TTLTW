@@ -11,7 +11,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 
-@WebServlet(name = "AddCartController", value = "/addcart")
+@WebServlet(name = "AddCartController", value = "/add-cart")
 public class AddCartController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -29,7 +29,6 @@ public class AddCartController extends HttpServlet {
         cart.add(id);
         session.setAttribute("cart", cart);
         response.sendRedirect("giohang.jsp");
-
     }
 }
 

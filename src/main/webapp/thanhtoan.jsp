@@ -36,10 +36,17 @@
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+    <script src="js/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet"/>
 
 
     <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
     <jsp:useBean id="b" class="dao.impl.OrderDAO" scope="request"/>
+    <style>
+        .custom-select-height {
+            height: 50px; /* Bạn có thể thay đổi giá trị này */
+        }
+    </style>
 </head>
 <body>
 
@@ -94,9 +101,27 @@
                             <input class="input" type="email" name="email" placeholder="Email" required
                                    value="${email}">
                         </div>
+                        <div class="container-address col-12"
+                             style="display: flex; flex-direction: row; justify-content: space-between">
+                            <div class="form-group col-3">
+                                <select class="form-select p-3" id="province-select" name="province">
+                                    <option value="">--Chọn Tỉnh Thành--</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-3">
+                                <select class="form-select p-3" id="district-select" name="district">
+                                    <option value="">--Chọn Quận Huyện--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-3">
+                                <select class="form-select p-3" id="ward-select" name="ward">
+                                    <option value="">--Chọn Phường Xã--</option>
+                                </select>
+                            </div>
+                        </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng"
-                                   required>
+                            <input class="input" name="address" placeholder="Địa chỉ nhà" required
+                                   value="${address}">
                         </div>
                         <div class="form-group">
                             <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
@@ -155,7 +180,7 @@
                         <% }%>
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
-                            <div><strong>Miễn Phí</strong></div>
+                            <div id="fee-delivery"><strong>Miễn Phí</strong></div>
                         </div>
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
@@ -178,7 +203,8 @@
                                 Chuyển khoản trực tiếp
                             </label>
                             <div class="caption">
-                                <p>Quý khách vui lòng quét mã để chuyển khoản với nội dung: Họ tên người mua + số điện thoại</p>
+                                <p>Quý khách vui lòng quét mã để chuyển khoản với nội dung: Họ tên người mua + số điện
+                                    thoại</p>
                                 <img id="qr_code" alt="qr_code" src="" style="width: 200px; height: 200px"/>
                             </div>
                         </div>
@@ -236,20 +262,19 @@
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
+
 <script src="js/bootstrap.min.js"></script>
 <script src="js/slick.min.js"></script>
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
-
+<script src="js/fetchAPIAddress.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
     $("#payment-1").change(() => {
         var productPriceText = $('.product-price.total').text();
         productPriceText = productPriceText.replace(' VNĐ', '');
-        console.loger(productPriceText)
         productPriceText = productPriceText.replace('.', '');
-        console.loger(productPriceText)
         var price = parseInt(productPriceText);
         payByVNPay(price);
     });
@@ -280,7 +305,7 @@
                 'x-api-key': '1afe4e54-e325-4296-9a1e-5027fcd70bfb',
                 'Content-Type': 'application/json'
             },
-            data:{
+            data: {
                 "accountNo": "022042003",
                 "accountName": "Nguyễn Thanh Bình",
                 "acqId": "970422",

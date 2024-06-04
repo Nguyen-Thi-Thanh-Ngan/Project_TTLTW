@@ -21,7 +21,7 @@
 </head>
 <body>
 <!-- HEADER -->
-<header>
+<header >
     <!-- TOP HEADER -->
     <div id="top-header">
         <div class="container">
