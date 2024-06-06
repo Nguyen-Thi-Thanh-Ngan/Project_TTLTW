@@ -1,4 +1,4 @@
-    <%@ page import="Cart.Cart" %>
+<%@ page import="Cart.Cart" %>
 <%@ page import="Cart.CartProduct" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Product" %>
@@ -38,6 +38,13 @@
     <jsp:useBean id="a" class="DAO.NewProductDAO" scope="request"/>
 </head>
 <body>
+<style>
+    input[type=checkbox], input[type=radio] {
+        height: 20px;
+        width: 20px;
+
+    }
+</style>
 <!-- HEADER -->
 <jsp:include page="header.jsp"/>
 <!-- /HEADER -->
@@ -80,6 +87,7 @@
             <table class="table table-hover border bg-white">
                 <thead>
                 <tr>
+                    <input type="checkbox" id="selectAll" onchange="selectAll()"> Chọn tất cả<br>
                     <th>
                         <h4><b>Thông tin sản phẩm</b></h4>
                     </th>
@@ -99,10 +107,18 @@
 
                 </thead>
                 <tbody>
-
                 <% for (CartProduct cartProduct : cartProducts) { %>
+
+
                 <tr>
                     <td>
+
+
+                        <input type="checkbox" name="selectedProducts" value="<%= cartProduct.getProduct().getId() %>"
+                               data-price="<%= cartProduct.getProduct().getPrice() %>"
+                               data-quantity="<%= cartProduct.getQuantity() %>"
+                               onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
+
                         <div class="row">
                             <div class="col-lg-2 Product-img">
                                 <img src="<%=cartProduct.getProduct().getImg()%>" alt="..." class="img-responsive"/>
@@ -113,6 +129,7 @@
                                 <p></p>
                             </div>
                         </div>
+
                     </td>
                     <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number" pattern="#,##0"
                                       var="formattedPrice"/>
@@ -120,7 +137,7 @@
                     <%--                        Cập nhật số lượng--%>
                     <td data-th="Quantity">
                         <form action="updatecart" method="post">
-                            <table class="table table-hover border bg-white" >
+                            <table class="table table-hover border bg-white">
                                 <td style="border: none"><b> <input type="text" name="quantity1"
                                                                     value="<%= cartProduct.getQuantity() %>"
                                                                     style="width: 45px"> </b>
@@ -180,6 +197,7 @@
                     <td colspan="2" class="hidden-xs"></td>
 
                     <td class="hidden-xs text-center" style="width:10%;">
+
                         <%--                        tính tổng tiền tất cả sản phẩm--%>
                         <%
                             double totalAmount = 0;
@@ -194,7 +212,9 @@
                         <%--                        tính tổng tiền tất cả sản phẩm--%>
                         <fmt:formatNumber value="<%= totalAmount %>" type="number" pattern="#,##0"
                                           var="formattedPrice2"/>
-                        <strong>Tổng tiền : ${formattedPrice2} VND</strong>
+                            <span id="totalAmountLabel" style="font-weight: bold;">
+                            <strong>Tổng tiền : 0 VND</strong>
+                              </span>
                     </td>
 
                     <td><a href="thanhtoan.jsp" class="btn btn-success btn-block"> Thanh toán <i
@@ -232,6 +252,38 @@
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+    function updateTotalAmount() {
+        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
+        var totalAmount = 0;
 
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                var price = checkboxes[i].getAttribute('data-price');
+                var quantity = checkboxes[i].getAttribute('data-quantity');
+                var productTotal = price * quantity;
+                totalAmount += productTotal;
+            }
+        }
+
+        var formattedTotalAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount);
+        formattedTotalAmount = formattedTotalAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        formattedTotalAmount = formattedTotalAmount.replace('₫', ' VND');
+        document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
+    }
+
+
+</script>
+<script>
+    function selectAll() {
+        var checkboxes = document.getElementsByName('selectedProducts');
+        var selectAllCheckbox = document.getElementById('selectAll');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            checkboxes[i].checked = selectAllCheckbox.checked;
+        }
+        updateTotalAmount();
+    }
+</script>
 </body>
 </html>

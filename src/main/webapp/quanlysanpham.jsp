@@ -26,9 +26,19 @@
     <link rel="stylesheet" type="text/css" href="./css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
-    <!-- End import lib -->
 
+    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
+
+    <!-- End import lib -->
+    <!-- Styles -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
     <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
@@ -173,7 +183,8 @@
                     </h3>
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
                         <span>Thêm sản phẩm mới</span></a>
-
+                    <a href="#importProduct" class="btn btn-success" data-toggle="modal" style="margin-left: 20px">
+                        <span>Nhập hàng</span></a>
                 </div>
                 <div class="card-content">
                     <table>
@@ -217,7 +228,8 @@
                                 <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
                             </td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal" data-product-id="<%=p.getId()%>">
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-product-id="<%=p.getId()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
@@ -373,8 +385,41 @@
     <!--/ Add -->
 </div>
 <!-- end main content -->
+<div id="importProduct" class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form action="" method="post">
+                <div class="modal-header">
+                    <h4 class="modal-title">Nhập hàng</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label>Tên sản phẩm</label>
+                        <select class="chosen w-100" style="width: 300px;>
+                            <option value="1">11</option>
+                            <option value="2">22</option>
+                            <option value="3">33</option>
+                            <option value="4">44</option>
+                        </select>
 
+                    </div>
+                    <div class=" form-group">
+                        <label> Số lượng </label>
+                        <input name="quantity" type="number" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                    <input type="submit" class="btn btn-success" value="Thêm">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 <!-- Modal Thông báo-->
+
+
 
 <!-- Modal Thông báo Xóa Thành Công -->
 <div id="deleteSuccessModal" class="modal fade">
@@ -438,7 +483,7 @@
 <!-- import script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="js/admin.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<%--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--%>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- end import script -->
@@ -446,6 +491,15 @@
 <!--Script-->
 <!--Script Xóa Sản Phẩm-->
 <script>
+    function showProductList() {
+        var productList = document.getElementById('productList');
+        if (productList.style.display === 'none') {
+            productList.style.display = 'block';
+        } else {
+            productList.style.display = 'none';
+        }
+    }
+
     function deleteProduct(productId) {
         document.getElementById('productIdToDelete').value = productId;
         $('#deleteEmployeeModal').modal('show');
@@ -509,8 +563,11 @@
     });
 </script>
 <!--Script Thông báo Thêm Sản Phẩm-->
-
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('.chosen').chosen();
+    });
+</script>
 <!-- Script -->
-
 </body>
 </html>

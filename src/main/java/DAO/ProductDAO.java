@@ -14,6 +14,37 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 public class ProductDAO implements DAOInterface<Product> {
+    public int importProduct(String product_id, int quantity) {
+        int inventory = 0;
+        try {
+            // Bước 1: tạo kết nối đến CSDL
+            Connection con = JDBCUtil.getConnection();
+
+            // Bước 2: tạo ra đối tượng statement
+            String sql = "insert into import_products(id, product_id, quantity) values (0, ?, ?) ";
+
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, product_id);
+            st.setInt(2, quantity);
+
+
+            inventory = st.executeUpdate();
+            // Bước 3: thực thi câu lệnh SQL
+            System.out.println("Them Thanh cong");
+
+            // Bước 5:
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+        return inventory;
+
+    }
+
+
     @Override
     public List<Product> selectAll() {
         List<Product> products = JDBIConector.me().withHandle((handle -> {
@@ -62,6 +93,7 @@ public class ProductDAO implements DAOInterface<Product> {
         }));
         return products;
     }
+
     public static Product getById(String id) {
         Optional<Product> product = JDBIConector.me().withHandle((handle ->
                 handle.createQuery("SELECT id, name, price, product_type_id, quantity," +
@@ -148,6 +180,7 @@ public class ProductDAO implements DAOInterface<Product> {
 
         return products;
     }
+
     @Override
     public int insert(Product product) {
         int ketQua = 0;
@@ -569,6 +602,7 @@ public class ProductDAO implements DAOInterface<Product> {
 
         return ketQua;
     }
+
     public static Product selectbyId(String id) {
         Optional<Product> product = JDBIConector.me().withHandle((handle ->
                 handle.createQuery("SELECT id, name, price, product_type_id, quantity," +
@@ -591,12 +625,14 @@ public class ProductDAO implements DAOInterface<Product> {
         ));
         return product.isEmpty() ? null : product.get();
     }
+
     public static void main(String[] args) {
         ProductDAO p = new ProductDAO();
 //        System.out.println(searchByName("Loa siêu trầm JBL PASION 12SP 300W"));
         System.out.println(getById("100"));
 //        System.out.println(p.selectAll());
-
+        p.importProduct("10", 100);
     }
+
 
 }

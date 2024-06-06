@@ -9,6 +9,52 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class OrderDAO implements DAOInterface<Order> {
+    public Order selectByOrderID(String id) {
+        try {
+            return JDBIConector.me().withHandle(handle ->
+                    handle.createQuery("SELECT * FROM orders WHERE id=?")
+                            .bind(0, id)
+                            .map((rs, ctx) -> {
+                                String orderId = rs.getString("id");
+                                String userId = rs.getString("user_id");
+                                String address = rs.getString("delivery_address");
+                                String orderStatus = rs.getString("order_status");
+                                String paymentMethod = rs.getString("payment_method");
+                                Date orderDate = rs.getDate("order_date");
+                                Date deliveryDate = rs.getDate("delivery_date");
+
+                                User user = new UserDAO().selectById(new User(userId, null, null, null, null, null, null, null, null, null));
+                                return new Order(orderId, user, address, orderStatus, paymentMethod, orderDate, deliveryDate);
+                            })
+                            .findFirst()
+                            .orElse(null)
+            );
+        } catch (Exception e) {
+            e.printStackTrace(); // In ra lỗi để debug
+            return null;
+        }
+    }
+    public Order updateStatus(String id, String status) {
+        int ketQua = 0;
+        try {
+            Connection con = JDBCUtil.getConnection();
+            String sql = "UPDATE orders SET order_status = ? WHERE id = ?";
+            PreparedStatement st = con.prepareStatement(sql);
+            st.setString(1, status);
+            st.setString(2, id);
+            ketQua = st.executeUpdate();
+            System.out.println("Bạn đã thực thi: " + sql);
+            System.out.println("Có " + ketQua + " dòng bị thay đổi!");
+
+            JDBCUtil.closeConnection(con);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
     @Override
     public List<Order> selectAll() {
         List<Order> ketQua = JDBIConector.me().withHandle((handle ->
@@ -65,6 +111,30 @@ public class OrderDAO implements DAOInterface<Order> {
             );
         } catch (Exception e) {
             e.printStackTrace(); // In ra lỗi để debug
+            return null;
+        }
+    }
+    public List<Order> selectByStatus(String status) {
+        try {
+            return JDBIConector.me().withHandle(handle ->
+                    handle.createQuery("SELECT * FROM orders WHERE order_status = :status")
+                            .bind("status", status)
+                            .map((rs, ctx) -> {
+                                String orderId = rs.getString("id");
+                                String userId = rs.getString("user_id");
+                                String address = rs.getString("delivery_address");
+                                String orderStatus = rs.getString("order_status");
+                                String paymentMethod = rs.getString("payment_method");
+                                Date orderDate = rs.getDate("order_date");
+                                Date deliveryDate = rs.getDate("delivery_date");
+
+                                User user = new UserDAO().selectById(new User(userId, null, null, null, null, null, null, null, null, null));
+                                return new Order(orderId, user, address, orderStatus, paymentMethod, orderDate, deliveryDate);
+                            })
+                            .list()
+            );
+        } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
@@ -245,7 +315,6 @@ public class OrderDAO implements DAOInterface<Order> {
 
         return ketQua;
     }
-
     public int countOrdersInMonth(LocalDate localDate) {
         int count = 0;
         try {
@@ -318,7 +387,6 @@ public class OrderDAO implements DAOInterface<Order> {
 //       }
 //        System.out.println();
 
-        System.out.println(getByIdUser("u_3"));
-
+        System.out.println(orderDAO.selectByOrderID("or_1711955239956"));
     }
 }

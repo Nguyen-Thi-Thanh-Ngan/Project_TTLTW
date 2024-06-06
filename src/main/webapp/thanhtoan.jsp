@@ -137,7 +137,7 @@
                             double totalAmout = 0;
                             if (cart != null) {
                                 for (CartProduct cartProduct : cartProducts) {
-                                    totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
+                                        totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
                         %>
                         <div class="order-products">
                             <div class="order-col">
