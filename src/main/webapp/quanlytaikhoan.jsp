@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -184,21 +185,24 @@
                             <tr>
                                 <td>${item.id}</td>
                                 <td>${item.name}</td>
-                                <td>${item.phone_number}</td>
-                                <td>${item.birth_day}</td>
+                                <td>${item.phoneNumber}</td>
+                                <td>${item.birthDay}</td>
                                 <td>${item.sex}</td>
                                 <td>${item.email}</td>
-                                <td>${item.user_name}</td>
-                                <td>${item.password}</td>
+                                <td>${item.userName}</td>
+                                <c:set var="passwordLength" value="${fn:length(item.password)}"/>
+                                <td class="hide-password">
+                                    <c:forEach var="index" begin="1" end="${passwordLength}">&#x25cf;</c:forEach>
+                                </td>
                                 <td>
                                     <a href="#"
                                        data-id="${item.id}"
                                        data-name="${item.name}"
-                                       data-phone_number="${item.phone_number}"
-                                       data-birth_day="${item.birth_day}"
+                                       data-phone_number="${item.phoneNumber}"
+                                       data-birth_day="${item.birthDay}"
                                        data-sex="${item.sex}"
                                        data-email="${item.email}"
-                                       data-user_name="${item.user_name}"
+                                       data-user_name="${item.userName}"
                                        data-password="${item.password}"
                                        class="edit"
                                        data-toggle="modal">
@@ -369,13 +373,13 @@
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- end import script -->
 <script>
-    $('.delete').off('click').on('click', function (e){
+    $('.delete').off('click').on('click', function (e) {
         e.preventDefault();
         var btn = $(this);
         $('#idDel').val(btn.data('id'));
         $('#deleteEmployeeModal').modal('show');
     });
-    $('.edit').off('click').on('click', function (e){
+    $('.edit').off('click').on('click', function (e) {
         e.preventDefault();
         var btn = $(this);
         $.ajax({
@@ -395,20 +399,21 @@
                 $('#editEmployeeModal').modal('show');
             },
             error: (rs) => {
-                console.log(rs);
+                console.loger(rs);
             }
         });
 
     });
-    $('#btnDel').on('click', function (){
+    $('#btnDel').on('click', function () {
         alert('Xóa tài khoản thành công');
     });
-    $('#edit').on('submit', function (){
+    $('#edit').on('submit', function () {
         alert('Cập nhập tài khoản thành công');
     });
-    $('#add').on('submit', function (){
+    $('#add').on('submit', function () {
         alert('Thêm tài khoản thành công');
     });
+
     function removeAscent(str) {
         str = str.trim();
         if (str === null || str === undefined) {
@@ -424,7 +429,8 @@
         str = str.replace(/đ/gi, "d");
         return str;
     }
-    $('#btnAdd').on('click', function (){
+
+    $('#btnAdd').on('click', function () {
         let name = $('#addName').val();
         let address = $('#addAddress').val();
         let date = $('#addDate').val();
@@ -432,7 +438,7 @@
         let email = $('#addEmail').val();
         let user = $('#addUser').val();
         let password = $('#addPassword').val();
-        if(!name || !address || !date || !phone || !email || !user || !password){
+        if (!name || !address || !date || !phone || !email || !user || !password) {
             alert('Hãy nhập đầy đủ thông tin!');
             return;
         }
@@ -451,28 +457,28 @@
             dataType: "json",
             method: "GET",
             success: (rs) => {
-                if(rs){
+                if (rs) {
                     $.ajax({
                         url: "/account/add?user=" + $('#addUser').val(),
                         dataType: "json",
                         method: "PUT",
                         success: (rs) => {
-                            if(rs){
+                            if (rs) {
                                 $('#add').submit();
-                            }else{
+                            } else {
                                 alert("Username đã tồn tại, vui lòng nhập username khác");
                             }
                         },
                         error: (rs) => {
-                            console.log(rs);
+                            console.loger(rs);
                         }
                     });
-                }else{
+                } else {
                     alert("Email đã tồn tại, vui lòng nhập email khác");
                 }
             },
             error: (rs) => {
-                console.log(rs);
+                console.loger(rs);
             }
         });
     });

@@ -1,8 +1,8 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="Model.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Cart.CartProduct" %>
-<%@ page import="Cart.Cart" %>
+<%@ page import="cart.CartProduct" %>
+<%@ page import="cart.Cart" %>
 <%@ page import="java.util.HashMap" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -38,8 +38,8 @@
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 
-    <jsp:useBean id="a" class="DAO.OrderDetailsDAO" scope="request"/>
-    <jsp:useBean id="b" class="DAO.OrderDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
+    <jsp:useBean id="b" class="dao.impl.OrderDAO" scope="request"/>
 </head>
 <body>
 
@@ -132,27 +132,20 @@
                             <div><strong>SẢN PHẨM</strong></div>
                             <div><strong>GIÁ</strong></div>
                         </div>
-                        <%
-                            List<Product> selectedProducts = (List<Product>) session.getAttribute("selectedProducts");
-                            double totalAmount = 0;
-                            if (selectedProducts != null) {
-                                for (Product product : selectedProducts) {
-                                    totalAmount += product.getPrice();
+                        <% Cart cart = (Cart) session.getAttribute("cart");
+                            List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;
+                            double totalAmout = 0;
+                            if (cart != null) {
+                                for (CartProduct cartProduct : cartProducts) {
+                                    totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
                         %>
-<%--                        <% Cart cart = (Cart) session.getAttribute("cart");--%>
-<%--                            List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;--%>
-<%--                            double totalAmout = 0;--%>
-<%--                            if (cart != null) {--%>
-<%--                                for (CartProduct cartProduct : cartProducts) {--%>
-<%--                                    totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();--%>
-<%--                        %>--%>
                         <div class="order-products">
                             <div class="order-col">
-                                <div><%= product.getQuantity() %>X</div>
-                                <div><%= product.getName() %>
+                                <div><%= cartProduct.getQuantity() %>X</div>
+                                <div><%= cartProduct.getProduct().getName() %>
                                 </div>
                                 <div>
-                                    <fmt:formatNumber value="<%=product.getPrice()%>" type="number"
+                                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number"
                                                       pattern="#,##0"
                                                       var="formattedPrice"/>
                                     <h5 class="product-price">${formattedPrice} VNĐ</h5>
@@ -167,16 +160,15 @@
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
                             <div>
-                                <strong class="order-total"><fmt:formatNumber value="<%=totalAmount%>" type="number"
+                                <strong class="order-total"><fmt:formatNumber value="<%=totalAmout%>" type="number"
                                                                               pattern="#,##0"
                                                                               var="formattedPrice"/>
                                     <h5 class="product-price total">${formattedPrice} VNĐ</h5></strong>
                             </div>
                         </div>
-                        <% }%>
                     </div>
-<%--                    <% } else {--%>
-<%--                    }%>--%>
+                    <% } else {
+                    }%>
                     <h5>HÌNH THỨC THANH TOÁN</h5>
                     <div class="payment-method">
                         <div class="input-radio">
@@ -255,9 +247,9 @@
     $("#payment-1").change(() => {
         var productPriceText = $('.product-price.total').text();
         productPriceText = productPriceText.replace(' VNĐ', '');
-        console.log(productPriceText)
+        console.loger(productPriceText)
         productPriceText = productPriceText.replace('.', '');
-        console.log(productPriceText)
+        console.loger(productPriceText)
         var price = parseInt(productPriceText);
         payByVNPay(price);
     });
@@ -266,9 +258,6 @@
         var orderForm = document.getElementById('orderForm');
         var selectedPayment = document.querySelector('input[name="payment"]:checked');
         var checkbox = document.getElementById('terms');
-        // if () {
-        //
-        // }
         if (checkbox.checked && orderForm.checkValidity() && selectedPayment) {
             $('#oderEmployeeModal').modal('show');
 

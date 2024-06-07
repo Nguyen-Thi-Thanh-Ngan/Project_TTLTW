@@ -1,4 +1,4 @@
-<%@ page import="Model.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -34,9 +34,9 @@
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 
-    <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="DAO.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="DAO.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.ProductTypeDAO" scope="request"></jsp:useBean>
 
 </head>
 <body>
@@ -94,7 +94,7 @@
                     <div class="checkbox-filter">
                         <c:forEach items="${c.selectAll()}" var="productType">
                             <div class="input-checkbox">
-                                <a href="type?idProductType=${productType.id}">${productType.name}</a>
+                                <a href="type?id=${productType.id}">${productType.name}</a>
                             </div>
                         </c:forEach>
                     </div>

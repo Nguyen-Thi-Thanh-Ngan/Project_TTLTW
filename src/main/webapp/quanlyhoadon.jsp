@@ -1,9 +1,9 @@
 
-<%@ page import="Model.Order" %>
+<%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.User" %>
-<%@ page import="DAO.UserDAO" %>
-<%@ page import="DAO.OrderDAO" %>
+<%@ page import="model.User" %>
+<%@ page import="dao.impl.UserDAO" %>
+<%@ page import="dao.impl.OrderDAO" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="service.impl.UserServiceImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -172,9 +172,15 @@
                             <td><%=order.getDeliveryDate()%>
                             </td>
                             <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"><i class="material-icons"
-                                                                                                 data-toggle="tooltip"
-                                                                                                 title="Edit">&#xE254;</i></a>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-order-id="<%=order.getId()%>"
+                                   data-order-user-id="<%=order.getUser().getId()%>"
+                                   data-order-address="<%=order.getAddress()%>"
+                                   data-order-status="<%=order.getStatus()%>"
+                                   data-order-payment="<%=order.getPayment()%>"
+                                   data-order-order-date="<%=order.getOrderDate()%>"
+                                   data-order-delivery-date="<%=order.getDeliveryDate()%>">
+                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
                             </td>
                         </tr>
                         <%}%>
@@ -196,19 +202,11 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>#</label>
-                            <input type="text" name="id" class="form-control" required>
+                            <input type="text" name="id" class="form-control" required readonly>
                         </div>
                         <div class="form-group">
                             <label>Mã khách hàng</label>
-                            <select name="userId" class="form-control" required>
-                                <option value="" disabled selected>Chọn mã khách hàng</option>
-                                <% List<User> u1 = new UserDAO().selectAll();
-                                    for (User user : u1) {%>
-                                <option value="<%= user.getId() %>"><%= user.getId() %></option>
-                                <%
-                                    }
-                                %>
-                            </select>
+                            <input type="text" name="userId" class="form-control" required readonly>
                         </div>
                         <div class="form-group">
                             <label>Địa chỉ giao hàng</label>
@@ -217,22 +215,19 @@
                         <div class="form-group">
                             <label>Trạng thái đơn hàng</label>
                             <select name="status" class="form-control" required>
-                                <option value="" disabled selected>Trạng thái</option>
-                                <option value="Xác nhận đơn hàng">Xác nhận đơn hàng</option>
-                                <option value="Chuẩn bị đơn hàng">Chuẩn bị đơn hàng</option>
-                                <option value="Đang giao">Đang giao</option>
-                                <option value="Hoàn tất">Hoàn tất</option>
-                                <option value="Hủy đơn hàng">Hủy đơn hàng</option>
+                                <option name="status" value="Xác nhận đơn hàng">Xác nhận đơn hàng</option>
+                                <option name="status" value="Chuẩn bị đơn hàng">Chuẩn bị đơn hàng</option>
+                                <option name="status" value="Đang giao">Đang giao</option>
+                                <option name="status" value="Hoàn tất">Hoàn tất</option>
+                                <option name="status" value="Hủy đơn hàng">Hủy đơn hàng</option>
                             </select>
                         </div>
                         <div class="form-group">
                             <label>Phương thức thanh toán</label>
                             <select name="payment" class="form-control" required>
-                                <option value="" disabled selected>Phương thức thanh toán</option>
-                                <option value="Chuyển khoản trực tiếp">Chuyển khoản trực tiếp</option>
-                                <option value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
+                                <option name="payment" value="Chuyển khoản trực tiếp">Chuyển khoản trực tiếp</option>
+                                <option name="payment" value="Thanh toán khi nhận hàng">Thanh toán khi nhận hàng</option>
                             </select>
-
                         </div>
                         <div class="form-group">
                             <label>Ngày đặt hàng</label>
@@ -327,5 +322,27 @@
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- end import script -->
+
+<script>
+    $('#editEmployeeModal').on('show.bs.modal', function (event){
+        var button = $(event.relatedTarget);
+        var orderId = button.data('order-id');
+        var orderUserId = button.data('order-user-id');
+        var orderAddress = button.data('order-address');
+        var orderStatus = button.data('order-status');
+        var orderPayment = button.data('order-payment');
+        var orderDate = button.data('order-order-date');
+        var orderDeliveryDate = button.data('order-delivery-date');
+
+        $('#editEmployeeModal input[name="id"]').val(orderId);
+        $('#editEmployeeModal input[name="userId"]').val(orderUserId);
+        $('#editEmployeeModal input[name="address"]').val(orderAddress);
+        $('#editEmployeeModal select[name="status"]').val(orderStatus);
+        $('#editEmployeeModal select[name="payment"]').val(orderPayment);
+        $('#editEmployeeModal input[name="dateOder"]').val(orderDate);
+        $('#editEmployeeModal input[name="doneDate"]').val(orderDeliveryDate);
+    })
+</script>
+
 </body>
 </html>

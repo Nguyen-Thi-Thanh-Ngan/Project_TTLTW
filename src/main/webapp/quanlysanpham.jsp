@@ -1,12 +1,13 @@
-<%@ page import="Model.Product" %>
-<%@ page import="DAO.ProductDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="dao.impl.ProductDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="DAO.ProductTypeDAO" %>
-<%@ page import="DAO.ProducerDAO" %>
+<%@ page import="dao.impl.ProductTypeDAO" %>
+<%@ page import="dao.impl.ProducerDAO" %>
 <%@ page import="java.util.Objects" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%List<Product> itemProduct = (List<Product>) request.getAttribute("item");%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -26,24 +27,15 @@
     <link rel="stylesheet" type="text/css" href="./css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
-
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/themes/smoothness/jquery-ui.css">
-
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.13.2/jquery-ui.min.js"></script>
-
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/style.css"/>
     <!-- End import lib -->
-    <!-- Styles -->
+
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
-    <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="DAO.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="DAO.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.ProductTypeDAO" scope="request"></jsp:useBean>
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -177,14 +169,22 @@
     <div class="row">
         <div class="col-8 col-m-12 col-sm-12">
             <div class="card">
-                <div class="card-header" style="display: flex">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; ">
                     <h3>
                         Quản lý sản phẩm
                     </h3>
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form action="admin-search" method="get">
+                                <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
+                                <input class="search-btn" type="submit" name="" value="Tìm kiếm">
+                            </form>
+                        </div>
+                    </div>
+                    <a href="#addEmployeeModal" class="btn" data-toggle="modal"
+                       style="background-color: #d10024; color: white">
                         <span>Thêm sản phẩm mới</span></a>
-                    <a href="#importProduct" class="btn btn-success" data-toggle="modal" style="margin-left: 20px">
-                        <span>Nhập hàng</span></a>
+
                 </div>
                 <div class="card-content">
                     <table>
@@ -201,10 +201,11 @@
                         </thead>
                         <tbody>
                         <%
-                            ProductDAO productDAO = new ProductDAO();
-                            List<Product> listProduct = productDAO.getAll();
-                            request.setAttribute("listAll", listProduct);
-                            for (Product p : listProduct) {
+                            if (itemProduct == null) {
+                                ProductDAO productDAO = new ProductDAO();
+                                List<Product> listProduct = productDAO.getAll();
+                                request.setAttribute("listAll", listProduct);
+                                for (Product p : listProduct) {
                         %>
                         <tr>
                             <td><%=p.getId()%>
@@ -238,6 +239,43 @@
                             </td>
                         </tr>
                         <%
+                            }
+                        } else {
+                            for (Product p : itemProduct) {
+                        %>
+                        <tr>
+                            <td><%=p.getId()%>
+                            </td>
+                            <td><%=p.getName()%>
+                            </td>
+                            <td>
+                                <div>
+                                    <fmt:formatNumber value="<%=p.getPrice()%>" type="number" pattern="#,##0"
+                                                      var="formattedPrice"/>
+                                    <h6 class="product-price">${formattedPrice} VNĐ</h6>
+                                </div>
+                            </td>
+                            <td><%=p.getProductType().getId()%>
+                            </td>
+                            <td><%=p.getQuantity()%>
+                            </td>
+                            <td><%=p.getProducer().getId()%>
+                            </td>
+                            <td>
+                                <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
+                            </td>
+                            <td>
+                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
+                                   data-product-id="<%=p.getId()%>">
+                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
+
+                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
+                                   onclick="deleteProduct(<%=p.getId()%>)">
+                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
+                            </td>
+                        </tr>
+                        <%
+                                }
                             }
                         %>
                         </tbody>
@@ -385,41 +423,8 @@
     <!--/ Add -->
 </div>
 <!-- end main content -->
-<div id="importProduct" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <form action="" method="post">
-                <div class="modal-header">
-                    <h4 class="modal-title">Nhập hàng</h4>
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Tên sản phẩm</label>
-                        <select class="chosen w-100" style="width: 300px;>
-                            <option value="1">11</option>
-                            <option value="2">22</option>
-                            <option value="3">33</option>
-                            <option value="4">44</option>
-                        </select>
 
-                    </div>
-                    <div class=" form-group">
-                        <label> Số lượng </label>
-                        <input name="quantity" type="number" class="form-control" required>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                    <input type="submit" class="btn btn-success" value="Thêm">
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- Modal Thông báo-->
-
-
 
 <!-- Modal Thông báo Xóa Thành Công -->
 <div id="deleteSuccessModal" class="modal fade">
@@ -483,7 +488,7 @@
 <!-- import script -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="js/admin.js"></script>
-<%--<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>--%>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 <!-- end import script -->
@@ -491,15 +496,6 @@
 <!--Script-->
 <!--Script Xóa Sản Phẩm-->
 <script>
-    function showProductList() {
-        var productList = document.getElementById('productList');
-        if (productList.style.display === 'none') {
-            productList.style.display = 'block';
-        } else {
-            productList.style.display = 'none';
-        }
-    }
-
     function deleteProduct(productId) {
         document.getElementById('productIdToDelete').value = productId;
         $('#deleteEmployeeModal').modal('show');
@@ -513,11 +509,48 @@
 <!--Script Xóa Sản Phẩm-->
 
 <!--Script Sửa Sản Phẩm-->
-<script>
+<script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
-        var button = $(event.relatedTarget);
-        var productId = button.data('product-id');
+        const button = $(event.relatedTarget);
+        const productId = button.data('product-id');
+        const rowData = button.parents("tr");
+        const arrayInfoData = rowData.find("td");
+        const id = arrayInfoData.eq(0).text();
+        const name = arrayInfoData.eq(1).text();
+        const price = arrayInfoData.eq(2).find(".product-price").text();
+        const model = arrayInfoData.eq(3).text();
+        const inventory = arrayInfoData.eq(4).text();
+        const productCode = arrayInfoData.eq(5).text();
+        const urlImage = arrayInfoData.eq(6).find("img").attr("src");
 
+        console.loger(price.substring(0, price.length - 4).replaceAll("/.", ""));
+        $.ajax({
+            url: "edit",
+            type: "Post",
+            data: {
+                id: id,
+                name: name,
+                price: price,
+                productType: model,
+                quantity: inventory,
+                productCode: productCode,
+                urlImage: urlImage
+            },
+            dataType: "json",
+            success: function (data) {
+                console.loger(data);
+                console.loger(id)
+                console.loger(name)
+                console.loger(price)
+                console.loger(model)
+                console.loger(inventory)
+                console.loger(productCode)
+                console.loger(urlImage)
+            }
+        })
+
+
+        console.loger(`Hello ${id}`);
         $('#editForm input[name="id"]').val(productId);
     });
 
@@ -531,10 +564,10 @@
 <!--Script Thông báo Xóa Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean deleteSuccess = (Boolean)request.getSession().getAttribute("deleteSuccess"); %>
+        <% Boolean deleteSuccess = (Boolean)session.getAttribute("deleteSuccess"); %>
         <% if (deleteSuccess != null && deleteSuccess) { %>
         $('#deleteSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("deleteSuccess"); %>
+        <% session.removeAttribute("deleteSuccess"); %>
         <% } %>
     });
 </script>
@@ -543,10 +576,10 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean addProductSuccess = (Boolean)request.getSession().getAttribute("addProductSuccess"); %>
+        <% Boolean addProductSuccess = (Boolean)session.getAttribute("addProductSuccess"); %>
         <% if (Objects.nonNull(addProductSuccess) && addProductSuccess) { %>
         $('#addProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("addProductSuccess"); %>
+        <% session.removeAttribute("addProductSuccess"); %>
         <% } %>
     });
 </script>
@@ -555,19 +588,16 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean editProductSuccess = (Boolean)request.getSession().getAttribute("editProductSuccess"); %>
+        <% Boolean editProductSuccess = (Boolean)session.getAttribute("editProductSuccess"); %>
         <% if (Objects.nonNull(editProductSuccess) && editProductSuccess) { %>
         $('#editProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("editProductSuccess"); %>
+        <% session.removeAttribute("editProductSuccess"); %>
         <% } %>
     });
 </script>
 <!--Script Thông báo Thêm Sản Phẩm-->
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('.chosen').chosen();
-    });
-</script>
+
 <!-- Script -->
+
 </body>
 </html>
