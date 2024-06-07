@@ -6,7 +6,6 @@
     font-family: "Poppins", snas-serif, serif;
 }
 body{
-<<<<<<< HEAD
     margin: 0;
     padding: 0;
     display: flex;
@@ -16,9 +15,6 @@ body{
     background-color: #C8E1E4; /* Background color of the page */
     color: #000;
     font-family: 'Arial', sans-serif;
-=======
-    background: #03A9F4;
->>>>>>> 5b7efa6c1892673817cea011008c644103e073b1
 }
 .wrapper{
     width: 330px;
@@ -27,7 +23,8 @@ body{
     background-color: #fff;
     border-radius: 10px;
     text-align:  center;
-    box-shadow: 0 20px 35px rgba(0,0,0,0);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+    position: relative;
 }
 h1{
     font-size: 2rem;
@@ -62,19 +59,16 @@ form select {
     background: #e4e4e4;
 }
 button{
-    font-size:1rem;
-    margin-top:1.8rem;
     padding:10px 0;
     border-radius: 20px;
     outline:none;
     width: 90%;
     color:#fff;
     cursor:pointer;
-    background: rgb(17,107,143);
-    border: none;
+    background: #D10024;
 }
 button:hover{
-    background: rgba(17,107,143,0.877);
+    background: #af011a;
 }
 input:focus{
     border:1px solid rgb(192,192,192);
@@ -139,9 +133,6 @@ input:focus{
     font-family: 'Arial', sans-serif;
 }
 
-.wrapper {
-    text-align: center;
-}
 .success-message a {
     color: rgb(17,107,143);
     text-decoration: none; /* Remove underline */

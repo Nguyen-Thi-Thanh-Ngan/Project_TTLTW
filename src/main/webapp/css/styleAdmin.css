@@ -562,3 +562,10 @@ table th {
 	border-radius: .25rem;
 	box-shadow: inset 0 1px 2px rgba(0,0,0,0.1);
 }
+.hide-password {
+	display: none;
+}
+.hide-password::after {
+	content: "\25CF";
+	font-size: 14px;
+}
