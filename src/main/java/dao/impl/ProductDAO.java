@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.DAOInterface;
 import db.JDBIConnector;
 import model.Producer;
 import model.Product;

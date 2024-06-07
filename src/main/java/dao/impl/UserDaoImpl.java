@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.IUserDao;
 import mapper.impl.userMapperImpl;
 import model.User;
 

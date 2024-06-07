@@ -1,5 +1,7 @@
 package service.impl;
 
+import dao.IRoleDao;
+import dao.IUserDao;
 import dao.impl.RoleDaoImpl;
 import dao.impl.UserDaoImpl;
 import model.User;

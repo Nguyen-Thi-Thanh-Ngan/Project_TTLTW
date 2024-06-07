@@ -3,6 +3,8 @@ package controller;
 import dao.impl.OrderDAO;
 import dao.impl.UserDAO;
 import model.Order;
+import model.User;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

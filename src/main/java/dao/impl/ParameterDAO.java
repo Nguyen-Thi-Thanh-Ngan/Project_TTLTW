@@ -1,5 +1,6 @@
 package dao.impl;
 
+import dao.DAOInterface;
 import model.Parameter;
 import db.JDBIConnector;
 import org.jdbi.v3.core.JdbiException;
