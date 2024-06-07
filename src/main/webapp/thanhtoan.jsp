@@ -132,20 +132,27 @@
                             <div><strong>SẢN PHẨM</strong></div>
                             <div><strong>GIÁ</strong></div>
                         </div>
-                        <% Cart cart = (Cart) session.getAttribute("cart");
-                            List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;
-                            double totalAmout = 0;
-                            if (cart != null) {
-                                for (CartProduct cartProduct : cartProducts) {
-                                        totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
+                        <%
+                            List<Product> selectedProducts = (List<Product>) session.getAttribute("selectedProducts");
+                            double totalAmount = 0;
+                            if (selectedProducts != null) {
+                                for (Product product : selectedProducts) {
+                                    totalAmount += product.getPrice();
                         %>
+<%--                        <% Cart cart = (Cart) session.getAttribute("cart");--%>
+<%--                            List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;--%>
+<%--                            double totalAmout = 0;--%>
+<%--                            if (cart != null) {--%>
+<%--                                for (CartProduct cartProduct : cartProducts) {--%>
+<%--                                    totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();--%>
+<%--                        %>--%>
                         <div class="order-products">
                             <div class="order-col">
-                                <div><%= cartProduct.getQuantity() %>X</div>
-                                <div><%= cartProduct.getProduct().getName() %>
+                                <div><%= product.getQuantity() %>X</div>
+                                <div><%= product.getName() %>
                                 </div>
                                 <div>
-                                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number"
+                                    <fmt:formatNumber value="<%=product.getPrice()%>" type="number"
                                                       pattern="#,##0"
                                                       var="formattedPrice"/>
                                     <h5 class="product-price">${formattedPrice} VNĐ</h5>
@@ -160,15 +167,16 @@
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
                             <div>
-                                <strong class="order-total"><fmt:formatNumber value="<%=totalAmout%>" type="number"
+                                <strong class="order-total"><fmt:formatNumber value="<%=totalAmount%>" type="number"
                                                                               pattern="#,##0"
                                                                               var="formattedPrice"/>
                                     <h5 class="product-price total">${formattedPrice} VNĐ</h5></strong>
                             </div>
                         </div>
+                        <% }%>
                     </div>
-                    <% } else {
-                    }%>
+<%--                    <% } else {--%>
+<%--                    }%>--%>
                     <h5>HÌNH THỨC THANH TOÁN</h5>
                     <div class="payment-method">
                         <div class="input-radio">

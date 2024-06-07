@@ -74,6 +74,7 @@
 
 <!-- SECTION -->
 <%
+
     Cart cart = (Cart) session.getAttribute("cart");
     List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;
 
@@ -113,12 +114,13 @@
                 <tr>
                     <td>
 
-
-                        <input type="checkbox" name="selectedProducts" value="<%= cartProduct.getProduct().getId() %>"
-                               data-price="<%= cartProduct.getProduct().getPrice() %>"
-                               data-quantity="<%= cartProduct.getQuantity() %>"
-                               onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
-
+                        <form id="checkoutForm" action="thanhtoan.jsp" method="POST">
+                            <input type="checkbox" class="productCheckbox" name="selectedProducts"
+                                   value="<%= cartProduct.getProduct().getId() %>"
+                                   data-price="<%= cartProduct.getProduct().getPrice() %>"
+                                   data-quantity="<%= cartProduct.getQuantity() %>"
+                                   onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
+                        </form>
                         <div class="row">
                             <div class="col-lg-2 Product-img">
                                 <img src="<%=cartProduct.getProduct().getImg()%>" alt="..." class="img-responsive"/>
@@ -209,16 +211,17 @@
                                 totalAmount += productTotal;
                             }
                         %>
+
                         <%--                        tính tổng tiền tất cả sản phẩm--%>
                         <fmt:formatNumber value="<%= totalAmount %>" type="number" pattern="#,##0"
                                           var="formattedPrice2"/>
-                            <span id="totalAmountLabel" style="font-weight: bold;">
+                        <span id="totalAmountLabel" style="font-weight: bold;">
                             <strong>Tổng tiền : 0 VND</strong>
                               </span>
                     </td>
 
-                    <td><a href="thanhtoan.jsp" class="btn btn-success btn-block"> Thanh toán <i
-                            class="fa fa-angle-right"> </i> </a></td>
+                    <td> <button type="submit" id="paymentButton" class="btn btn-success btn-block">  Thanh toán  <i
+                            class="fa fa-angle-right"> </i> </button></td>
                 </tr>
                 </tfoot>
             </table>
@@ -266,7 +269,10 @@
             }
         }
 
-        var formattedTotalAmount = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalAmount);
+        var formattedTotalAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(totalAmount);
         formattedTotalAmount = formattedTotalAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
         formattedTotalAmount = formattedTotalAmount.replace('₫', ' VND');
         document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
@@ -285,5 +291,25 @@
         updateTotalAmount();
     }
 </script>
+<script>
+    document.getElementById("paymentButton").addEventListener("click", function() {
+        var selectedProducts = [];
+        var checkboxes = document.getElementsByClassName("productCheckbox");
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selectedProducts.push(checkboxes[i].value);
+            }
+        }
+
+        if (selectedProducts.length > 0) {
+            var checkoutForm = document.getElementById("checkoutForm");
+            var url = checkoutForm.action + "?selectedProducts=" + selectedProducts.join(",");
+            window.location.href = url;
+        }
+    });
+
+</script>
+
 </body>
 </html>
