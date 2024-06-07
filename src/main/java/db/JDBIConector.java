@@ -10,9 +10,9 @@ public class JDBIConector {
 
     private static void connect() {
         MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setURL("jdbc:mysql://" + DBProperties.host + ":" + DBProperties.port + "/" + DBProperties.dbname);
-        dataSource.setUser(DBProperties.username);
-        dataSource.setPassword(DBProperties.pass);
+        dataSource.setURL("jdbc:mysql://" + DBProperties.HOST + ":" + DBProperties.PORT + "/" + DBProperties.DBNAME);
+        dataSource.setUser(DBProperties.USERNAME);
+        dataSource.setPassword(DBProperties.PASSWORD);
         try {
             dataSource.setAutoReconnect(true);
             dataSource.setUseCompression(true);

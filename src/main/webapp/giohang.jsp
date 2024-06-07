@@ -1,5 +1,5 @@
-    <%@ page import="Cart.Cart" %>
-<%@ page import="Cart.CartProduct" %>
+    <%@ page import="cart.Cart" %>
+<%@ page import="cart.CartProduct" %>
 <%@ page import="java.util.List" %>
 <%@ page import="Model.Product" %>
 <%@ page import="java.util.Map" %>

@@ -1,9 +1,9 @@
 package service;
 
-import DAO.RoleDAO;
-import DAO.UserDAO;
-import Model.Role;
-import Model.User;
+import dao.RoleDAO;
+import dao.UserDAO;
+import model.Role;
+import model.User;
 import db.JDBIConector;
 
 import java.sql.Date;
