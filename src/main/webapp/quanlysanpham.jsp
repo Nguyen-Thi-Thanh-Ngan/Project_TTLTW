@@ -230,7 +230,13 @@
                             </td>
                             <td>
                                 <a href="#editEmployeeModal" class="edit" data-toggle="modal"
-                                   data-product-id="<%=p.getId()%>">
+                                   data-product-id="<%=p.getId()%>"
+                                   data-product-name="<%=p.getName()%>"
+                                   data-product-price="<%=p.getPrice()%>"
+                                   data-product-productTypeId="<%=p.getProductType().getId()%>"
+                                   data-product-quantity="<%=p.getQuantity()%>"
+                                   data-product-prducerId="<%=p.getProducer().getId()%>"
+                                   data-product-img="<%=p.getImg()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
@@ -239,43 +245,6 @@
                             </td>
                         </tr>
                         <%
-                            }
-                        } else {
-                            for (Product p : itemProduct) {
-                        %>
-                        <tr>
-                            <td><%=p.getId()%>
-                            </td>
-                            <td><%=p.getName()%>
-                            </td>
-                            <td>
-                                <div>
-                                    <fmt:formatNumber value="<%=p.getPrice()%>" type="number" pattern="#,##0"
-                                                      var="formattedPrice"/>
-                                    <h6 class="product-price">${formattedPrice} VNĐ</h6>
-                                </div>
-                            </td>
-                            <td><%=p.getProductType().getId()%>
-                            </td>
-                            <td><%=p.getQuantity()%>
-                            </td>
-                            <td><%=p.getProducer().getId()%>
-                            </td>
-                            <td>
-                                <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
-                            </td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
-                                   data-product-id="<%=p.getId()%>">
-                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
-                                   onclick="deleteProduct(<%=p.getId()%>)">
-                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <%
-                                }
                             }
                         %>
                         </tbody>
@@ -511,47 +480,22 @@
 <!--Script Sửa Sản Phẩm-->
 <script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget);
-        const productId = button.data('product-id');
-        const rowData = button.parents("tr");
-        const arrayInfoData = rowData.find("td");
-        const id = arrayInfoData.eq(0).text();
-        const name = arrayInfoData.eq(1).text();
-        const price = arrayInfoData.eq(2).find(".product-price").text();
-        const model = arrayInfoData.eq(3).text();
-        const inventory = arrayInfoData.eq(4).text();
-        const productCode = arrayInfoData.eq(5).text();
-        const urlImage = arrayInfoData.eq(6).find("img").attr("src");
+        var button = $(event.relatedTarget);
+        var productId = button.data('product-id');
+        var productName = button.data('product-name');
+        var productPrice = button.data('product-price');
+        var productTypeId = button.data('product-productTypeId');
+        var productQuantity = button.data('product-quantity');
+        var productProducerId = button.data('product-producerId');
+        var productImg = button.data('product-img');
 
-        console.loger(price.substring(0, price.length - 4).replaceAll("/.", ""));
-        $.ajax({
-            url: "edit",
-            type: "Post",
-            data: {
-                id: id,
-                name: name,
-                price: price,
-                productType: model,
-                quantity: inventory,
-                productCode: productCode,
-                urlImage: urlImage
-            },
-            dataType: "json",
-            success: function (data) {
-                console.loger(data);
-                console.loger(id)
-                console.loger(name)
-                console.loger(price)
-                console.loger(model)
-                console.loger(inventory)
-                console.loger(productCode)
-                console.loger(urlImage)
-            }
-        })
-
-
-        console.loger(`Hello ${id}`);
         $('#editForm input[name="id"]').val(productId);
+        $('#editForm input[name="name"]').val(productName);
+        $('#editForm input[name="price"]').val(productPrice);
+        $('#editForm input[name="productTypeId"]').val(productTypeId);
+        $('#editForm input[name="quantity"]').val(productQuantity);
+        $('#editForm input[name="producerId"]').val(productProducerId);
+        $('#editForm input[name="img"]').val(productImg);
     });
 
     function submitEditForm() {

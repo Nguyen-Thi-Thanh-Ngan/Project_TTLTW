@@ -101,8 +101,6 @@
                                                       pattern="#,##0" var="formattedPrice"/>
                                     <td>${formattedPrice} VNĐ</td>
                                 </tr>
-
-
                                 <%
                                     }
                                 %>

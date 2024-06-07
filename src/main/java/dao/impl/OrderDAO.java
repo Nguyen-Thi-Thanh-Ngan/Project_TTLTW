@@ -149,6 +149,7 @@ public class OrderDAO implements DAOInterface<Order> {
                                 "SET user_id = :userId, delivery_address = :address, order_status = :status, " +
                                 "payment_method = :payment, order_date = :orderDate, delivery_date = :deliveryDate " +
                                 "WHERE id = :id")
+                        .bind("userId", order.getUser().getId())
                         .bindBean(order)
                         .execute()
         );

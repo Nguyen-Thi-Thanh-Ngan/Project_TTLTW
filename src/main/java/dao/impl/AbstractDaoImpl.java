@@ -15,7 +15,7 @@ import java.util.ResourceBundle;
 import dao.IAbstractDao;
 import mapper.IRowMapper;
 
-public class AbstractDaoImpl<T> implements IAbstractDao<T>{
+public class AbstractDaoImpl<T> implements IAbstractDao<T> {
 	
 	@Override
 	public Connection getConnection() {

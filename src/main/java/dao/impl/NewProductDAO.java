@@ -30,7 +30,6 @@ public class NewProductDAO implements DAOInterface<NewProduct> {
     }
 
 
-
     @Override
     public NewProduct selectById(NewProduct newProduct) {
         return null;

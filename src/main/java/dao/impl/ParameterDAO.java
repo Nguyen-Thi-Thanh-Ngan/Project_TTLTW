@@ -21,7 +21,6 @@ public class ParameterDAO implements DAOInterface<Parameter> {
     }
 
 
-
     @Override
     public Parameter selectById(Parameter parameter) {
         Optional<Parameter> parameter1 = JDBIConnector.getConnect().withHandle((handle ->

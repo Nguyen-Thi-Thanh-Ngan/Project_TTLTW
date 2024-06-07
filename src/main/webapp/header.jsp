@@ -74,7 +74,7 @@
                 <!-- ACCOUNT -->
                 <div class="col-md-3 clearfix">
                     <div class="header-ctn">
-                        <!-- Cart -->
+                        <!-- cart -->
                         <div class="dropdown">
                             <a class="dropdown-toggle" href="giohang.jsp">
                                 <i class="fa fa-shopping-cart"></i>
@@ -82,7 +82,7 @@
                                 <div class="qty"><%=cart.getTotal()%></div>  <!--Code + khi thêm vào giỏ hàng-->
                             </a>
                         </div>
-                        <!-- /Cart -->
+                        <!-- /cart -->
 
                         <!-- Menu Toogle -->
                         <div class="menu-toggle">

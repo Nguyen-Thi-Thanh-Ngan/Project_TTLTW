@@ -214,7 +214,7 @@
                         </div>
                         <div class="form-group">
                             <label>Trạng thái đơn hàng</label>
-                            <select name="status" class="form-control" required>
+                            <select name="status" class="form-control" required onclick="return checkStatusBeforeOpen()">
                                 <option name="status" value="Xác nhận đơn hàng">Xác nhận đơn hàng</option>
                                 <option name="status" value="Chuẩn bị đơn hàng">Chuẩn bị đơn hàng</option>
                                 <option name="status" value="Đang giao">Đang giao</option>
@@ -342,6 +342,17 @@
         $('#editEmployeeModal input[name="dateOder"]').val(orderDate);
         $('#editEmployeeModal input[name="doneDate"]').val(orderDeliveryDate);
     })
+</script>
+
+<script>
+    function checkStatusBeforeOpen() {
+        var status = document.getElementsByName("status")[0].value;
+        if (status === "Hoàn tất") {
+            alert("Đơn hàng đã hoàn tất, không thể thay đổi trạng thái.");
+            return false;
+        }
+        return true;
+    }
 </script>
 
 </body>

@@ -28,6 +28,7 @@ public class SaleProductDAO implements DAOInterface {
         }));
         return ketQua;
     }
+
     public static void main(String[] args) {
         SaleProductDAO saleProductDAO = new SaleProductDAO();
         System.out.println(saleProductDAO.selectAll());

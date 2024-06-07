@@ -8,6 +8,7 @@ import javax.servlet.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.ArrayList;
 
 @WebServlet(name = "Type", value = "/type")
 public class TypeController extends HttpServlet {
@@ -18,5 +19,10 @@ public class TypeController extends HttpServlet {
         List<Product> listProducts = productDAO.selectByIdProductType(productTypeId);
         request.setAttribute("listProducts", listProducts);
         request.getRequestDispatcher("danhmuctheoloaisanpham.jsp").forward(request, response);
+    }
+
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+
     }
 }

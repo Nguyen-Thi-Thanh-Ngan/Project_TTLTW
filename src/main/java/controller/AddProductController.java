@@ -24,26 +24,26 @@ public class AddProductController extends HttpServlet {
     }
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setCharacterEncoding("utf-8");
-       try {
-           String id = request.getParameter("id");
-           String name = request.getParameter("name");
-           double price = Double.parseDouble(request.getParameter("price"));
-           String productTypeId = request.getParameter("productType");
-           int quantity = Integer.parseInt(request.getParameter("quantity"));
-           String productCategoryId = request.getParameter("productCategory");
-           String img = request.getParameter("img");
+        try {
+            String id = request.getParameter("id");
+            String name = request.getParameter("name");
+            double price = Double.parseDouble(request.getParameter("price"));
+            String productTypeId = request.getParameter("productType");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String productCategoryId = request.getParameter("productCategory");
+            String img = request.getParameter("img");
 
-           ProductType productType = productTypeDAO.getById(productTypeId);
-           Producer producer = producerDAO.getById(productCategoryId);
+            ProductType productType = productTypeDAO.getById(productTypeId);
+            Producer producer = producerDAO.getById(productCategoryId);
 
-           if(productType != null || producer != null){
-               Product product = new Product(id, name, price, productType, quantity, producer, img);
-               productDAO.insert(product);
-               request.getSession().setAttribute("addProductSuccess", true);
-               response.sendRedirect("quanlysanpham.jsp");
-           }
-       }catch (Exception e){
-           e.printStackTrace();
-       }
+            if(productType != null || producer != null){
+                Product product = new Product(id, name, price, productType, quantity, producer, img);
+                productDAO.insert(product);
+                request.getSession().setAttribute("addProductSuccess", true);
+                response.sendRedirect("quanlysanpham.jsp");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 }
