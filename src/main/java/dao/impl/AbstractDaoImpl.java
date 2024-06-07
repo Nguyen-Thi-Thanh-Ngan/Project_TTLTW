@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
-import dao.IAbstractDao;
 import mapper.IRowMapper;
 
 public class AbstractDaoImpl<T> implements IAbstractDao<T>{

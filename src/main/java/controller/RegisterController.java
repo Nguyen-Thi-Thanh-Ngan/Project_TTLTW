@@ -22,9 +22,15 @@ public class RegisterController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
 
     @Override
+    protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        req.getRequestDispatcher("dangky.jsp").forward(req, resp);
+    }
+
+    @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         try {
             req.setAttribute("user", new User(
@@ -42,6 +48,7 @@ public class RegisterController extends HttpServlet {
             e.printStackTrace();
         }
         if(req.getParameter("password").toString().equals(req.getParameter("confirmPassword").toString())){
+
             if(userService.isUserNameExists(req.getParameter("username").toString())){
                 req.setAttribute("error", "Tên người dùng đã tồn tại!");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("dangky.jsp");
@@ -76,6 +83,7 @@ public class RegisterController extends HttpServlet {
                 }
             }
         }else{
+            System.out.println(false);
             req.setAttribute("error", "Mật khẩu và nhập lại mật khẩu không giống nhau");
             RequestDispatcher dispatcher = req.getRequestDispatcher("dangky.jsp");
             dispatcher.forward(req, resp);

@@ -1,5 +1,5 @@
 <%@ page import="java.util.Map" %>
-<%@ page import="Model.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="cart.CartProduct" %>
 <%@ page import="cart.Cart" %>
@@ -38,8 +38,8 @@
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
 
-    <jsp:useBean id="a" class="DAO.OrderDetailsDAO" scope="request"/>
-    <jsp:useBean id="b" class="DAO.OrderDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
+    <jsp:useBean id="b" class="dao.impl.OrderDAO" scope="request"/>
 </head>
 <body>
 
@@ -247,9 +247,9 @@
     $("#payment-1").change(() => {
         var productPriceText = $('.product-price.total').text();
         productPriceText = productPriceText.replace(' VNĐ', '');
-        console.log(productPriceText)
+        console.loger(productPriceText)
         productPriceText = productPriceText.replace('.', '');
-        console.log(productPriceText)
+        console.loger(productPriceText)
         var price = parseInt(productPriceText);
         payByVNPay(price);
     });
@@ -258,9 +258,6 @@
         var orderForm = document.getElementById('orderForm');
         var selectedPayment = document.querySelector('input[name="payment"]:checked');
         var checkbox = document.getElementById('terms');
-        // if () {
-        //
-        // }
         if (checkbox.checked && orderForm.checkValidity() && selectedPayment) {
             $('#oderEmployeeModal').modal('show');
 

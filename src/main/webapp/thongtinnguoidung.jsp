@@ -1,9 +1,9 @@
-<%@ page import="Model.User" %>
-<%@ page import="DAO.UserDAO" %>
-<%@ page import="DAO.OrderDAO" %>
-<%@ page import="Model.Order" %>
+<%@ page import="model.User" %>
+<%@ page import="dao.impl.UserDAO" %>
+<%@ page import="dao.impl.OrderDAO" %>
+<%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.OrderDetails" %>
+<%@ page import="model.OrderDetails" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="DAO.UserDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.UserDAO" scope="request"/>
 
     <style>
         .top, .card-content th{
@@ -107,57 +107,10 @@
             </form>
             <div class="order-detail">
                 <div class="detail">
-                <div class="detail">
-                    <div class="title-2">Đơn hàng đã đặt</div>
-                    <div>
-                        <div class="card-content">
-                            <table>
-                                <thead>
-                                <tr>
-                                    <th>#</th>
-                                    <th>Địa chỉ giao hàng</th>
-                                    <th>Trạng thái đơn hàng</th>
-                                    <th>Phương thức thanh toán</th>
-                                    <th>Ngày đặt hàng</th>
-                                    <th>Ngày nhận hàng</th>
-                                    <th>Chi tiết đơn hàng</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                <%
-                                    OrderDAO orderDAO = new OrderDAO();
-                                    List<Order> orders = orderDAO.selectAll();
-
-                                    for (Order order : orders) {
-                                        if (order.getUser().getId().equals(request.getParameter("id"))&& (!order.getStatus().equals("Hoàn tất"))) {
-                                %>
-                                <tr style="background-color: #fff2db">
-                                    <td><%=order.getId()%></td>
-                                    <td><%=order.getAddress()%></td>
-                                    <td><%=order.getStatus()%></td>
-                                    <td><%=order.getPayment()%></td>
-                                    <td><%=order.getOrderDate()%></td>
-                                    <td><%=order.getDeliveryDate()%></td>
-                                    <td>
-                                        <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
-                                            <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
-                                        </a>
-                                    </td>
-                                </tr>
-                                <%
-                                        }
-                                    }
-                                %>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                <div class="history">
-                    <div class="title-3">Lịch sử đơn hàng</div>
-                    <div class="complete">
+                    <div class="detail">
+                        <div class="title-2">Đơn hàng đã đặt</div>
                         <div>
-                            <div class="card-content-his">
+                            <div class="card-content">
                                 <table>
                                     <thead>
                                     <tr>
@@ -172,8 +125,11 @@
                                     </thead>
                                     <tbody>
                                     <%
+                                        OrderDAO orderDAO = new OrderDAO();
+                                        List<Order> orders = orderDAO.selectAll();
+
                                         for (Order order : orders) {
-                                            if (order.getUser().getId().equals(request.getParameter("id"))&& order.getStatus().equals("Hoàn tất")) {
+                                            if (order.getUser().getId().equals(request.getParameter("id"))&& (!order.getStatus().equals("Hoàn tất"))) {
                                     %>
                                     <tr style="background-color: #fff2db">
                                         <td><%=order.getId()%></td>
@@ -197,18 +153,61 @@
                             </div>
                         </div>
                     </div>
+                    <div class="history">
+                        <div class="title-3">Lịch sử đơn hàng</div>
+                        <div class="complete">
+                            <div>
+                                <div class="card-content-his">
+                                    <table>
+                                        <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Địa chỉ giao hàng</th>
+                                            <th>Trạng thái đơn hàng</th>
+                                            <th>Phương thức thanh toán</th>
+                                            <th>Ngày đặt hàng</th>
+                                            <th>Ngày nhận hàng</th>
+                                            <th>Chi tiết đơn hàng</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <%
+                                            for (Order order : orders) {
+                                                if (order.getUser().getId().equals(request.getParameter("id"))&& order.getStatus().equals("Hoàn tất")) {
+                                        %>
+                                        <tr style="background-color: #fff2db">
+                                            <td><%=order.getId()%></td>
+                                            <td><%=order.getAddress()%></td>
+                                            <td><%=order.getStatus()%></td>
+                                            <td><%=order.getPayment()%></td>
+                                            <td><%=order.getOrderDate()%></td>
+                                            <td><%=order.getDeliveryDate()%></td>
+                                            <td>
+                                                <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
+                                                </a>
+                                            </td>
+                                        </tr>
+                                        <%
+                                                }
+                                            }
+                                        %>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
+                <!-- /row -->
             </div>
-            <!-- /row -->
+            <!-- /container -->
         </div>
-        <!-- /container -->
+        <!-- /SECTION -->
     </div>
-    <!-- /SECTION -->
-</div>
-<!-- FOOTER -->
-<jsp:include page="footer.jsp"/>
-<!-- /FOOTER -->
-
+    <!-- FOOTER -->
+    <jsp:include page="footer.jsp"/>
+    <!-- /FOOTER -->
 <!-- jQuery Plugins -->
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>
@@ -220,4 +219,3 @@
 </body>
 
 </html>
-

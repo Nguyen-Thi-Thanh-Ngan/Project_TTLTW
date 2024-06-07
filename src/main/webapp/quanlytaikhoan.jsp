@@ -191,7 +191,9 @@
                                 <td>${item.email}</td>
                                 <td>${item.userName}</td>
                                 <c:set var="passwordLength" value="${fn:length(item.password)}"/>
-                                <td><c:forEach var="index" begin="1" end="${passwordLength}">&#x25cf;</c:forEach></td>
+                                <td class="hide-password">
+                                    <c:forEach var="index" begin="1" end="${passwordLength}">&#x25cf;</c:forEach>
+                                </td>
                                 <td>
                                     <a href="#"
                                        data-id="${item.id}"

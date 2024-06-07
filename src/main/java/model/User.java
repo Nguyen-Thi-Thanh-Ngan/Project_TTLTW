@@ -147,12 +147,12 @@ public class User {
         this.role_idStr = role_idStr;
     }
 
-    public User(String name, String sex, String address, Date birthDay, String phone_number, String email, String userName, String password) {
+    public User(String name, String sex, String address, Date birthDay, String phoneNumber, String email, String userName, String password) {
         this.name = name;
         this.sex = sex;
         this.address = address;
         this.birthDay = birthDay;
-        this.phoneNumber = phone_number;
+        this.phoneNumber = phoneNumber;
         this.email = email;
         this.userName = userName;
         this.password = password;

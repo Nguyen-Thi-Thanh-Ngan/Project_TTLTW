@@ -2,9 +2,9 @@ package controller;
 
 import cart.Cart;
 import cart.CartProduct;
-import dao.OrderDAO;
-import dao.OrderDetailsDAO;
-import dao.UserDAO;
+import dao.impl.OrderDAO;
+import dao.impl.OrderDetailsDAO;
+import dao.impl.UserDAO;
 import service.IUserService;
 import service.impl.UserServiceImpl;
 import model.*;
@@ -55,7 +55,7 @@ public class OrderController extends HttpServlet {
             String name = request.getParameter("name");
             String email = request.getParameter("email");
             String address = request.getParameter("delivery_address");
-            String phone = request.getParameter("phone_number");
+            String phone = request.getParameter("phoneNumber");
             String paymentMethod = request.getParameter("payment");
 
             if (email != null && !email.isEmpty()) {

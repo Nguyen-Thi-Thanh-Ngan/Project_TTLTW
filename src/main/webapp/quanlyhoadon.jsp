@@ -1,9 +1,9 @@
 
-<%@ page import="Model.Order" %>
+<%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.User" %>
-<%@ page import="DAO.UserDAO" %>
-<%@ page import="DAO.OrderDAO" %>
+<%@ page import="model.User" %>
+<%@ page import="dao.impl.UserDAO" %>
+<%@ page import="dao.impl.OrderDAO" %>
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="service.impl.UserServiceImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>

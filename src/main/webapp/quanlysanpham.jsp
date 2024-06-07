@@ -1,12 +1,13 @@
-<%@ page import="Model.Product" %>
-<%@ page import="DAO.ProductDAO" %>
+<%@ page import="model.Product" %>
+<%@ page import="dao.impl.ProductDAO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="DAO.ProductTypeDAO" %>
-<%@ page import="DAO.ProducerDAO" %>
+<%@ page import="dao.impl.ProductTypeDAO" %>
+<%@ page import="dao.impl.ProducerDAO" %>
 <%@ page import="java.util.Objects" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<%List<Product> itemProduct = (List<Product>) request.getAttribute("item");%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -26,14 +27,15 @@
     <link rel="stylesheet" type="text/css" href="./css/all.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
-    <link type="text/css" rel="stylesheet" href="css/style.css"/>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+    <link type="text/css" rel="stylesheet" href="./css/style.css"/>
     <!-- End import lib -->
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
 
-    <jsp:useBean id="a" class="DAO.ProductDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="DAO.ProducerDAO" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="DAO.ProductTypeDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="b" class="dao.impl.ProducerDAO" scope="request"></jsp:useBean>
+    <jsp:useBean id="c" class="dao.impl.ProductTypeDAO" scope="request"></jsp:useBean>
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -167,11 +169,20 @@
     <div class="row">
         <div class="col-8 col-m-12 col-sm-12">
             <div class="card">
-                <div class="card-header" style="display: flex">
+                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; ">
                     <h3>
                         Quản lý sản phẩm
                     </h3>
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
+                    <div class="col-md-6">
+                        <div class="header-search">
+                            <form action="admin-search" method="get">
+                                <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
+                                <input class="search-btn" type="submit" name="" value="Tìm kiếm">
+                            </form>
+                        </div>
+                    </div>
+                    <a href="#addEmployeeModal" class="btn" data-toggle="modal"
+                       style="background-color: #d10024; color: white">
                         <span>Thêm sản phẩm mới</span></a>
 
                 </div>
@@ -190,10 +201,11 @@
                         </thead>
                         <tbody>
                         <%
-                            ProductDAO productDAO = new ProductDAO();
-                            List<Product> listProduct = productDAO.getAll();
-                            request.setAttribute("listAll", listProduct);
-                            for (Product p : listProduct) {
+                            if (itemProduct == null) {
+                                ProductDAO productDAO = new ProductDAO();
+                                List<Product> listProduct = productDAO.getAll();
+                                request.setAttribute("listAll", listProduct);
+                                for (Product p : listProduct) {
                         %>
                         <tr>
                             <td><%=p.getId()%>
@@ -466,7 +478,7 @@
 <!--Script Xóa Sản Phẩm-->
 
 <!--Script Sửa Sản Phẩm-->
-<script>
+<script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
         var productId = button.data('product-id');
@@ -496,10 +508,10 @@
 <!--Script Thông báo Xóa Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean deleteSuccess = (Boolean)request.getSession().getAttribute("deleteSuccess"); %>
+        <% Boolean deleteSuccess = (Boolean)session.getAttribute("deleteSuccess"); %>
         <% if (deleteSuccess != null && deleteSuccess) { %>
         $('#deleteSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("deleteSuccess"); %>
+        <% session.removeAttribute("deleteSuccess"); %>
         <% } %>
     });
 </script>
@@ -508,10 +520,10 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean addProductSuccess = (Boolean)request.getSession().getAttribute("addProductSuccess"); %>
+        <% Boolean addProductSuccess = (Boolean)session.getAttribute("addProductSuccess"); %>
         <% if (Objects.nonNull(addProductSuccess) && addProductSuccess) { %>
         $('#addProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("addProductSuccess"); %>
+        <% session.removeAttribute("addProductSuccess"); %>
         <% } %>
     });
 </script>
@@ -520,10 +532,10 @@
 <!--Script Thông báo Thêm Sản Phẩm-->
 <script>
     $(document).ready(function () {
-        <% Boolean editProductSuccess = (Boolean)request.getSession().getAttribute("editProductSuccess"); %>
+        <% Boolean editProductSuccess = (Boolean)session.getAttribute("editProductSuccess"); %>
         <% if (Objects.nonNull(editProductSuccess) && editProductSuccess) { %>
         $('#editProductSuccessModal').modal('show');
-        <% request.getSession().removeAttribute("editProductSuccess"); %>
+        <% session.removeAttribute("editProductSuccess"); %>
         <% } %>
     });
 </script>

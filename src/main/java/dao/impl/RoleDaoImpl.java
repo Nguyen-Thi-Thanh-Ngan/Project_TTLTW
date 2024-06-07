@@ -1,6 +1,5 @@
 package dao.impl;
 
-import dao.IRoleDao;
 import model.Role;
 import mapper.impl.RoleMapperImpl;
 

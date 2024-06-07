@@ -1,7 +1,7 @@
     <%@ page import="cart.Cart" %>
 <%@ page import="cart.CartProduct" %>
 <%@ page import="java.util.List" %>
-<%@ page import="Model.Product" %>
+<%@ page import="model.Product" %>
 <%@ page import="java.util.Map" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -12,6 +12,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 
     <title>Giỏ hàng</title>
@@ -35,7 +36,7 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
 
-    <jsp:useBean id="a" class="DAO.NewProductDAO" scope="request"/>
+    <jsp:useBean id="a" class="dao.impl.NewProductDAO" scope="request"/>
 </head>
 <body>
 <!-- HEADER -->

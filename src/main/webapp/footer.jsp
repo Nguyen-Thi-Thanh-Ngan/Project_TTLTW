@@ -12,7 +12,7 @@
 </head>
 <body>
 <!-- Footer -->
-<footer id="footer">
+<footer id="footer" style="margin-top: 10rem;">
   <!-- top footer -->
   <div class="section">
     <!-- container -->

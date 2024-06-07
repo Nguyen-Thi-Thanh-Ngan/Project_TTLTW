@@ -1,7 +1,7 @@
 package cart;
 
 import model.Product;
-import service.ProductService;
+import service.impl.ProductService;
 
 import java.util.ArrayList;
 import java.util.HashMap;
