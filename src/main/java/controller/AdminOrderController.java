@@ -1,6 +1,5 @@
 package controller;
 
-import dao.impl.OrderDAO;
 import dao.impl.UserDAO;
 import model.Order;
 

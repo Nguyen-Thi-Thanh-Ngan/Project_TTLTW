@@ -1,4 +1,9 @@
-/target
+/target/
+/.settings
+/.classpath
+/.project
+/*.project
+/*.classpath
 /.idea
 /src/main/java/dao/JDBCUtil.java
 /src/main/resources/DB.properties

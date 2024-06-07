@@ -1,6 +1,5 @@
 package controller;
 
-import dao.impl.ProductDAO;
 import model.Product;
 
 
