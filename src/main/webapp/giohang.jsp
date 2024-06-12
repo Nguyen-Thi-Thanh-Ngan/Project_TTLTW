@@ -225,7 +225,7 @@
                         </td>
 
                         <td>
-                            <input type="submit" name="action" class="btn btn-success btn-block" value="Thanh toán">
+                            <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block" value="Thanh toán">
                         </td>
 
                     </tr>
@@ -307,25 +307,32 @@
         updateTotalAmount();
     }
 </script>
-<%--<script>--%>
-<%--    document.getElementById("paymentButton").addEventListener("click", function () {--%>
-<%--        var selectedProducts = [];--%>
-<%--        var checkboxes = document.getElementsByClassName("productCheckbox");--%>
+<script>
+    // Lấy tham chiếu đến nút thanh toán
+    var thanhToanButton = document.getElementById('paybutton');
 
-<%--        for (var i = 0; i < checkboxes.length; i++) {--%>
-<%--            if (checkboxes[i].checked) {--%>
-<%--                selectedProducts.push(checkboxes[i].value);--%>
-<%--            }--%>
-<%--        }--%>
+    var cacSanPham = document.querySelectorAll('input[type="checkbox"]');
 
-<%--        if (selectedProducts.length > 0) {--%>
-<%--            var checkoutForm = document.getElementById("checkoutForm");--%>
-<%--            var url = checkoutForm.action + "?selectedProducts=" + selectedProducts.join(",");--%>
-<%--            window.location.href = url;--%>
-<%--        }--%>
-<%--    });--%>
+    // Kiểm tra khi nút thanh toán được nhấn
+    thanhToanButton.addEventListener('click', function(event) {
+        var daChonSanPham = false;
 
-<%--</script>--%>
+
+        cacSanPham.forEach(function(sanPham) {
+
+            if (sanPham.checked) {
+                daChonSanPham = true;
+                return;
+            }
+        });
+
+
+        if (!daChonSanPham) {
+            event.preventDefault();
+            alert('Vui lòng chọn sản phẩm trước khi thanh toán.');
+        }
+    });
+</script>
 
 </body>
 </html>
