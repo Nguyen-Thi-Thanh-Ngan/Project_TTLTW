@@ -1,5 +1,6 @@
 package service.impl;
 
+import dao.impl.ProductDAO;
 import model.Product;
 
 import java.util.List;

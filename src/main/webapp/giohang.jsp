@@ -1,4 +1,4 @@
-    <%@ page import="cart.Cart" %>
+<%@ page import="cart.Cart" %>
 <%@ page import="cart.CartProduct" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.Product" %>
@@ -78,9 +78,11 @@
     <div class="row">
 
         <div class="col-lg-12 pl-3 pt-3">
+
             <table class="table table-hover border bg-white">
                 <thead>
                 <tr>
+                    <input type="checkbox" id="selectAll" onchange="selectAll()"> Chọn tất cả<br>
                     <th>
                         <h4><b>Thông tin sản phẩm</b></h4>
                     </th>
@@ -99,56 +101,75 @@
                 </tr>
 
                 </thead>
-                <tbody>
+                <form action="updatecart" method="post" id="formupdate">
+                    <tbody>
+                    <% for (CartProduct cartProduct : cartProducts) { %>
 
-                <% for (CartProduct cartProduct : cartProducts) { %>
-                <tr>
-                    <td>
-                        <div class="row">
-                            <div class="col-lg-2 Product-img">
-                                <img src="<%=cartProduct.getProduct().getImg()%>" alt="..." class="img-responsive"/>
+
+                    <tr>
+                        <td>
+
+
+                            <input type="checkbox" class="productCheckbox" name="selectedProducts"
+                                   value="<%= cartProduct.getProduct().getId() %>"
+                                   data-price="<%= cartProduct.getProduct().getPrice() %>"
+                                   data-quantity="<%= cartProduct.getQuantity() %>"
+                                   onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
+
+                            <div class="row">
+                                <div class="col-lg-2 Product-img">
+                                    <img src="<%=cartProduct.getProduct().getImg()%>" alt="..." class="img-responsive"/>
+                                </div>
+                                <div class="col-lg-10">
+                                    <h5 class="nomargin"><b><%=cartProduct.getProduct().getName()%>
+                                    </b></h5>
+                                    <p></p>
+                                </div>
                             </div>
-                            <div class="col-lg-10">
-                                <h5 class="nomargin"><b><%=cartProduct.getProduct().getName()%>
-                                </b></h5>
-                                <p></p>
-                            </div>
-                        </div>
-                    </td>
-                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number" pattern="#,##0"
-                                      var="formattedPrice"/>
-                    <td><strong> ${formattedPrice} VND</strong></td>
-                    <%--                        Cập nhật số lượng--%>
-                    <td data-th="Quantity">
-                        <form action="updatecart" method="post">
-                            <table class="table table-hover border bg-white" >
-                                <td style="border: none"><b> <input type="text" name="quantity1"
+
+                            <input type="hidden" name="name_<%= cartProduct.getProduct().getId() %>"
+                                   value="<%= cartProduct.getProduct().getName() %>">
+                            <input type="hidden" name="price_<%= cartProduct.getProduct().getId() %>"
+                                   value="<%= cartProduct.getProduct().getPrice() %>">
+                        </td>
+                        <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number" pattern="#,##0"
+                                          var="formattedPrice"/>
+                        <td><strong> ${formattedPrice} VND</strong></td>
+                        <%--                        Cập nhật số lượng--%>
+                        <td data-th="Quantity">
+
+                            <table class="table table-hover border bg-white">
+                                <td style="border: none"><b> <input type="text"
+                                                                    name="quantity_<%=cartProduct.getProduct().getId() %>"
                                                                     value="<%= cartProduct.getQuantity() %>"
+
                                                                     style="width: 45px"> </b>
                                 </td>
 
                                 <td style="border: none"><input type="hidden" name="productId"
                                                                 value="<%= cartProduct.getProduct().getId()%>">
-                                    <input type="submit" class="btn btn-success btn-block" value="Cập nhật">
+                                    <input type="submit" name="action" class="btn btn-success btn-block"
+                                           value="Cập nhật">
                                 </td>
                             </table>
-                        </form>
-                        <%--                        Cập nhật số lượng--%>
-                    </td>
 
-                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()*cartProduct.getQuantity()%>"
-                                      type="number" pattern="#,##0"
-                                      var="formattedPrice1"/>
-                    <td><strong> ${formattedPrice1} VND</strong></td>
-                    <td class="actions" data-th="" style="width:10%;">
-                        <!-- Delete-->
-                        <div id="deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>" class="modal fade">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <form action="delcart" method="post">
+                            <%--                        Cập nhật số lượng--%>
+                        </td>
+
+                        <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()*cartProduct.getQuantity()%>"
+                                          type="number" pattern="#,##0"
+                                          var="formattedPrice1"/>
+                        <td><strong> ${formattedPrice1} VND</strong></td>
+                        <td class="actions" data-th="" style="width:10%;">
+                            <!-- Delete-->
+                            <div id="deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>" class="modal fade">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+
                                         <div class="modal-header">
                                             <h4 class="modal-title">Xóa sản phẩm này khỏi giỏ hàng</h4>
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+                                            <button type="button" class="close" data-dismiss="modal"
+                                                    aria-hidden="true">
                                                 &times;
                                             </button>
                                         </div>
@@ -157,52 +178,62 @@
                                                    value="Hủy">
                                             <input type="hidden" name="productId"
                                                    value="<%= cartProduct.getProduct().getId()%>">
-                                            <input type="submit" class="btn btn-danger" value="Xóa">
+                                            <input type="submit" class="btn btn-danger" name="action" value="Xóa">
                                         </div>
-                                    </form>
+
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--/ Delete-->
-                        <button data-toggle="modal"
-                                data-target="#deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>"
-                                class="btn btn-danger btn-sm"><i class="fa fa-trash-o"> </i></button>
-                    </td>
-                </tr>
-                <%
-                    }
-                %>
-                </tbody>
-                <tfoot>
+                            <!--/ Delete-->
+                            <p data-toggle="modal"
+                               data-target="#deleteEmployeeModal_<%= cartProduct.getProduct().getId() %>"
+                               class="btn btn-danger btn-sm"><i class="fa fa-trash-o"> </i></p>
+                        </td>
+                    </tr>
+                    <%
+                        }
+                    %>
+                    </tbody>
+                    <tfoot>
 
-                <tr>
-                    <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm
-                    </a></td>
-                    <td colspan="2" class="hidden-xs"></td>
+                    <tr>
+                        <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua
+                            sắm
+                        </a></td>
+                        <td colspan="2" class="hidden-xs"></td>
 
-                    <td class="hidden-xs text-center" style="width:10%;">
-                        <%--                        tính tổng tiền tất cả sản phẩm--%>
-                        <%
-                            double totalAmount = 0;
-                            Map<String, CartProduct> cartItems = cart.getData();
-                            for (Map.Entry<String, CartProduct> entry : cartItems.entrySet()) {
-                                CartProduct cartProduct = entry.getValue();
-                                Product product = cartProduct.getProduct();
-                                double productTotal = cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
-                                totalAmount += productTotal;
-                            }
-                        %>
-                        <%--                        tính tổng tiền tất cả sản phẩm--%>
-                        <fmt:formatNumber value="<%= totalAmount %>" type="number" pattern="#,##0"
-                                          var="formattedPrice2"/>
-                        <strong>Tổng tiền : ${formattedPrice2} VND</strong>
-                    </td>
+                        <td class="hidden-xs text-center" style="width:10%;">
 
-                    <td><a href="thanhtoan.jsp" class="btn btn-success btn-block"> Thanh toán <i
-                            class="fa fa-angle-right"> </i> </a></td>
-                </tr>
-                </tfoot>
+                            <%--                        tính tổng tiền tất cả sản phẩm--%>
+                            <%
+                                double totalAmount = 0;
+                                Map<String, CartProduct> cartItems = cart.getData();
+                                for (Map.Entry<String, CartProduct> entry : cartItems.entrySet()) {
+                                    CartProduct cartProduct = entry.getValue();
+                                    Product product = cartProduct.getProduct();
+                                    double productTotal = cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
+                                    totalAmount += productTotal;
+                                }
+                            %>
+
+                            <%--                        tính tổng tiền tất cả sản phẩm--%>
+                            <fmt:formatNumber value="<%= totalAmount %>" type="number" pattern="#,##0"
+                                              var="formattedPrice2"/>
+                            <span id="totalAmountLabel" style="font-weight: bold;">
+                            <strong>Tổng tiền : 0 VND</strong>
+                              </span>
+                        </td>
+
+                        <td>
+                            <input type="submit" name="action" class="btn btn-success btn-block" value="Thanh toán">
+                        </td>
+
+                    </tr>
+
+                    </tfoot>
+                </form>
             </table>
+
         </div>
         <%
         } else { %>
@@ -233,6 +264,68 @@
 <script src="js/nouislider.min.js"></script>
 <script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
+<script>
+    function updateTotalAmount() {
+        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
+        var totalAmount = 0;
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                var price = checkboxes[i].getAttribute('data-price');
+                var quantity = checkboxes[i].getAttribute('data-quantity');
+                var productTotal = price * quantity;
+                totalAmount += productTotal;
+            }
+        }
+
+        var formattedTotalAmount = new Intl.NumberFormat('vi-VN', {
+            style: 'currency',
+            currency: 'VND'
+        }).format(totalAmount);
+        formattedTotalAmount = formattedTotalAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
+        formattedTotalAmount = formattedTotalAmount.replace('₫', ' VND');
+        document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
+    }
+
+
+</script>
+<script type="text/javascript">
+    window.onload = function () {
+        var selectAllCheckbox = document.getElementById('selectAllCheckbox');
+        selectAllCheckbox.onclick = selectAll;
+    }
+
+    function selectAll() {
+        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+        var selectAllCheckbox = document.getElementById('selectAll');
+
+        for (var i = 0; i < checkboxes.length; i++) {
+            if (checkboxes[i] !== selectAllCheckbox) {
+                checkboxes[i].checked = selectAllCheckbox.checked;
+            }
+        }
+        updateTotalAmount();
+    }
+</script>
+<%--<script>--%>
+<%--    document.getElementById("paymentButton").addEventListener("click", function () {--%>
+<%--        var selectedProducts = [];--%>
+<%--        var checkboxes = document.getElementsByClassName("productCheckbox");--%>
+
+<%--        for (var i = 0; i < checkboxes.length; i++) {--%>
+<%--            if (checkboxes[i].checked) {--%>
+<%--                selectedProducts.push(checkboxes[i].value);--%>
+<%--            }--%>
+<%--        }--%>
+
+<%--        if (selectedProducts.length > 0) {--%>
+<%--            var checkoutForm = document.getElementById("checkoutForm");--%>
+<%--            var url = checkoutForm.action + "?selectedProducts=" + selectedProducts.join(",");--%>
+<%--            window.location.href = url;--%>
+<%--        }--%>
+<%--    });--%>
+
+<%--</script>--%>
 
 </body>
 </html>

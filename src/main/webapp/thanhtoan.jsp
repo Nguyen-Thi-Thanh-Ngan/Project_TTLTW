@@ -132,27 +132,21 @@
                             <div><strong>SẢN PHẨM</strong></div>
                             <div><strong>GIÁ</strong></div>
                         </div>
-                        <% Cart cart = (Cart) session.getAttribute("cart");
-                            List<CartProduct> cartProducts = cart != null ? cart.getCartProducts() : null;
-                            double totalAmout = 0;
-                            if (cart != null) {
-                                for (CartProduct cartProduct : cartProducts) {
-                                    totalAmout += cartProduct.getProduct().getPrice() * cartProduct.getQuantity();
-                        %>
+                        <c:set var="totalPrice" value="0" />
                         <div class="order-products">
-                            <div class="order-col">
-                                <div><%= cartProduct.getQuantity() %>X</div>
-                                <div><%= cartProduct.getProduct().getName() %>
+                            <c:forEach var="product" items="${selectedProductsList}">
+                                <div class="order-col">
+                                    <div>${product.quantity} X </div>
+                                    <div>${product.name}</div>
+                                    <div>
+                                        <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
+                                            <h5 class="product-price">${formattedPrice} VNĐ</h5>
+                                    </div>
                                 </div>
-                                <div>
-                                    <fmt:formatNumber value="<%=cartProduct.getProduct().getPrice()%>" type="number"
-                                                      pattern="#,##0"
-                                                      var="formattedPrice"/>
-                                    <h5 class="product-price">${formattedPrice} VNĐ</h5>
-                                </div>
-                            </div>
+                                <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
+                                <c:set var="totalPrice" value="${totalPrice + (product.price * product.quantity)}" />
+                            </c:forEach>
                         </div>
-                        <% }%>
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
                             <div><strong>Miễn Phí</strong></div>
@@ -160,15 +154,13 @@
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
                             <div>
-                                <strong class="order-total"><fmt:formatNumber value="<%=totalAmout%>" type="number"
+                                <strong class="order-total"><fmt:formatNumber value="${totalPrice}" type="number"
                                                                               pattern="#,##0"
                                                                               var="formattedPrice"/>
                                     <h5 class="product-price total">${formattedPrice} VNĐ</h5></strong>
                             </div>
                         </div>
                     </div>
-                    <% } else {
-                    }%>
                     <h5>HÌNH THỨC THANH TOÁN</h5>
                     <div class="payment-method">
                         <div class="input-radio">
