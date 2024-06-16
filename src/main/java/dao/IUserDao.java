@@ -7,9 +7,9 @@ import java.util.List;
 public interface IUserDao {
     boolean login(User item);
     User register(User item);
-    String getIdTop1();
+    Integer getIdTop1();
     boolean isUserNameExists(String username);
-    String getIdByUserName(String username);
+    Integer getIdByUserName(String username);
     User getByUserName(String username);
     User getById(String username);
     boolean isEmailExists(String email);

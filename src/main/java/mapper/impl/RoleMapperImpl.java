@@ -11,7 +11,7 @@ public class RoleMapperImpl implements IRowMapper<Role> {
     public Role maplist(ResultSet rs) {
         Role model = new Role();
         try {
-            model.setId(rs.getString("id"));
+            model.setId(rs.getInt("id"));
             model.setRoleName(rs.getString("role_name"));
         } catch (SQLException e) {
             e.printStackTrace();

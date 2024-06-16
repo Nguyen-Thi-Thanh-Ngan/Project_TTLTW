@@ -23,8 +23,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String register(User user) {
-        user.setId(createId());
+    public Integer register(User user) {
         String pass = user.getPassword();
         String passEn = BCrypt.hashpw(pass, BCrypt.gensalt(12));
         user.setPassword(passEn);
@@ -38,7 +37,7 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String getIdByUserName(String username) {
+    public Integer getIdByUserName(String username) {
         return userDao.getIdByUserName(username);
     }
 
@@ -79,16 +78,7 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public void add(User user, String role) {
-        user.setRole_idStr(roleDao.getByName(role).getId());
-        user.setId(createId());
+        user.setRoleIdInt(roleDao.getByName(role).getId());
         userDao.add(user);
-    }
-
-    private String createId(){
-        String idOld = userDao.getIdTop1();
-        if(idOld == null)
-            return "u_1";
-        int idNumber = Integer.parseInt(idOld.substring(2)) + 1;
-        return "u_" + idNumber;
     }
 }

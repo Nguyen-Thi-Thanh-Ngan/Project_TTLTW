@@ -1,4 +1,4 @@
-        package dao.impl;
+package dao.impl;
 
 import dao.DAOInterface;
 import model.*;
@@ -15,22 +15,23 @@ public class UserDAO implements DAOInterface<User> {
         List<User> ketQua = JDBIConnector.getConnect().withHandle((handle ->
         {
             List<User> users = new ArrayList<>();
-            handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, email, user_name, password, role_id FROM users")
+            handle.createQuery("SELECT id, username, password, oauth_provider, oauth_uid, oauth_token, name, email, role_id, created_at, updated_at FROM users")
                     .map((rs, ctx) -> {
-                        String id = rs.getString("id");
-                        String name = rs.getString("name");
-                        String sex = rs.getString("sex");
-                        String address = rs.getString("address");
-                        Date birth_day = rs.getDate("birth_day");
-                        String phoneNumber = rs.getString("phone_number");
-                        String email = rs.getString("email");
-                        String user_name = rs.getString("user_name");
+                        int id = rs.getInt("id");
+                        String username = rs.getString("username");
                         String password = rs.getString("password");
-                        String role_id = rs.getString("role_id");
+                        String oauthProvider = rs.getString("oauth_provider");
+                        String oauthUid = rs.getString("oauth_uid");
+                        String oauthToken = rs.getString("oauth_token");
+                        String name = rs.getString("name");
+                        String email = rs.getString("email");
+                        int roleId = rs.getInt("role_id");
+                        Date created_at = rs.getDate("created_at");
+                        Date updated_at = rs.getDate("updated_at");
 
-                        Role role = new RoleDAO().selectById(new Role(role_id, null));
+                        Role role = new RoleDAO().selectById(new Role(roleId, null));
 
-                        User user = new User(id, name, sex, address, birth_day, phoneNumber, email, user_name, password, role);
+                        User user = new User(id, username, password, oauthProvider, oauthUid, oauthToken, name, email, role, created_at, updated_at);
                         users.add(user);
 
                         return null;
@@ -42,23 +43,23 @@ public class UserDAO implements DAOInterface<User> {
 
     public User getUserByEmail(String email) {
         Optional<User> user = JDBIConnector.getConnect().withHandle(handle ->
-                handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
-                                "email, user_name, password, role_id FROM users WHERE email = ?")
+                handle.createQuery("SELECT id, username, password, oauth_provider, oauth_uid, oauth_token, name, " +
+                                "email, role_id, created_at, updated_at FROM users WHERE email = ?")
                         .bind(0, email)
                         .map((rs, ctx) -> {
-                            String id = rs.getString("id");
-                            String name = rs.getString("name");
-                            String sex = rs.getString("sex");
-                            String address = rs.getString("address");
-                            Date birth_day = rs.getDate("birth_day");
-                            String phoneNumber = rs.getString("phone_number");
-                            String email1 = rs.getString("email");
-                            String user_name = rs.getString("user_name");
+                            int id = rs.getInt("id");
+                            String username = rs.getString("username");
                             String password = rs.getString("password");
-                            String role_id = rs.getString("role_id");
+                            String oauthProvider = rs.getString("oauth_provider");
+                            String oauthUid = rs.getString("oauth_uid");
+                            String oauthToken = rs.getString("oauth_token");
+                            String name = rs.getString("name");
+                            int roleId = rs.getInt("role_id");
+                            Date created_at = rs.getDate("created_at");
+                            Date updated_at = rs.getDate("updated_at");
 
-                            Role role = new RoleDAO().selectById(new Role(role_id, null));
-                            return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
+                            Role role = new RoleDAO().selectById(new Role(roleId, null));
+                            return new User(id, username, password, oauthProvider, oauthUid, oauthToken, name, email, role, created_at, updated_at);
                         })
                         .findFirst()
         );
@@ -70,76 +71,72 @@ public class UserDAO implements DAOInterface<User> {
     @Override
     public User selectById(User userP) {
         Optional<User> user = JDBIConnector.getConnect().withHandle((handle ->
-                handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
-                                "email, user_name, password, role_id FROM users WHERE id = ?")
+                handle.createQuery("SELECT id, username, password, oauth_provider, oauth_uid, oauth_token, name, " +
+                                "email, role_id, created_at, updated_at FROM users id = ?")
                         .bind(0, userP.getId())
                         .map((rs, ctx) -> {
-                            String id = rs.getString("id");
-                            String name = rs.getString("name");
-                            String sex = rs.getString("sex");
-                            String address = rs.getString("address");
-                            Date birth_day = rs.getDate("birth_day");
-                            String phoneNumber = rs.getString("phone_number");
-                            String email1 = rs.getString("email");
-                            String user_name = rs.getString("user_name");
+                            int id = rs.getInt("id");
+                            String username = rs.getString("username");
                             String password = rs.getString("password");
-                            String role_id = rs.getString("role_id");
+                            String oauth_provider = rs.getString("oauth_provider");
+                            String oauth_uid = rs.getString("oauth_uid");
+                            String oauth_token = rs.getString("oauth_token");
+                            String name = rs.getString("name");
+                            String email = rs.getString("email");
+                            int role_id = rs.getInt("role_id");
+                            Date created_at = rs.getDate("created_at");
+                            Date updated_at = rs.getDate("updated_at");
 
                             Role role = new RoleDAO().selectById(new Role(role_id, null));
-                            return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
+                            return new User(id, username, password, oauth_provider, oauth_uid, oauth_token, name, email, role, created_at, updated_at);
                         })
                         .findFirst()
         ));
         return user.isEmpty() ? null : user.get();
     }
 
-        public static User getById(String userP) {
+        public static User getById(int userP) {
             Optional<User> user = JDBIConnector.getConnect().withHandle((handle ->
-            handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
-                            "email, user_name, password, role_id FROM users WHERE id = ?")
+            handle.createQuery("SELECT id, username, password, oauth_provider, oauth_uid, oauth_token, name, " +
+                            "email, role_id, created_at, updated_at FROM users WHERE id = ?")
                     .bind(0, userP)
                     .map((rs, ctx) -> {
-                        String id = rs.getString("id");
-                        String name = rs.getString("name");
-                        String sex = rs.getString("sex");
-                        String address = rs.getString("address");
-                        Date birth_day = rs.getDate("birth_day");
-                        String phoneNumber = rs.getString("phone_number");
-                        String email1 = rs.getString("email");
-                        String user_name = rs.getString("user_name");
+                        int id = rs.getInt("id");
+                        String username = rs.getString("username");
                         String password = rs.getString("password");
-                        String role_id = rs.getString("role_id");
+                        String oauth_provider = rs.getString("oauth_provider");
+                        String oauth_uid = rs.getString("oauth_uid");
+                        String oauth_token = rs.getString("oauth_token");
+                        String name = rs.getString("name");
+                        String email = rs.getString("email");
+                        int role_id = rs.getInt("role_id");
+                        Date created_at = rs.getDate("created_at");
+                        Date updated_at = rs.getDate("updated_at");
 
                         Role role = new RoleDAO().selectById(new Role(role_id, null));
-                        return new User(id, name, sex, address, birth_day, phoneNumber, email1, user_name, password, role);
+                        return new User(id, username, password, oauth_provider, oauth_uid, oauth_token, name, email, role, created_at, updated_at);
                     })
                     .findFirst()
         ));
             return user.isEmpty() ? null : user.get();
         }
 
-
-        public static void main(String[] args) {
-            UserDAO user = new UserDAO();
-            User u = new User("u_2", "hhh", null, null, null, null, "hahuydung@gmail.com", "dung", "123", null);
-            //System.out.println(user.selectAll());
-            System.out.println(user.getUserByEmail("hadung6765@gmail.com"));
-        }
-
         @Override
         public int insert(User user) {
             int ketQua = JDBIConnector.getConnect().withHandle(handle ->
-                    handle.createUpdate("INSERT INTO users (id, name, sex, address, birth_day, phone_number, email, user_name, password) " +
-                                    "VALUES (:id, :name, :sex, :address, :birthDay, :phoneNumber, :email, :userName, :password)")
+                    handle.createUpdate("INSERT INTO users (id, username, password, oauth_provider, oauth_uid, oauth_token, name, email, role_id, created_at, updated_at) " +
+                                    "VALUES (:id, :username, :password, :oauth_provider, :oauth_uid, :oauth_token, :name, :email, :role_id, :created_at, :updated_at)")
                             .bind("id", user.getId())
-                            .bind("name", user.getName())
-                            .bind("sex", user.getSex())
-                            .bind("address", user.getAddress())
-                            .bind("birthDay", user.getBirthDay())
-                            .bind("phoneNumber", user.getPhoneNumber())
-                            .bind("email", user.getEmail())
-                            .bind("userName", user.getUserName())
+                            .bind("username", user.getUserName())
                             .bind("password", user.getPassword())
+                            .bind("oauth_provider", user.getOauthProvider())
+                            .bind("oauth_uid", user.getOauthUid())
+                            .bind("oauth_token", user.getOauthToken())
+                            .bind("name", user.getName())
+                            .bind("email", user.getEmail())
+                            .bind("role_id", user.getRoleId().getId())
+                            .bind("created_at", user.getCreatedAt())
+                            .bind("updated_at", user.getUpdatedAt())
                             .execute()
             );
             return ketQua;
@@ -160,18 +157,27 @@ public class UserDAO implements DAOInterface<User> {
         public int update(User user) {
             int ketQua = JDBIConnector.getConnect().withHandle(handle ->
                     handle.createUpdate("UPDATE users " +
-                                    "SET name = :name, " +
-                                    "sex = :sex, " +
-                                    "address = :address, " +
-                                    "birth_day = :birthDay, " +
-                                    "phone_number = :phoneNumber, " +
+                                    "SET username = :username, " +
+                                    "password = :password, " +
+                                    "oauth_provider = :oauth_provider, " +
+                                    "oauth_uid = :oauth_uid, " +
+                                    "oauth_token = :oauth_token, " +
+                                    "name = :name, " +
                                     "email = :email, " +
-                                    "user_name = :userName, " +
-                                    "password = :password " +
+                                    "role_id = :role_id, " +
+                                    "created_at = created_at, " +
+                                    "updated_at = updated_at " +
                                     "WHERE id = :id")
                             .bindBean(user)
                             .execute()
             );
             return ketQua;
         }
+
+    public static void main(String[] args) {
+        UserDAO userDAO = new UserDAO();
+        Date createdAt = new Date(System.currentTimeMillis() + 3600000);
+        User user = new User("nem", "12345678", "", "", "", "nem", "123@gmail.com", new Role("user"), createdAt, createdAt);
+        System.out.println(userDAO.insert(user));
     }
+}

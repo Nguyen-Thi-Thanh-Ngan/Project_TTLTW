@@ -31,7 +31,7 @@ public class LoginController extends HttpServlet {
             req.setAttribute("username","");
             req.setAttribute("password","");
             SessionUtil.getInstance().putKey(req, "user", userService.getIdByUserName(req.getParameter("username")));
-            if(userService.getById(SessionUtil.getInstance().getKey(req, "user").toString()).getRole_idStr().equals("1")){
+            if(userService.getById(SessionUtil.getInstance().getKey(req, "user").toString()).getRoleIdInt() == 1){
                 resp.sendRedirect("admin.jsp");
             }else{
                 RequestDispatcher dispatcher = req.getRequestDispatcher("dangnhap.jsp");

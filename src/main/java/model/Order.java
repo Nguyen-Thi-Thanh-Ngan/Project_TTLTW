@@ -7,21 +7,25 @@ public class Order {
     private User user;
     private String address;
     private String status;
-    private String payment;
+    private String note;
+    private String payment_method;
     private Date orderDate;
     private Date deliveryDate;
+    private Double totalPrice;
 
     public Order() {
     }
 
-    public Order(String id, User user, String address, String status, String payment, Date orderDate, Date deliveryDate) {
+    public Order(String id, User user, String address, String status, String note, String payment_method, Date orderDate, Date deliveryDate, double totalPrice) {
         this.id = id;
         this.user = user;
         this.address = address;
         this.status = status;
-        this.payment = payment;
+        this.note = note;
+        this.payment_method = payment_method;
         this.orderDate = orderDate;
         this.deliveryDate = deliveryDate;
+        this.totalPrice = totalPrice;
     }
 
     public String getId() {
@@ -56,12 +60,16 @@ public class Order {
         this.status = status;
     }
 
-    public String getPayment() {
-        return payment;
+    public String getNote() { return note;}
+
+    public void setNote(String note) {
+        this.note = note;
     }
 
-    public void setPayment(String payment) {
-        this.payment = payment;
+    public String getPayment_method() { return payment_method;}
+
+    public void setPayment_method(String payment_method) {
+        this.payment_method = payment_method;
     }
 
     public Date getOrderDate() {
@@ -80,6 +88,10 @@ public class Order {
         this.deliveryDate = deliveryDate;
     }
 
+    public Double getTotalPrice() { return totalPrice;}
+
+    public void setTotalPrice(Double totalPrice) { this.totalPrice = totalPrice;}
+
     @Override
     public String toString() {
         return "Order{" +
@@ -87,10 +99,11 @@ public class Order {
                 ", user=" + user +
                 ", address='" + address + '\'' +
                 ", status='" + status + '\'' +
-                ", payMent='" + payment + '\'' +
+                ", note='" + note + '\'' +
+                ", payment_method='" + payment_method + '\'' +
                 ", orderDate=" + orderDate +
                 ", deliveryDate=" + deliveryDate +
+                ", totalPrice=" + totalPrice +
                 '}';
     }
-
 }

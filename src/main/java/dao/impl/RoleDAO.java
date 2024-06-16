@@ -11,7 +11,7 @@ public class RoleDAO implements DAOInterface<Role> {
     @Override
     public List<Role> selectAll() {
         List<Role> roles = JDBIConnector.getConnect().withHandle((handle ->
-                handle.createQuery("SELECT id, role_name FROM roles")
+                handle.createQuery("SELECT id, name FROM roles")
                         .mapToBean(Role.class).list()
         ));
         return roles;
@@ -20,7 +20,7 @@ public class RoleDAO implements DAOInterface<Role> {
     @Override
     public Role selectById(Role roleP) {
         Optional<Role> role = JDBIConnector.getConnect().withHandle((handle ->
-                handle.createQuery("SELECT id, role_name FROM roles WHERE id=?")
+                handle.createQuery("SELECT id, name FROM roles WHERE id=?")
                         .bind(0, roleP.getId())
                         .mapToBean(Role.class).stream().findFirst()
         ));
@@ -44,7 +44,7 @@ public class RoleDAO implements DAOInterface<Role> {
 
     public static void main(String[] args) {
         RoleDAO ro = new RoleDAO();
-        Role r = new Role("1", null);
+        Role r = new Role(1, null);
         System.out.println(ro.selectById(r));
     }
 

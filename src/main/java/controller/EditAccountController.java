@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 @WebServlet(value = "/account/edit")
@@ -22,25 +23,22 @@ public class EditAccountController extends HttpServlet {
         req.setCharacterEncoding("UTF-8");
         resp.setContentType("application/json");
         ObjectMapper objectMapper = new ObjectMapper();
-        objectMapper.writeValue(resp.getOutputStream(), userService.getById(req.getParameter("id")).getAddress());
+//        objectMapper.writeValue(resp.getOutputStream(), userService.getById(req.getParameter("id")).getAddress());
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date createdAt = new Date(System.currentTimeMillis() + 3600000);
         try {
             User user = new User(
+                    req.getParameter("username"),
+                    req.getParameter("password"),
                     req.getParameter("name"),
-                    req.getParameter("gender"),
-                    req.getParameter("address"),
-                    new java.sql.Date(dateFormat.parse(req.getParameter("date")).getTime()),
-                    req.getParameter("phone"),
                     req.getParameter("email"),
-                    req.getParameter("user"),
-                    req.getParameter("password")
+                    createdAt
             );
-            user.setId(req.getParameter("id"));
+            user.setId(Integer.parseInt(req.getParameter("id")));
             userService.update(user);
             resp.sendRedirect("/quanlytaikhoan");
         }catch (Exception e){

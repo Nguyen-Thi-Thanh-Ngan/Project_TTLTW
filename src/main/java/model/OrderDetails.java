@@ -3,23 +3,19 @@ package model;
 public class OrderDetails {
     private String id;
     private Order order;
+    private double amount;
     private Product product;
     private int quantity;
-    private double price;
-    private double discount;
-    private double amount;
 
     public OrderDetails() {
     }
 
-    public OrderDetails(String id, Order order, Product product, int quantity, double price, double discount, double amount) {
+    public OrderDetails(String id, Order order, double amount, Product product, int quantity) {
         this.id = id;
         this.order = order;
+        this.amount = amount;
         this.product = product;
         this.quantity = quantity;
-        this.price = price;
-        this.discount = discount;
-        this.amount = amount;
     }
 
     public String getId() {
@@ -38,6 +34,14 @@ public class OrderDetails {
         this.order = order;
     }
 
+    public double getAmount() {
+        return amount;
+    }
+
+    public void setAmount(double amount) {
+        this.amount = amount;
+    }
+
     public Product getProduct() {
         return product;
     }
@@ -54,40 +58,14 @@ public class OrderDetails {
         this.quantity = quantity;
     }
 
-    public double getPrice() {
-        return price;
-    }
-
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public double getDiscount() {
-        return discount;
-    }
-
-    public void setDiscount(double discount) {
-        this.discount = discount;
-    }
-
-    public double getAmount() {
-        return amount;
-    }
-
-    public void setAmount(double amount) {
-        this.amount = amount;
-    }
-
     @Override
     public String toString() {
         return "OrderDetails{" +
                 "id='" + id + '\'' +
                 ", order=" + order +
+                ", amount=" + amount +
                 ", product=" + product +
                 ", quantity=" + quantity +
-                ", price=" + price +
-                ", discount=" + discount +
-                ", amount=" + amount +
                 '}';
     }
 }

@@ -1,5 +1,4 @@
 <%@ page import="model.User" %>
-<%@ page import="java.text.SimpleDateFormat" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
@@ -24,21 +23,12 @@
         <p class="alert alert-success">${success}</p>
     </c:if>
     <form id="registrationForm" action="register" method="post">
-        <input class="form-control form-control-xl" type="text" placeholder="Tên người dùng" name="name" required value="${success == null && user != null ? user.name : ""}">
-        <select class="form-control form-control-xl" name="gender" required>
-            <option value="Nam" <%=request.getAttribute("user") == null ? "" : ((User)request.getAttribute("user")).getSex().equals("Nam") ? "Selected" : ""%>>Nam</option>
-            <option value="Nữ" <%=request.getAttribute("user") == null ? "" : !((User)request.getAttribute("user")).getSex().equals("Nam") ? "Selected" : ""%>>Nữ</option>
-        </select>
-        <textarea type="text" class="form-control form-control-xl mt-2 mb-2" placeholder="Địa chỉ" name="address" required>${success == null && user != null ? user.address : ""}</textarea>
-        <%
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        %>
-        <input type="date" class="form-control form-control-xl" placeholder="Ngày sinh" value="<%=request.getAttribute("user") == null ? "" : sdf.format(((User)request.getAttribute("user")).getBirthDay())%>" name="birthDay" required>
-        <input type="tel" class="form-control form-control-xl" placeholder="Số điện thoại" value="${success == null && user != null ? user.phone_number : ""}" name="phoneNumber" required>
-        <input class="form-control form-control-xl" type="email" placeholder="Email" value="${success == null && user != null ? user.email : ""}" name="email" required>
+        <input type="text" class="form-control form-control-xl" placeholder="Tên người dùng" value="${success == null && user != null ? user.name : ""}" name="name" required>
+        <input type="email" class="form-control form-control-xl" placeholder="Email" value="${success == null && user != null ? user.email : ""}" name="email" required>
         <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập" value="${success == null && user != null ? user.user_name : ""}" name="username" required>
-        <input class="form-control form-control-xl" type="password" placeholder="Mật khẩu" value="${success == null && user != null ? user.password : ""}" name="password" id="password" required>
-        <input class="form-control form-control-xl" type="password" placeholder="Nhập lại mật khẩu" value="${success == null && user != null ? confirmPassword : ""}" name="confirmPassword" required>
+        <input type="password" class="form-control form-control-xl" placeholder="Mật khẩu" value="${success == null && user != null ? user.password : ""}" name="password" id="password" required>
+        <input type="password" class="form-control form-control-xl" placeholder="Nhập lại mật khẩu" value="${success == null && user != null ? confirmPassword : ""}" name="confirmPassword" required>
+        <input type="date" class="form-control form-control-xl" placeholder="Ngày đăng ký" value="${success == null && user != null ? user.createdAt : ""}" name="createdAt" required>
     </form>
     <div class="terms">
         <input type="checkbox" id="checkbox">

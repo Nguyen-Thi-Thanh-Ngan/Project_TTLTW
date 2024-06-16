@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Date;
 import java.text.SimpleDateFormat;
 
 @WebServlet(value = "/account/add")
@@ -45,17 +46,14 @@ public class AddAccountController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date createdAt = new Date(System.currentTimeMillis() + 3600000);
         try {
             User user = new User(
+                    req.getParameter("username"),
+                    req.getParameter("password"),
                     req.getParameter("name"),
-                    req.getParameter("gender"),
-                    req.getParameter("address"),
-                    new java.sql.Date(dateFormat.parse(req.getParameter("date")).getTime()),
-                    req.getParameter("phone"),
                     req.getParameter("email"),
-                    req.getParameter("user"),
-                    req.getParameter("password")
+                    createdAt
             );
             userService.add(user, req.getParameter("role"));
             resp.sendRedirect("/quanlytaikhoan");

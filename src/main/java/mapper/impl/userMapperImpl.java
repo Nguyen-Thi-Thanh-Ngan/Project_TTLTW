@@ -1,6 +1,7 @@
 package mapper.impl;
 
 import mapper.IRowMapper;
+import model.Role;
 import model.User;
 
 import java.sql.ResultSet;
@@ -12,16 +13,15 @@ public class userMapperImpl implements IRowMapper<User> {
 	public User maplist(ResultSet rs) {
 		User model = new User();
 		try {
-			model.setId(rs.getString("id"));
-			model.setName(rs.getString("name"));
-			model.setSex(rs.getString("sex"));
-			model.setAddress(rs.getString("address"));
-			model.setPhoneNumber(rs.getString("phone_number"));
-			model.setEmail(rs.getString("email"));
-			model.setUserName(rs.getString("user_name"));
-			model.setRole_idStr(rs.getString("role_id"));
+			model.setId(rs.getInt("id"));
+			model.setUserName(rs.getString("username"));
 			model.setPassword(rs.getString("password"));
-			model.setBirthDay(rs.getDate("birth_day"));
+			model.setOauthProvider(rs.getString("oauth_provider"));
+			model.setOauthUid(rs.getString("oauth_uid"));
+			model.setOauthToken(rs.getString("oauth_token"));
+			model.setRoleIdInt(rs.getInt("role_id"));
+			model.setCreatedAt(rs.getDate("created_at"));
+			model.setUpdatedAt(rs.getDate("updated_at"));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

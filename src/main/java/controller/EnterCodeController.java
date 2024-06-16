@@ -42,7 +42,7 @@ public class EnterCodeController extends HttpServlet {
                 if(code.equals(req.getParameter("code"))){
                     if(SessionUtil.getInstance().getKey(req, "userObj") != null){
                         User user = (User) SessionUtil.getInstance().getKey(req, "userObj");
-                        String rsRegister = userService.register(user);
+                        Integer rsRegister = userService.register(user);
                         if(rsRegister == null){
                             req.setAttribute("error", "Đăng ký thất bại!");
                             RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");

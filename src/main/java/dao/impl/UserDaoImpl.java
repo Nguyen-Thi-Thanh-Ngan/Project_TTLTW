@@ -9,16 +9,16 @@ import java.util.List;
 public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
     @Override
     public boolean login(User item) {
-        String sql = "select * from users where user_name = ? and password = ?";
+        String sql = "select * from users where username = ? and password = ?";
         List<User> list = query(sql, new userMapperImpl(), item.getUserName(), item.getPassword());
         return list.size() == 1 ? true : false;
     }
 
     @Override
     public User register(User item) {
-        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?)";
-        query_insert(sql, item.getId(), item.getName(), item.getSex(), item.getAddress(), item.getBirthDay(), item.getPhoneNumber(), item.getEmail(), item.getUserName(), item.getPassword(), item.getRole_idStr());
-        sql = "select * from users where user_name = ? and password = ?";
+        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?,?)";
+        query_insert(sql, item.getId(), item.getUserName(), item.getPassword(), item.getOauthProvider(), item.getOauthUid(), item.getOauthToken(), item.getName(), item.getEmail(), item.getRoleId(), item.getCreatedAt(), item.getUpdatedAt());
+        sql = "select * from users where username = ? and password = ?";
         List<User> list = query(sql, new userMapperImpl(), item.getUserName(), item.getPassword());
         if(list.size() == 0)
             return null;
@@ -26,7 +26,7 @@ public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
     }
 
     @Override
-    public String getIdTop1() {
+    public Integer getIdTop1() {
         String sql = "select * from users ORDER BY LENGTH(id) DESC, id DESC LIMIT 1";
         List<User> list = query(sql, new userMapperImpl());
         return list.size() == 1 ? list.get(0).getId() : null;
@@ -34,21 +34,21 @@ public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
 
     @Override
     public boolean isUserNameExists(String username) {
-        String sql = "select * from users where user_name = ?";
+        String sql = "select * from users where username = ?";
         List<User> list = query(sql, new userMapperImpl(), username);
         return list.size() > 0 ? true : false;
     }
 
     @Override
-    public String getIdByUserName(String username) {
-        String sql = "select * from users where user_name = ?";
+    public Integer getIdByUserName(String username) {
+        String sql = "select * from users where username = ?";
         List<User> list = query(sql, new userMapperImpl(), username);
         return list.size() > 0 ? list.get(0).getId() : null;
     }
 
     @Override
     public User getByUserName(String username) {
-        String sql = "select * from users where user_name = ?";
+        String sql = "select * from users where username = ?";
         List<User> list = query(sql, new userMapperImpl(), username);
         return list.size() > 0 ? list.get(0) : null;
     }
@@ -86,13 +86,13 @@ public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
 
     @Override
     public void update(User user) {
-        String sql = "update users set name = ?, address = ?, sex = ?, birth_day = ?, phone_number = ?, email = ?, user_name = ?, password = ? where id = ?";
-        query_update(sql, user.getName(), user.getAddress(), user.getSex(), user.getBirthDay(), user.getPhoneNumber(), user.getEmail(), user.getUserName(), user.getPassword(), user.getId());
+        String sql = "update users set username = ?, password = ?, oauth_provider = ?, oauth_provider = ?, oauth_provider = ?, name = ?, email = ?, role_id = ? created_at = ? updated_at = ? where id = ?";
+        query_update(sql, user.getUserName(), user.getPassword(), user.getOauthProvider(), user.getOauthUid(), user.getOauthToken(), user.getName(), user.getEmail(), user.getRoleId(), user.getCreatedAt(), user.getUpdatedAt(), user.getId());
     }
 
     @Override
     public void add(User user) {
-        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?)";
-        query_update(sql, user.getId(), user.getName(), user.getSex(), user.getAddress(), user.getBirthDay(), user.getPhoneNumber(), user.getEmail(), user.getUserName(), user.getPassword(), user.getRole_idStr());
+        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?,?)";
+        query_update(sql, user.getId(), user.getUserName(), user.getPassword(), user.getOauthProvider(), user.getOauthUid(), user.getOauthToken(), user.getName(), user.getEmail(), user.getRoleId(), user.getCreatedAt(), user.getUpdatedAt());
     }
 }

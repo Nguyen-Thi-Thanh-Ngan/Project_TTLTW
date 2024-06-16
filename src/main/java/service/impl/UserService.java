@@ -33,19 +33,20 @@ public class UserService {
             return handle.createQuery("SELECT id, name, sex, address, birth_day, phone_number, " +
                             "email, user_name, password, role_id FROM users")
                     .map((rs, ctx) -> {
-                        String id = rs.getString("id");
-                        String name = rs.getString("name");
-                        String sex = rs.getString("sex");
-                        String address = rs.getString("address");
-                        Date birth_day = rs.getDate("birth_day");
-                        String phoneNumber = rs.getString("phone_number");
-                        String email = rs.getString("email");
-                        String user_name = rs.getString("user_name");
+                        int id = rs.getInt("id");
+                        String username = rs.getString("username");
                         String password = rs.getString("password");
-                        String role_id = rs.getString("role_id");
+                        String oauth_provider = rs.getString("oauthProvider");
+                        String oauth_uid = rs.getString("oauthUid");
+                        String oauth_token = rs.getString("oauthToken");
+                        String name = rs.getString("name");
+                        String email = rs.getString("email");
+                        int role_id = rs.getInt("role_id");
+                        Date created_at = rs.getDate("created_at");
+                        Date updated_at = rs.getDate("updated_at");
 
                         Role role = new RoleDAO().selectById(new Role(role_id, null));
-                        return new User(id, name, sex, address, birth_day, phoneNumber, email, user_name, password, role);
+                        return new User(id, username, password, oauth_provider, oauth_uid, oauth_token, name, email, role, created_at, updated_at);
                     }).stream().collect(Collectors.toList());
         }));
         System.out.println(users);
