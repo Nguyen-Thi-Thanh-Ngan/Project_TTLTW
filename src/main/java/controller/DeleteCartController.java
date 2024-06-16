@@ -21,18 +21,9 @@ public class DeleteCartController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String productId = request.getParameter("productId");
+        request.setCharacterEncoding("UTF-8");
+        String action = request.getParameter("action");
 
-        // Lấy giỏ hàng từ session
-        Cart cart = (Cart) request.getSession().getAttribute("cart");
-
-        // Gọi phương thức xóa sản phẩm từ giỏ hàng
-        if (cart != null) {
-            cart.removeProduct(productId);
-        }
-
-        // Chuyển hướng trở lại trang giỏ hàng
-        response.sendRedirect("giohang.jsp");
     }
 }
 
