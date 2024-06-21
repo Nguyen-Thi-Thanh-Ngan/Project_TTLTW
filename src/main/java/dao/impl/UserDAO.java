@@ -72,7 +72,7 @@ public class UserDAO implements DAOInterface<User> {
     public User selectById(User userP) {
         Optional<User> user = JDBIConnector.getConnect().withHandle((handle ->
                 handle.createQuery("SELECT id, username, password, oauth_provider, oauth_uid, oauth_token, name, " +
-                                "email, role_id, created_at, updated_at FROM users id = ?")
+                                "email, role_id, created_at, updated_at FROM users WHERE id = ?")
                         .bind(0, userP.getId())
                         .map((rs, ctx) -> {
                             int id = rs.getInt("id");
@@ -177,7 +177,8 @@ public class UserDAO implements DAOInterface<User> {
     public static void main(String[] args) {
         UserDAO userDAO = new UserDAO();
         Date createdAt = new Date(System.currentTimeMillis() + 3600000);
+        User user1 = new User(1, "hadung", "Hà Huy Dũng", "hadung6765@gmail.com");
         User user = new User("nem", "12345678", "", "", "", "nem", "123@gmail.com", new Role("user"), createdAt, createdAt);
-        System.out.println(userDAO.insert(user));
+        System.out.println(userDAO.selectById(user1));
     }
 }
