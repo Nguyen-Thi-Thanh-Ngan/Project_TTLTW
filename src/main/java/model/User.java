@@ -81,6 +81,13 @@ public class User {
         this.roleIdInt = roleIdInt;
     }
 
+    public User(int id, String userName, String name, String email) {
+        this.id = id;
+        this.userName = userName;
+        this.name = name;
+        this.email = email;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -97,4 +104,5 @@ public class User {
                 ", updatedAt=" + updatedAt +
                 '}';
     }
+
 }
