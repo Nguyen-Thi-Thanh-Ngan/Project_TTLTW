@@ -5,17 +5,16 @@ import model.User;
 import java.util.List;
 
 public interface IUserDao {
-    boolean login(User item);
-    User register(User item);
-    String getIdTop1();
+    boolean login(String username, String password);
+    boolean register(User user);
     boolean isUserNameExists(String username);
     String getIdByUserName(String username);
-    User getByUserName(String username);
-    User getById(String username);
+    User getUserByUserName(String username);
+    User getUserByUserId(Integer userId);
     boolean isEmailExists(String email);
     void resetPass(String email, String password);
     List<User> findAll();
-    void deleteById(String id);
-    void update(User user);
-    void add(User user);
+    void deleteById(Integer id);
+    boolean update(User user);
+    User isUserExists(String oauthProvider, String oauthUid);
 }

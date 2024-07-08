@@ -3,9 +3,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%
-    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
-        response.sendRedirect("dangnhap.jsp");
-    }
+//    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
+//        response.sendRedirect("sign-in.jsp");
+//    }
 %>
 <!DOCTYPE html>
 <html>
@@ -43,7 +43,7 @@
             </a>
         </li>
         <li class="nav-item">
-            <img src="./img/logo.png" alt="logo" class="logo logo-light">
+            <a href="index.jsp"><img src="./img/logo.png" alt="logo" class="logo logo-light"></a>
         </li>
     </ul>
     <!-- end nav left -->
@@ -53,7 +53,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a href="thongtinnguoidung.jsp?id=<%=new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getId()%>"><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+<%--                    <a href="user-information.jsp?id=<%=new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").%></a>--%>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
@@ -98,7 +98,7 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="quanlysanpham.jsp" class="sidebar-nav-link">
+            <a href="management-product.jsp" class="sidebar-nav-link">
                 <div>
                     <i class="fa fa-mobile"></i>
                 </div>
@@ -114,7 +114,7 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="quanlytaikhoan" class="sidebar-nav-link">
+            <a href="management-account" class="sidebar-nav-link">
                 <div>
                     <i class="fa-solid fa-circle-user"></i>
                 </div>

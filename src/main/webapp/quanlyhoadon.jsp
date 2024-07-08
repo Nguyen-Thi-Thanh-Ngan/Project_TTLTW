@@ -2,8 +2,7 @@
 <%@ page import="model.Order" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.User" %>
-<%@ page import="dao.impl.UserDAO" %>
-<%@ page import="dao.impl.OrderDAO" %>
+
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="service.impl.UserServiceImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -52,7 +51,7 @@
         <li class="nav-item">
             <div class="avt dropdown">
                 <c:if test="${sessionScope.user != null}">
-                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a>
+<%--                    <a><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getFullName() %></a>--%>
                 </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
@@ -98,7 +97,7 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="quanlysanpham.jsp" class="sidebar-nav-link">
+            <a href="management-product.jsp" class="sidebar-nav-link">
                 <div>
                     <i class="fa fa-mobile"></i>
                 </div>
@@ -114,7 +113,7 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="quanlytaikhoan" class="sidebar-nav-link">
+            <a href="management-account" class="sidebar-nav-link">
                 <div>
                     <i class="fa-solid fa-circle-user"></i>
                 </div>
@@ -214,7 +213,7 @@
                         </div>
                         <div class="form-group">
                             <label>Trạng thái đơn hàng</label>
-                            <select name="status" class="form-control" required>
+                            <select name="status" class="form-control" required onclick="return checkStatusBeforeOpen()">
                                 <option name="status" value="Xác nhận đơn hàng">Xác nhận đơn hàng</option>
                                 <option name="status" value="Chuẩn bị đơn hàng">Chuẩn bị đơn hàng</option>
                                 <option name="status" value="Đang giao">Đang giao</option>
@@ -342,6 +341,17 @@
         $('#editEmployeeModal input[name="dateOder"]').val(orderDate);
         $('#editEmployeeModal input[name="doneDate"]').val(orderDeliveryDate);
     })
+</script>
+
+<script>
+    function checkStatusBeforeOpen() {
+        var status = document.getElementsByName("status")[0].value;
+        if (status === "Hoàn tất") {
+            alert("Đơn hàng đã hoàn tất, không thể thay đổi trạng thái.");
+            return false;
+        }
+        return true;
+    }
 </script>
 
 </body>

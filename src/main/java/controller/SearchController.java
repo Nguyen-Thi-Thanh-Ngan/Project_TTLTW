@@ -1,7 +1,10 @@
 package controller;
 
-import dao.impl.ProductDAO;
+import dao.IProductDAO;
+import dao.impl.ProductDAOImpl;
 import model.Product;
+import service.IProductService;
+import service.impl.ProductServiceImpl;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,6 +16,8 @@ import java.util.List;
 
 @WebServlet(name = "SearchController", value = "/search")
 public class SearchController extends HttpServlet {
+    private IProductService productService = new ProductServiceImpl();
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -24,10 +29,10 @@ public class SearchController extends HttpServlet {
             throws ServletException, IOException {
         response.setCharacterEncoding("UTF-8");
         request.setCharacterEncoding("UTF-8");
-        String textSearch = request.getParameter("name");
-        List<Product> listProduct = ProductDAO.searchByName(textSearch);
+        String search = request.getParameter("name");
+        List<Product> listProduct = productService.findByName(search);
         request.setAttribute("listProduct", listProduct);
-        request.getRequestDispatcher("SearchProduct.jsp").forward(request, response);
+        request.getRequestDispatcher("searchproduct.jsp").forward(request, response);
     }
 }
 

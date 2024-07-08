@@ -69,9 +69,9 @@
             <h3 class="footer-title">Dịch vụ</h3>
             <ul class="footer-links">
               <li><a href="index.jsp">Trang chủ</a></li>
-              <li><a href="giohang.jsp">Giỏ hàng</a></li>
+              <li><a href="shopping-cart.jsp">Giỏ hàng</a></li>
               <li><a href="paging">Danh mục sản phẩm</a></li>
-              <li><a href="thanhtoan.jsp">Thanh toán</a></li>
+              <li><a href="check-out.jsp">Thanh toán</a></li>
             </ul>
           </div>
         </div>

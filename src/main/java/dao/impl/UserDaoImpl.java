@@ -1,98 +1,153 @@
 package dao.impl;
 
 import dao.IUserDao;
-import mapper.impl.userMapperImpl;
+import db.JDBIConnector;
 import model.User;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-public class  UserDaoImpl extends AbstractDaoImpl<User> implements IUserDao {
+public class UserDaoImpl implements IUserDao {
+    private static final String SELECT_USER = "SELECT id, username, password, name, email, created_at, updated_at, role_id, status FROM users";
+
+    Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis()); // ngày giờ hiện tại
+
     @Override
-    public boolean login(User item) {
-        String sql = "select * from users where user_name = ? and password = ?";
-        List<User> list = query(sql, new userMapperImpl(), item.getUserName(), item.getPassword());
-        return list.size() == 1 ? true : false;
+    public boolean login(String username, String password) {
+        return true;
     }
 
     @Override
-    public User register(User item) {
-        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?)";
-        query_insert(sql, item.getId(), item.getName(), item.getSex(), item.getAddress(), item.getBirthDay(), item.getPhoneNumber(), item.getEmail(), item.getUserName(), item.getPassword(), item.getRole_idStr());
-        sql = "select * from users where user_name = ? and password = ?";
-        List<User> list = query(sql, new userMapperImpl(), item.getUserName(), item.getPassword());
-        if(list.size() == 0)
-            return null;
-        return list.get(0);
+    public boolean register(User user) {
+        int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO users(username, password, name, email, created_at, updated_at, role_id, status, oauth_provider, oauth_uid, oauth_token) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+                    .bind(0, user.getUsername())
+                    .bind(1, user.getPassword())
+                    .bind(2, user.getName())
+                    .bind(3, user.getEmail())
+                    .bind(4, currentTimestamp)
+                    .bind(5, currentTimestamp)
+                    .bind(6, user.getRoleId())
+                    .bind(7, user.getStatus())
+                    .bind(8, user.getOauthProvider())
+                    .bind(9, user.getOauthUid())
+                    .bind(10, user.getOauthToken())
+                    .execute();
+
+        });
+        return rowsAffected > 0;
     }
 
-    @Override
-    public String getIdTop1() {
-        String sql = "select * from users ORDER BY LENGTH(id) DESC, id DESC LIMIT 1";
-        List<User> list = query(sql, new userMapperImpl());
-        return list.size() == 1 ? list.get(0).getId() : null;
-    }
 
     @Override
     public boolean isUserNameExists(String username) {
-        String sql = "select * from users where user_name = ?";
-        List<User> list = query(sql, new userMapperImpl(), username);
-        return list.size() > 0 ? true : false;
+        int count = JDBIConnector.getConnect().withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM users WHERE username = :username")
+                        .bind("username", username)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+        return count > 0;
     }
 
     @Override
     public String getIdByUserName(String username) {
-        String sql = "select * from users where user_name = ?";
-        List<User> list = query(sql, new userMapperImpl(), username);
-        return list.size() > 0 ? list.get(0).getId() : null;
+        return "";
     }
 
     @Override
-    public User getByUserName(String username) {
-        String sql = "select * from users where user_name = ?";
-        List<User> list = query(sql, new userMapperImpl(), username);
-        return list.size() > 0 ? list.get(0) : null;
+    public User getUserByUserName(String username) {
+        User user = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_USER + " WHERE username = :username")
+                    .bind("username", username)
+                    .mapToBean(User.class)
+                    .findFirst()
+                    .orElse(null);
+        });
+        return user;
+    }
+
+    public static void main(String[] args) {
+        IUserDao userDao = new UserDaoImpl();
+        User user = userDao.getUserByUserName("admin");
+        System.out.println(user);
     }
 
     @Override
-    public User getById(String username) {
-        String sql = "select * from users where id = ?";
-        List<User> list = query(sql, new userMapperImpl(), username);
-        return list.size() > 0 ? list.get(0) : null;
+    public User getUserByUserId(Integer userId) {
+        User user = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_USER + " WHERE id = :userId")
+                    .bind("userId", userId)
+                    .mapToBean(User.class)
+                    .findFirst()
+                    .orElse(null);
+        });
+        return user;
     }
+
 
     @Override
     public boolean isEmailExists(String email) {
-        String sql = "select * from users where email = ?";
-        return query(sql, new userMapperImpl(), email).size() > 0;
+        int count = JDBIConnector.getConnect().withHandle(handle ->
+                handle.createQuery("SELECT COUNT(*) FROM users WHERE email = :email")
+                        .bind("email", email)
+                        .mapTo(Integer.class)
+                        .one()
+        );
+        return count > 0;
     }
 
     @Override
     public void resetPass(String email, String password) {
-        String sql = "update users set password = ? where email = ?";
-        query_update(sql, password, email);
+
     }
 
     @Override
     public List<User> findAll() {
-        String sql = "select * from users";
-        return query(sql, new userMapperImpl());
+        List<User> users = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_USER)
+                    .mapToBean(User.class)
+                    .list();
+        });
+        return users;
     }
 
     @Override
-    public void deleteById(String id) {
-        String sql = "delete from users where id = ?";
-        query_update(sql, id);
+    public void deleteById(Integer id) {
+        JDBIConnector.getConnect().useHandle(handle ->
+                handle.createUpdate("UPDATE users SET status = 0 WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
     }
 
     @Override
-    public void update(User user) {
-        String sql = "update users set name = ?, address = ?, sex = ?, birth_day = ?, phone_number = ?, email = ?, user_name = ?, password = ? where id = ?";
-        query_update(sql, user.getName(), user.getAddress(), user.getSex(), user.getBirthDay(), user.getPhoneNumber(), user.getEmail(), user.getUserName(), user.getPassword(), user.getId());
+    public boolean update(User user) {
+        int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createUpdate("INSERT INTO users(username, password, name, email, updatedAt, role_id) VALUES (?, ?, ?, ?, ?, ?)")
+                    .bind(0, user.getUsername())
+                    .bind(1, user.getPassword())
+                    .bind(2, user.getName())
+                    .bind(3, user.getEmail())
+                    .bind(4, currentTimestamp)
+                    .bind(5, 1)
+                    .execute();
+
+        });
+        return rowsAffected > 0;
     }
 
     @Override
-    public void add(User user) {
-        String sql = "insert into users values(?,?,?,?,?,?,?,?,?,?)";
-        query_update(sql, user.getId(), user.getName(), user.getSex(), user.getAddress(), user.getBirthDay(), user.getPhoneNumber(), user.getEmail(), user.getUserName(), user.getPassword(), user.getRole_idStr());
+    public User isUserExists(String oauthProvider, String oauthUid) {
+        User user = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_USER + " WHERE oauth_provider = :oauthProvider AND oauth_uid = :oauthUid")
+                    .bind("oauthProvider", oauthProvider)
+                    .bind("oauthUid", oauthUid)
+                    .mapToBean(User.class)
+                    .findFirst()
+                    .orElse(null);
+        });
+        return user;
     }
+
 }
