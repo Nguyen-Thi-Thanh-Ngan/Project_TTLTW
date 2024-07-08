@@ -64,7 +64,7 @@
                                     </div>
                                     <div class="product-body">
                                         <p class="product-category">${product.producer.name}</p>
-                                        <h3 class="product-name"><a href="sanpham.jsp">${product.name}</a></h3>
+                                        <h3 class="product-name"><a href="product?id=${product.id}">${product.name}</a></h3>
                                         <h4 class="product-price">
                                             <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0"/>
                                             VNĐ
