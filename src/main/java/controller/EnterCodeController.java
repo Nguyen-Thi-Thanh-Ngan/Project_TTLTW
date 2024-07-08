@@ -1,7 +1,9 @@
 package controller;
 
 import model.User;
+import service.ICartService;
 import service.IUserService;
+import service.impl.CartItemServiceImpl;
 import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
@@ -13,13 +15,14 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-@WebServlet(value = "/entercode")
+@WebServlet(value = "/enter-code")
 public class EnterCodeController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
+    private ICartService cartService = new CartItemServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -33,7 +36,7 @@ public class EnterCodeController extends HttpServlet {
                 return;
             }
             req.setAttribute("error", "Mã code không chính xác");
-            RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
             dispatcher.forward(req, resp);
             return;
         }else{
@@ -42,29 +45,33 @@ public class EnterCodeController extends HttpServlet {
                 if(code.equals(req.getParameter("code"))){
                     if(SessionUtil.getInstance().getKey(req, "userObj") != null){
                         User user = (User) SessionUtil.getInstance().getKey(req, "userObj");
-                        String rsRegister = userService.register(user);
-                        if(rsRegister == null){
+                        boolean signUp = userService.register(user);
+                        if(!signUp){
                             req.setAttribute("error", "Đăng ký thất bại!");
-                            RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
+                            RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
                             dispatcher.forward(req, resp);
                         }else{
                             req.setAttribute("success", "Đăng ký thành công!");
+
+                            Integer userId = userService.getIdByUserName(user.getUsername());
+                            cartService.createCart(userId);
+
                             SessionUtil.getInstance().deleteKey(req, "code");
                             SessionUtil.getInstance().deleteKey(req, "userObj");
-                            SessionUtil.getInstance().putKey(req, "user", rsRegister);
-                            RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
+                            SessionUtil.getInstance().putKey(req, "user", signUp);
+                            RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
                             dispatcher.forward(req, resp);
                         }
                     }else{
-                        resp.sendRedirect("dangnhap.jsp");
+                        resp.sendRedirect("sign-in.jsp");
                     }
                 }else{
                     req.setAttribute("error", "Mã code không chính xác");
                 }
-                RequestDispatcher dispatcher = req.getRequestDispatcher("enterCode.jsp");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
                 dispatcher.forward(req, resp);
             }else{
-                resp.sendRedirect("dangnhap.jsp");
+                resp.sendRedirect("sign-in.jsp");
             }
         }
     }
