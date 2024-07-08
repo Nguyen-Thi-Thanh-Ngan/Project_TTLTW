@@ -1,35 +1,43 @@
 package service.impl;
 
+import dao.ICartDAO;
 import dao.IRoleDao;
 import dao.IUserDao;
+import dao.impl.CartDAOImpl;
 import dao.impl.RoleDaoImpl;
 import dao.impl.UserDaoImpl;
+import model.Role;
 import model.User;
 import org.mindrot.jbcrypt.BCrypt;
 import service.IUserService;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 public class UserServiceImpl implements IUserService {
     private IUserDao userDao = new UserDaoImpl();
     private IRoleDao roleDao = new RoleDaoImpl();
+    private ICartDAO cartDao = new CartDAOImpl();
 
     @Override
     public boolean login(String username, String password) {
-        User user = new User();
-        user.setUserName(username);
-        user.setPassword(password);
-        return userDao.login(user);
+        User user = userDao.getUserByUserName(username);
+        if(user != null){
+            if(BCrypt.checkpw(password, user.getPassword())){
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
-    public String register(User user) {
-        user.setId(createId());
+    public boolean register(User user) {
         String pass = user.getPassword();
-        String passEn = BCrypt.hashpw(pass, BCrypt.gensalt(12));
-        user.setPassword(passEn);
-        User userNew = userDao.register(user);
-        return userNew == null ? null : userNew.getId();
+        String passEncode = BCrypt.hashpw(pass, BCrypt.gensalt(12));
+        user.setPassword(passEncode);
+        user.setStatus(1);
+        user.setRoleId(4);
+        return userDao.register(user);
     }
 
     @Override
@@ -38,57 +46,56 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public String getIdByUserName(String username) {
-        return userDao.getIdByUserName(username);
+    public Integer getIdByUserName(String username) {
+        User user = userDao.getUserByUserName(username);
+        return user.getId();
     }
 
     @Override
-    public User getByUserName(String username) {
-        return userDao.getByUserName(username);
+    public Integer getRoleIdByUsername(String username) {
+        User user = userDao.getUserByUserName(username);
+        Role role = roleDao.findById(user.getRoleId());
+       return role.getId();
     }
 
     @Override
-    public User getById(String id) {
-        return userDao.getById(id);
+    public User getUserByUsername(String username) {
+        User user = userDao.getUserByUserName(username);
+        return user;
     }
 
     @Override
     public boolean isEmailExists(String email) {
-        return userDao.isEmailExists(email);
+        return false;
     }
 
     @Override
     public void resetPass(String email, String password) {
-        userDao.resetPass(email, password);
+
     }
 
     @Override
     public List<User> findAll() {
-        return userDao.findAll();
+        return List.of();
     }
 
     @Override
-    public void deleteById(String id) {
+    public void deleteById(Integer id) {
         userDao.deleteById(id);
     }
 
     @Override
     public void update(User user) {
-        userDao.update(user);
+
     }
 
     @Override
     public void add(User user, String role) {
-        user.setRole_idStr(roleDao.getByName(role).getId());
-        user.setId(createId());
-        userDao.add(user);
+
     }
 
-    private String createId(){
-        String idOld = userDao.getIdTop1();
-        if(idOld == null)
-            return "u_1";
-        int idNumber = Integer.parseInt(idOld.substring(2)) + 1;
-        return "u_" + idNumber;
+    @Override
+    public User isUserExists(String oauthProvider, String oauthUid) {
+        return userDao.isUserExists(oauthProvider, oauthUid);
     }
 }

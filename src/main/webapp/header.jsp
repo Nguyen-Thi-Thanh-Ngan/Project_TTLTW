@@ -12,7 +12,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%
     Cart cart = (Cart) session.getAttribute("cart");
-    if(cart == null) cart = new Cart();
+    if (cart == null) cart = new Cart();
 %>
 <html>
 <head>
@@ -31,14 +31,18 @@
                 <li><a href="#"><i class="fa fa-map-marker"></i>Quận Thủ Đức - Tp.Hồ Chí Minh</a></li>
             </ul>
             <ul class="header-links pull-right">
-                <c:if test="${sessionScope.user == null}">
-                    <li><a href="dangky.jsp"><i class="fa fa-user-o"></i> Đăng kí</a></li>
-                    <li><a href="dangnhap.jsp"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
-                </c:if>
-                <c:if test="${sessionScope.user != null}">
-                    <li><a href="thongtinnguoidung.jsp?id=<%=new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getId()%>"><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getById(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getName() %></a></li>
-                    <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
-                </c:if>
+                <c:set var="user" value="${sessionScope.user}"/>
+                <c:choose>
+                    <c:when test="${user != null}">
+                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a></li>
+                        <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
+                    </c:when>
+                    <c:otherwise>
+                        <li><a href="sign-up.jsp"><i class="fa fa-user-o"></i> Đăng kí</a></li>
+                        <li><a href="sign-in.jsp"><i class="fa fa-user-o"></i> Đăng nhập</a></li>
+                    </c:otherwise>
+                </c:choose>
+
             </ul>
         </div>
     </div>
@@ -76,10 +80,10 @@
                     <div class="header-ctn">
                         <!-- cart -->
                         <div class="dropdown">
-                            <a class="dropdown-toggle" href="giohang.jsp">
+                            <a class="dropdown-toggle" href="shopping-cart.jsp">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Giỏ Hàng</span>
-                                <div class="qty"><%=cart.getTotal()%></div>  <!--Code + khi thêm vào giỏ hàng-->
+                                <div class="qty">9</div>  <!--Code + khi thêm vào giỏ hàng-->
                             </a>
                         </div>
                         <!-- /cart -->

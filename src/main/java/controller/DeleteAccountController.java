@@ -16,8 +16,8 @@ public class DeleteAccountController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String id = req.getParameter("id");
+        Integer id = Integer.parseInt(req.getParameter("id"));
         userService.deleteById(id);
-        resp.sendRedirect("/quanlytaikhoan");
+        resp.sendRedirect("/management-account");
     }
 }

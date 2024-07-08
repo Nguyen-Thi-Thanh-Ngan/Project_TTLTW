@@ -20,7 +20,7 @@ public class ForgotPasswordController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        RequestDispatcher dispatcher = req.getRequestDispatcher("quenmatkhau.jsp");
+        RequestDispatcher dispatcher = req.getRequestDispatcher("forget-password.jsp");
         dispatcher.forward(req, resp);
     }
 
@@ -30,7 +30,7 @@ public class ForgotPasswordController extends HttpServlet {
         if(!userService.isEmailExists(email)){
             req.setAttribute("error", "Email không tồn tại!");
             req.setAttribute("email", email);
-            RequestDispatcher dispatcher = req.getRequestDispatcher("quenmatkhau.jsp");
+            RequestDispatcher dispatcher = req.getRequestDispatcher("forget-password.jsp");
             dispatcher.forward(req, resp);
             return;
         }

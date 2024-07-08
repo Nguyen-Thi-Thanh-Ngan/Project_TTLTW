@@ -30,7 +30,6 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.impl.PolicyDAO" scope="request"/>
 
 
 </head>

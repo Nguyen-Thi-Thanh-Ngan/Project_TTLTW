@@ -22,10 +22,10 @@
       <!-- NAV -->
       <ul class="main-nav nav navbar-nav">
         <li><a href="index.jsp">Trang chủ</a></li>
-        <li><a href="paging">Danh mục sản phẩm</a></li>
+        <li><a href="danhmuc.jsp">Danh mục sản phẩm</a></li>
         <li><a href="index.jsp#hot-deal">Khuyến mãi</a></li>
-        <li><a href="gioithieu.jsp">Giới thiệu</a>
-        <li><a href="lienhe.jsp">Liên hệ</a>
+        <li><a href="introduction.jsp">Giới thiệu</a>
+        <li><a href="contact.jsp">Liên hệ</a>
         <li><a href="chinhsachbaomat.jsp">Chính sách bảo mật</a></li>
       </ul>
       <!-- /NAV -->
