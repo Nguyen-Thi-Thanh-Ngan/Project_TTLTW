@@ -1,11 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
 {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Poppins", snas-serif, serif;
+    margin: 0
+;
+    padding: 0
+;
+    box-sizing: border-box
+;
+    font-family: "Poppins", snas-serif, serif
+;
 }
-body{
+body {
     margin: 0;
     padding: 0;
     display: flex;
@@ -16,21 +21,24 @@ body{
     color: #000;
     font-family: 'Arial', sans-serif;
 }
-.wrapper{
+
+.wrapper {
     width: 330px;
-    padding:2rem 1rem;
+    padding: 2rem 1rem;
     margin: 50px auto;
     background-color: #fff;
     border-radius: 10px;
-    text-align:  center;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.35);
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.35);
     position: relative;
 }
-h1{
+
+h1 {
     font-size: 2rem;
     color: #07001f;
     margin-bottom: 1.2rem;
 }
+
 form input {
     width: 92%;
     outline: none;
@@ -40,6 +48,7 @@ form input {
     border-radius: 20px;
     background: #e4e4e4;
 }
+
 form textarea {
     width: 92%;
     outline: none;
@@ -49,6 +58,7 @@ form textarea {
     border-radius: 20px;
     background: #e4e4e4;
 }
+
 form select {
     width: 92%;
     outline: none;
@@ -58,52 +68,63 @@ form select {
     border-radius: 20px;
     background: #e4e4e4;
 }
-button{
-    padding:10px 0;
+
+button {
+    padding: 10px 0;
     border-radius: 20px;
-    outline:none;
+    outline: none;
     width: 90%;
-    color:#fff;
-    cursor:pointer;
+    color: #fff;
+    cursor: pointer;
     background: #D10024;
 }
-button:hover{
+
+button:hover {
     background: #af011a;
 }
-input:focus{
-    border:1px solid rgb(192,192,192);
+
+input:focus {
+    border: 1px solid rgb(192, 192, 192);
 }
-.terms{
-    margin-top:0.2rem;
+
+.terms {
+    margin-top: 0.2rem;
 }
-.terms input{
-    height:1em;
-    width:1em;
-    vertical-align:middle;
-    cursor:pointer;
+
+.terms input {
+    height: 1em;
+    width: 1em;
+    vertical-align: middle;
+    cursor: pointer;
 }
-.terms a{
-    color: rgb(17,107,143);
+
+.terms a {
+    color: rgb(17, 107, 143);
     text-decoration: none;
 }
-.member{
-    font-size:0.8rem;
-    margin-top:1.4rem;
-    color:#636363;
+
+.member {
+    font-size: 0.8rem;
+    margin-top: 1.4rem;
+    color: #636363;
 }
-.member a{
-    color:rgb(17,107,143);
+
+.member a {
+    color: rgb(17, 107, 143);
     text-decoration: none;
 }
-.recover{
+
+.recover {
     text-align: right;
-    font-size:0.7rem;
-    margin:0.3rem 1.4rem 0 0;
+    font-size: 0.7rem;
+    margin: 0.3rem 1.4rem 0 0;
 }
-.recover a{
+
+.recover a {
     text-decoration: none;
-    color:#464647;
+    color: #464647;
 }
+
 #success-message {
     background-color: #32CD32; /* Màu nền */
     color: #FFF; /* Màu chữ */
@@ -111,6 +132,7 @@ input:focus{
     border-radius: 5px; /* Bo góc viền */
     text-align: center; /* Căn giữa nội dung */
 }
+
 .overlay {
     display: none;
     position: fixed;
@@ -134,7 +156,26 @@ input:focus{
 }
 
 .success-message a {
-    color: rgb(17,107,143);
+    color: rgb(17, 107, 143);
     text-decoration: none; /* Remove underline */
     font-weight: bold; /* Make the text bold */
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    margin-top: 1.5em;
+}
+.fb {
+    margin-right: 1em;
+    margin-left: 2rem;
+}
+.fb {
+    margin-right: 2rem;
+    margin-left: 1em;
+}
+
+.logo img {
+    width: 3rem;
 }

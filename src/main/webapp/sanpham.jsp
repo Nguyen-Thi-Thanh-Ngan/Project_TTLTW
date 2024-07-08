@@ -1,8 +1,7 @@
 
 <%@ page import="model.Product" %>
-<%@ page import="dao.impl.ProductDAO" %>
-<%@ page import="dao.impl.ProductDetailsDAO" %>
-<%@ page import="model.ProductDetails" %>
+<%@ page import="dao.impl.ProductDAOImpl" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
@@ -35,8 +34,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
-    <jsp:useBean id="a" class="dao.impl.ProductDAO" scope="request"/>
-    <jsp:useBean id="b" class="dao.impl.ProductDetailsDAO" scope="request"/>
+    <jsp:useBean id="a" class="service.impl.ProductServiceImpl" scope="request"/>
+<%--    <jsp:useBean id="b" class="dao.impl.ProductDetailsDAO" scope="request"/>--%>
 </head>
 <body>
 <!-- HEADER -->
@@ -72,30 +71,14 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            <%
-                Product product = ProductDAO.getById(request.getParameter("id"));
-
-                ProductDetailsDAO productDetailsDAO = new ProductDetailsDAO();
-                ProductDetails productDetails = productDetailsDAO.getProductDetail(product);
-            %>
             <!-- Product main img -->
             <div class="col-md-5 col-md-push-2">
                 <div id="product-main-img">
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
+                    <c:forEach var="image" items="${product.images}">
+                        <div class="product-preview">
+                            <img src="${image.linkImage}" alt="Product Image">
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <!-- /Product main img -->
@@ -103,21 +86,11 @@
             <!-- Product thumb imgs -->
             <div class="col-md-2 col-md-pull-5">
                 <div id="product-imgs">
+                    <c:forEach var="image" items="${product.images}">
                     <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
+                        <img src="${image.linkImage}" alt="Product Image">
                     </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
-
-                    <div class="product-preview">
-                        <img src="<%= productDetails.getProduct().getImg()%>" alt="">
-                    </div>
+                </c:forEach>
                 </div>
             </div>
             <!-- /Product thumb imgs -->
@@ -125,16 +98,15 @@
             <!-- Product details -->
             <div class="col-md-5">
                 <div class="product-details">
-                    <h2 class="product-name"><%= productDetails.getProduct().getName()%>
+                    <h2 class="product-name">${product.name}</h2>
                     </h2>
                     <div>
-                        <fmt:formatNumber value="<%=productDetails.getProduct().getPrice()%>" type="number" pattern="#,##0"
-                                          var="formattedPrice"/>
+                        <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
                         <h3 class="product-price">${formattedPrice} VNĐ</h3>
                     </div>
                     <p>
                     <ul style="list-style-type: disc">
-                        <li><%= productDetails.getDescription()%></li>
+                    <li>${product.detail}</li>
                     </ul>
 <%--                    <div class="form-group">--%>
 <%--                        <label for="quantity">Số lượng:</label>--%>
@@ -144,7 +116,7 @@
                     <br>
                     <div class="add-to-cart">
                         <form action="add-cart" method="post">
-                            <input type="hidden" name="id" value="<%= productDetails.getProduct().getId() %>">
+                            <input type="hidden" name="id" value="${product.id}">
                             <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
                         </form>
                     </div>
