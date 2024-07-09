@@ -26,6 +26,14 @@
         </div>
         <button style="border: none"> Đăng nhập</button>
     </form>
+    <div class="logo">
+        <a href="https://www.facebook.com/v19.0/dialog/oauth?client_id=336799002804887&redirect_uri=http://localhost:8080/home/login-fb"><img class="fb"
+                                                                                                                                              src="https://cdn-icons-png.freepik.com/256/5968/5968764.png?ga=GA1.1.2079026882.1697034920&"
+                                                                                                                                              alt="logo_facebook"></a>
+        <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/home/login&response_type=code&client_id=422034366950-db6h041tigi2dd7n7c18fbbhlrs348gc.apps.googleusercontent.com&approval_prompt=force"><img
+                class="gg" src="https://cdn-icons-png.freepik.com/256/300/300221.png?ga=GA1.1.2079026882.1697034920&"
+                alt="logo_google"></a>
+    </div>
     <div class="member">
         Chưa có tài khoản ? <a href="sign-up.jsp">
         Đăng ký ngay

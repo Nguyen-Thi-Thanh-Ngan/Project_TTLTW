@@ -61,28 +61,18 @@ public class LoginController extends HttpServlet {
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) {
-                response.sendRedirect("admin.jsp");
-            } else {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-                dispatcher.forward(request, response);
+            if (roleId == 1) response.sendRedirect("admin.jsp");
+            else {
+                response.sendRedirect("/home");
             }
-            System.out.println("User already exists: " + googleAccount.getEmail());
-            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-            dispatcher.forward(request, response);
         } else {
             userService.register(user);
-            System.out.println("New user registered: " + user.getEmail());
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) {
-                response.sendRedirect("admin.jsp");
-            } else {
-                RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-                dispatcher.forward(request, response);
+            if (roleId == 1) response.sendRedirect("admin.jsp");
+            else {
+                response.sendRedirect("/home");
             }
-            RequestDispatcher dispatcher = request.getRequestDispatcher("index.jsp");
-            dispatcher.forward(request, response);
         }
     }
 }

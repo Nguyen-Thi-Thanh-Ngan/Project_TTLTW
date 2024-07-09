@@ -45,7 +45,7 @@
         Đã có tài khoản? <a href="sign-in.jsp">Đăng nhập ở đây</a>
     </div>
     <div class="logo">
-        <a href="https://www.facebook.com/"><img class="fb"
+        <a href="https://www.facebook.com/v19.0/dialog/oauth?client_id=336799002804887&redirect_uri=http://localhost:8080/home/login-fb"><img class="fb"
                                                  src="https://cdn-icons-png.freepik.com/256/5968/5968764.png?ga=GA1.1.2079026882.1697034920&"
                                                  alt="logo_facebook"></a>
         <a href="https://accounts.google.com/o/oauth2/auth?scope=email profile openid&redirect_uri=http://localhost:8080/home/login&response_type=code&client_id=422034366950-db6h041tigi2dd7n7c18fbbhlrs348gc.apps.googleusercontent.com&approval_prompt=force"><img
@@ -74,7 +74,8 @@
         } else {
             submitForm();
         }
-    }
+    }            System.out.println("New user registered: " + user.getEmail());
+
 
     function submitForm() {
         var registrationForm = document.getElementById('registrationForm');
