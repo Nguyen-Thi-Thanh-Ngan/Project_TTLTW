@@ -86,20 +86,16 @@
                             <h3 class="title">Thông tin thanh toán</h3>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="name" placeholder="Họ và tên" required
-                                   value="${name}">
+                            <input class="input" type="text" name="name" placeholder="Họ và tên" required value="${name}">
                         </div>
                         <div class="form-group">
-                            <input class="input" type="email" name="email" placeholder="Email" required
-                                   value="${email}">
+                            <input class="input" type="email" name="email" placeholder="Email" required value="${email}">
                         </div>
                         <div class="form-group">
-                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng"
-                                   required>
+                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng" required>
                         </div>
                         <div class="form-group">
-                            <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
-                                   value="${phone_number}">
+                            <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required value="${phone_number}">
                         </div>
 
                     </div>
@@ -116,7 +112,7 @@
 
                     <!-- Order notes -->
                     <div class="order-notes">
-                        <textarea class="input" placeholder="Yêu cầu khác(Không bắt buộc)"></textarea>
+                        <textarea class="input" name="note" placeholder="Yêu cầu khác(Không bắt buộc)"></textarea>
                     </div>
                     <!-- /Order notes -->
                 </div>

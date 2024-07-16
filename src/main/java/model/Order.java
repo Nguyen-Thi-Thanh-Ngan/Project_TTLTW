@@ -12,6 +12,7 @@ public class Order {
     private String id;
     private User user;
     private String address;
+    private String phone_number;
     private String status;
     private String note;
     private String payment_method;
