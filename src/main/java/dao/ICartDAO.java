@@ -8,9 +8,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface ICartDAO {
+    Cart findByUserId(Integer userId);
     boolean createCart(Integer userId);
+    Integer getTotalCartItem(Integer cartId);
     Map<Integer, List<CartItem>> getProductInCart(Integer idUser);
-    boolean removeProductInCart(Integer userId, Integer productId);
-    boolean updateProductInCart(Integer userId, Product product, Integer quantity);
-    boolean removeAllProductInCart(Integer userId);
+    List<CartItem> findAllCartItemByCartId(Integer cartId);
 }

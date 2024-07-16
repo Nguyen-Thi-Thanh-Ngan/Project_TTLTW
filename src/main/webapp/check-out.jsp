@@ -36,9 +36,16 @@
     <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
 
 
     <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
 
@@ -93,9 +100,23 @@
                             <input class="input" type="email" name="email" placeholder="Email" required
                                    value="${email}">
                         </div>
-                        <div class="form-group">
-                            <input class="input" type="text" name="delivery_address" placeholder="Địa chỉ nhận hàng"
-                                   required>
+                        <div class="container-address col-12"
+                             style="display: flex; flex-direction: row; justify-content: space-between">
+                            <div class="form-group col-3">
+                                <select class="form-select form-control" id="province-select" name="province">
+                                    <option value="">--Chọn Tỉnh Thành--</option>
+                                </select>
+                            </div>
+                            <div class="form-group  col-3">
+                                <select class="form-select form-control" id="district-select" name="district">
+                                    <option value="">--Chọn Quận Huyện--</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-3">
+                                <select class="form-select form-control" id="ward-select" name="ward">
+                                    <option value="">--Chọn Phường Xã--</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="form-group">
                             <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
@@ -131,19 +152,20 @@
                             <div><strong>SẢN PHẨM</strong></div>
                             <div><strong>GIÁ</strong></div>
                         </div>
-                        <c:set var="totalPrice" value="0" />
+                        <c:set var="totalPrice" value="0"/>
                         <div class="order-products">
-                            <c:forEach var="product" items="${selectedProductsList}">
+                            <c:forEach var="item" items="${selectedProductsList}">
                                 <div class="order-col">
-                                    <div>${product.quantity} X </div>
-                                    <div>${product.name}</div>
+                                    <div>${item.quantity} X</div>
+                                    <div>${item.product.name}</div>
                                     <div>
-                                        <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
-                                            <h5 class="product-price">${formattedPrice} VNĐ</h5>
+                                        <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
+                                                          var="formattedPrice"/>
+                                        <h5 class="product-price">${formattedPrice} VNĐ</h5>
                                     </div>
                                 </div>
                                 <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
-                                <c:set var="totalPrice" value="${totalPrice + (product.price * product.quantity)}" />
+                                <c:set var="totalPrice" value="${totalPrice + (item.product.price * item.quantity)}"/>
                             </c:forEach>
                         </div>
                         <div class="order-col">
@@ -169,7 +191,8 @@
                                 Chuyển khoản trực tiếp
                             </label>
                             <div class="caption">
-                                <p>Quý khách vui lòng quét mã để chuyển khoản với nội dung: Họ tên người mua + số điện thoại</p>
+                                <p>Quý khách vui lòng quét mã để chuyển khoản với nội dung: Họ tên người mua + số điện
+                                    thoại</p>
                                 <img id="qr_code" alt="qr_code" src="" style="width: 200px; height: 200px"/>
                             </div>
                         </div>
@@ -224,15 +247,11 @@
 </div>
 <!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
+<script src="js/main.js"></script>
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+
 
 <script>
     $("#payment-1").change(() => {
@@ -271,7 +290,7 @@
                 'x-api-key': '1afe4e54-e325-4296-9a1e-5027fcd70bfb',
                 'Content-Type': 'application/json'
             },
-            data:{
+            data: {
                 "accountNo": "022042003",
                 "accountName": "Nguyễn Thanh Bình",
                 "acqId": "970422",

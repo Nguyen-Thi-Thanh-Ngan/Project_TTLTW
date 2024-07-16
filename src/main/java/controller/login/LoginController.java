@@ -2,7 +2,9 @@ package controller.login;
 
 import model.GoogleAccount;
 import model.User;
+import service.ICartService;
 import service.IUserService;
+import service.impl.CartServiceImpl;
 import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
@@ -17,6 +19,7 @@ import java.io.IOException;
 @WebServlet(name = "LoginController", value = "/login")
 public class LoginController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
+    private ICartService cartService = new CartServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -66,7 +69,10 @@ public class LoginController extends HttpServlet {
                 response.sendRedirect("/home");
             }
         } else {
-            userService.register(user);
+            if (userService.register(user)){
+                Integer userId = userService.getIdByUserName(user.getUsername());
+                cartService.createCart(userId);
+            }
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
             if (roleId == 1) response.sendRedirect("admin.jsp");

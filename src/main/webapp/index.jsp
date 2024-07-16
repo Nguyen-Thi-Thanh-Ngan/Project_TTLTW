@@ -33,6 +33,18 @@
 
     <jsp:useBean id="a" class="service.impl.ProductServiceImpl" scope="request"></jsp:useBean>
     <jsp:useBean id="d" class="model.ProductType" scope="request"></jsp:useBean>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
 <!-- HEADER -->
@@ -98,10 +110,9 @@
 <!-- /SECTION -->
 
 <!-- SECTION -->
-<div class="section">
+<div class="section" style="${a.findNewProduct() != null && !a.findNewProduct().isEmpty() ? '' : 'display:none;'}">
     <div class="container">
         <div class="row">
-
             <div class="col-md-12">
                 <div class="section-title">
                     <h3 class="title">Sản phẩm mới</h3>
@@ -124,19 +135,19 @@
                                         </div>
                                         <div class="product-body">
                                             <p class="product-category">${product.producer.name}</p>
-                                            <h3 class="product-name"><a href="product?id=${product.id}">${product.name}</a></h3>
-                                            <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
+                                            <h3 class="product-name"><a
+                                                    href="product?id=${product.id}">${product.name}</a></h3>
+                                            <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0"
+                                                              var="formattedPrice"/>
                                             <h4 class="product-price">${formattedPrice} VNĐ</h4>
                                             <div class="product-rating">
                                             </div>
                                         </div>
                                         <div class="add-to-cart">
-                                            <form action="add-cart" method="post">
-                                                <input type="hidden" name="id" value="${product.id}">
-                                                <button type="submit" class="add-to-cart-btn">
-                                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                                </button>
-                                            </form>
+                                            <button class="add-to-cart-btn  d-block"
+                                                    data-product="${product.id}">
+                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +159,6 @@
         </div>
     </div>
 </div>
-<!-- /SECTION -->
 
 
 <!-- SECTION -->
@@ -180,12 +190,10 @@
                                         <div class="product-rating"></div>
                                     </div>
                                     <div class="add-to-cart">
-                                        <form action="add-cart" method="post">
-                                            <input type="hidden" name="id" value="${product.id }">
-                                            <button type="submit" class="add-to-cart-btn"><i
-                                                    class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                            </button>
-                                        </form>
+                                        <button class="add-to-cart-btn d-block"
+                                                data-product="${product.id}">
+                                            <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -226,12 +234,10 @@
                                             <div class="product-rating"></div>
                                         </div>
                                         <div class="add-to-cart">
-                                            <form action="add-cart" method="post">
-                                                <input type="hidden" name="id" value="${product.id }">
-                                                <button type="submit" class="add-to-cart-btn"><i
-                                                        class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                                </button>
-                                            </form>
+                                            <button class="add-to-cart-btn  d-block"
+                                                    data-product="${product.id}">
+                                                <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
@@ -248,16 +254,11 @@
 
 <!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
-
+<script src="js/main.js"></script>
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+
 
 </body>
 </html>

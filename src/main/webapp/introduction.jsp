@@ -30,6 +30,9 @@
     <link rel="stylesheet" href="css/intro.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </head>
 <body>
 <!-- HEADER -->
@@ -161,13 +164,6 @@
 <jsp:include page="footer.jsp"/>
 <!-- /FOOTER -->
 
-<!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
 
 </body>
 </html>
