@@ -5,15 +5,8 @@
   Time: 10:17 PM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page import="cart.Cart" %>
-<%@ page import="utils.SessionUtil" %>
-<%@ page import="service.impl.UserServiceImpl" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%
-    Cart cart = (Cart) session.getAttribute("cart");
-    if (cart == null) cart = new Cart();
-%>
 <html>
 <head>
     <title>Header</title>
@@ -34,7 +27,8 @@
                 <c:set var="user" value="${sessionScope.user}"/>
                 <c:choose>
                     <c:when test="${user != null}">
-                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a></li>
+                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a>
+                        </li>
                         <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
                     </c:when>
                     <c:otherwise>
@@ -80,10 +74,10 @@
                     <div class="header-ctn">
                         <!-- cart -->
                         <div class="dropdown">
-                            <a class="dropdown-toggle" href="shopping-cart.jsp">
+                            <a class="dropdown-toggle" href="cart.html">
                                 <i class="fa fa-shopping-cart"></i>
                                 <span>Giỏ Hàng</span>
-                                <div class="qty">9</div>  <!--Code + khi thêm vào giỏ hàng-->
+                                <div id="cart-quantity" class="qty"><c:out value="${totalItem}"/></div>
                             </a>
                         </div>
                         <!-- /cart -->
@@ -107,5 +101,24 @@
     <!-- /MAIN HEADER -->
 </header>
 <!-- /HEADER -->
+<script>
+    $(document).ready(function () {
+        <%if (session.getAttribute("user") != null) { %>
+            $.ajax({
+                url: 'api/cart/total-cart-item',
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    $('#cart-quantity').text(response);
+                },
+                error: function (xhr, status, error) {
+                    console.error('Failed to fetch cart count:', error);
+                }
+            })
+        <%} else {%>
+            $('#cart-quantity').text("0");
+        <%}%>
+    });
+</script>
 </body>
 </html>
