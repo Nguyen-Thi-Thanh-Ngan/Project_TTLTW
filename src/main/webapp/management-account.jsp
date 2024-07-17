@@ -23,13 +23,8 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <!-- End import lib -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="js/admin.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -56,7 +51,9 @@
             </a>
             <ul id="notification-menu" class="dropdown-menu notification-menu">
                 <div class="dropdown-menu-header">
-                    <span>Thông báo</span>
+						<span>
+							Thông báo
+						</span>
                 </div>
                 <div class="dropdown-menu-content overlay-scrollbar scrollbar-hover">
                     <li class="dropdown-menu-item">
@@ -65,15 +62,18 @@
                                 <i class="fas fa-gift"></i>
                             </div>
                             <span>
-                                Thông báo kết thúc khuyến mãi
-                                <br>
-                                <span>15/07/2020</span>
-                            </span>
+									Thông báo kết thúc khuyến mãi
+									<br>
+									<span>
+										15/07/2020
+									</span>
+								</span>
                         </a>
                     </li>
                 </div>
                 <div class="dropdown-menu-footer">
-                    <span></span>
+						<span>
+						</span>
                 </div>
             </ul>
         </li>
@@ -113,7 +113,9 @@
                 <div>
                     <i class="fa-solid fa-signal"></i>
                 </div>
-                <span>Thông số bán hàng</span>
+                <span>
+						Thông số bán hàng
+					</span>
             </a>
         </li>
         <li class="sidebar-nav-item">
@@ -157,10 +159,12 @@
         <div class="col-8 col-m-12 col-sm-12">
             <div class="card">
                 <div class="card-header" style="display: flex">
-                    <h3>Quản lý tài khoản</h3>
+                    <h3>
+                        Quản lý tài khoản
+                    </h3>
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
-                        <span>Thêm tài khoản mới</span>
-                    </a>
+                        <span>Thêm tài khoản mới</span></a>
+
                 </div>
                 <div class="card-content">
                     <table>
@@ -168,6 +172,7 @@
                         <tr>
                             <th>#</th>
                             <th>Họ tên</th>
+                            <th>Số điện thoại</th>
                             <th>Email</th>
                             <th>Username</th>
                             <th>Đơn hàng</th>
@@ -179,42 +184,32 @@
                             <tr>
                                 <td>${item.id}</td>
                                 <td>${item.name}</td>
+                                <td>${item.phoneNumber}</td>
                                 <td>${item.email}</td>
-                                <td>${item.username}</td>
-                                <td></td>
+                                <td>${item.userName}</td>
                                 <td>
-                                    <a href="#blockUnblockUserModal" class="block" data-toggle="modal"
-                                       onclick="setModalContent(${item.id}, ${item.status})">
-                                        <img id="blockUserImg" src="${item.status == 1 ? 'https://cdn-icons-png.flaticon.com/128/889/889758.png' : 'https://cdn-icons-png.flaticon.com/128/889/889754.png'}" height="40px" width="40px" alt="">
+                                    <a href="#"
+                                       data-id="${item.id}"
+                                       data-name="${item.name}"
+                                       data-phone_number="${item.phoneNumber}"
+                                       data-birth_day="${item.birthDay}"
+                                       data-sex="${item.sex}"
+                                       data-email="${item.email}"
+                                       data-user_name="${item.userName}"
+                                       data-password="${item.password}"
+                                       class="edit"
+                                       data-toggle="modal">
+                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
                                     </a>
+                                    <a href="#" data-id="${item.id}" class="delete" data-toggle="modal"><i
+                                            class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
                                 </td>
+                                <td></td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div id="blockUnblockUserModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form id="blockUnblockForm" action="block" method="post">
-                    <div class="modal-header">
-                        <h4 id="modalTitle" class="modal-title">Chặn người dùng này</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p id="modalBodyText">Bạn có chắc chắn muốn chặn người dùng này?</p>
-                        <p class="text-warning"><small>Hành động này sẽ có thể hoàn lại.</small></p>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input id="modalSubmitBtn" type="submit" class="btn btn-danger" value="Chặn">
-                        <input type="hidden" id="userIdToBlockOrUnblock" name="userIdToBlockOrUnblock" value="">
-                        <input type="hidden" id="processAction" name="processAction" value="block">
-                    </div>
-                </form>
             </div>
         </div>
     </div>
@@ -230,62 +225,98 @@
                     <div class="modal-body">
                         <input type="text" hidden class="form-control" required name="id" id="editId">
                         <div class="form-group">
-                            <label>Họ và tên</label>
+                            <label>Họ tên</label>
                             <input type="text" class="form-control" required name="name" id="editName">
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
-                            <input type="text" class="form-control" required name="phoneNumber" id="editPhoneNumber">
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="birthDay" id="editBirthDay">
-                        </div>
-                        <div class="form-group">
-                            <label>Giới tính</label>
-                            <select class="form-control" required name="sex" id="editSex">
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
+                            <input type="tel" class="form-control" required name="phone_number" id="editPhone_number">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-control" required name="email" id="editEmail">
                         </div>
                         <div class="form-group">
-                            <label>Tên đăng nhập</label>
-                            <input type="text" class="form-control" required name="userName" id="editUserName">
+                            <label>Username</label>
+                            <input type="text" class="form-control" required name="user_name" id="editUser_name">
                         </div>
                         <div class="form-group">
-                            <label>Mật khẩu</label>
-                            <input type="text" class="form-control" required name="password" id="editPassword">
+                            <label>Password</label>
+                            <input type="password" class="form-control" required name="password" id="editPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required name="address" id="editAddress">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-info" value="Lưu">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-info" value="Save">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!-- Xóa-->
+    <!-- Add -->
+    <div id="addEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/account/create" method="post" id="create">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Thêm tài khoản mới</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>Họ tên</label>
+                            <input type="text" class="form-control" required name="name" id="createName">
+                        </div>
+                        <div class="form-group">
+                            <label>Số điện thoại</label>
+                            <input type="tel" class="form-control" required name="phone_number" id="createPhone_number">
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" required name="email" id="createEmail">
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" required name="user_name" id="createUser_name">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" class="form-control" required name="password" id="createPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required name="address" id="createAddress">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Add">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- Delete -->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/account/delete" method="post">
+                <form action="/account/delete" method="post" id="delete">
                     <div class="modal-header">
                         <h4 class="modal-title">Xóa tài khoản</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" hidden class="form-control" required name="id" id="deleteId">
-                        <p>Bạn có chắc chắn muốn xóa tài khoản này?</p>
+                        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
                         <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                        <input type="text" hidden class="form-control" required name="id" id="deleteId">
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-danger" value="Delete">
                     </div>
                 </form>
             </div>
@@ -294,25 +325,12 @@
 </div>
 <!-- end main content -->
 
-<!-- import script -->
-<script>
-    function setModalContent(userId, status) {
-        $('#userIdToBlockOrUnblock').val(userId);
-
-        if (status == 1) {
-            $('#modalTitle').text('Chặn người dùng này');
-            $('#modalBodyText').text('Bạn có chắc chắn muốn chặn người dùng này?');
-            $('#modalSubmitBtn').val('Chặn');
-            $('#processAction').val('block');
-        } else if (status == 2) {
-            $('#modalTitle').text('Bỏ chặn người dùng này');
-            $('#modalBodyText').text('Bạn có chắc chắn muốn bỏ chặn người dùng này?');
-            $('#modalSubmitBtn').val('Bỏ chặn');
-            $('#processAction').val('unblock');
-        }
-    }
-</script>
-<!-- end import script -->
-
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+<script src="./js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script src="./js/style.js"></script>
 </body>
 </html>
