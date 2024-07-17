@@ -42,6 +42,14 @@ import java.util.*;
             return products;
         }
 
+        public static void main(String[] args) {
+            IProductDAO productDAO = new ProductDAOImpl();
+            List<Product> products = productDAO.findAll();
+            for (Product product : products) {
+                System.out.println(product);
+            }
+        }
+
         @Override
         public Product findById(Integer id) {
             Product product = JDBIConnector.getConnect().withHandle(handle -> {
@@ -129,15 +137,5 @@ import java.util.*;
                             .list()
             );
             return result;
-        }
-
-        public static void main(String[] args) {
-            ProductDAOImpl productDAO = new ProductDAOImpl();
-            Integer categoryID = 1;
-            List<Product> productsByCategory = productDAO.findByCategory(categoryID);
-            System.out.println("Products found by category '1':");
-            for (Product product : productsByCategory) {
-                System.out.println(product);
-            }
         }
     }
