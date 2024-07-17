@@ -132,6 +132,15 @@ public class UserDaoImpl implements IUserDao {
     }
 
     @Override
+    public void unBlock(String id) {
+        JDBIConnector.getConnect().useHandle(handle ->
+                handle.createUpdate("UPDATE users SET status = 1 WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+    @Override
     public List<User> findAllUser() {
         List<User> users = JDBIConnector.getConnect().withHandle(handle -> {
             return handle.createQuery(SELECT_USER_EXCEPT_ADMIN)

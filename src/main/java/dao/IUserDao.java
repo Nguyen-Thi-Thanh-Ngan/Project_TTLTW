@@ -19,5 +19,6 @@ public interface IUserDao {
     boolean update(User user);
     User isUserExists(String oauthProvider, String oauthUid);
     void blockUser(String id);
+    void unBlock(String id);
      List<User> findAllUser();
 }

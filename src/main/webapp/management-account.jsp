@@ -183,9 +183,10 @@
                                 <td>${item.username}</td>
                                 <td></td>
                                 <td>
-                                    <a href="#blockUserModal" class="delete" data-toggle="modal"
-                                       onclick="blockUser(${item.id})">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/889/889758.png" height="40px" width="40px" alt=""></a>
+                                    <a href="#blockUnblockUserModal" class="block" data-toggle="modal"
+                                       onclick="setModalContent(${item.id}, ${item.status})">
+                                        <img id="blockUserImg" src="${item.status == 1 ? 'https://cdn-icons-png.flaticon.com/128/889/889758.png' : 'https://cdn-icons-png.flaticon.com/128/889/889754.png'}" height="40px" width="40px" alt="">
+                                    </a>
                                 </td>
                             </tr>
                         </c:forEach>
@@ -195,23 +196,23 @@
             </div>
         </div>
     </div>
-    <%--    Block--%>
-    <div id="blockUserModal" class="modal fade">
+    <div id="blockUnblockUserModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form id="blockFrom" action="block" method="post">
+                <form id="blockUnblockForm" action="block" method="post">
                     <div class="modal-header">
-                        <h4 class="modal-title">Chặn người dùng này</h4>
+                        <h4 id="modalTitle" class="modal-title">Chặn người dùng này</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <p>Bạn có chắc chắn muốn chặn người dùng này?</p>
+                        <p id="modalBodyText">Bạn có chắc chắn muốn chặn người dùng này?</p>
                         <p class="text-warning"><small>Hành động này sẽ có thể hoàn lại.</small></p>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-danger" value="Chặn" onclick="submitBlockForm()">
-                        <input type="hidden" id="userIdToBlock" name="userIdToBlock" value="">
+                        <input id="modalSubmitBtn" type="submit" class="btn btn-danger" value="Chặn">
+                        <input type="hidden" id="userIdToBlockOrUnblock" name="userIdToBlockOrUnblock" value="">
+                        <input type="hidden" id="processAction" name="processAction" value="block">
                     </div>
                 </form>
             </div>
@@ -295,14 +296,20 @@
 
 <!-- import script -->
 <script>
-    function blockUser(userId) {
-        document.getElementById('userIdToBlock').value = userId;
-        $('#blockUserModal').modal('show');
-    }
+    function setModalContent(userId, status) {
+        $('#userIdToBlockOrUnblock').val(userId);
 
-    function submitBlockForm() {
-        document.getElementById('blockFrom').submit();
-        $('#blockUserModal').modal('hide');
+        if (status == 1) {
+            $('#modalTitle').text('Chặn người dùng này');
+            $('#modalBodyText').text('Bạn có chắc chắn muốn chặn người dùng này?');
+            $('#modalSubmitBtn').val('Chặn');
+            $('#processAction').val('block');
+        } else if (status == 2) {
+            $('#modalTitle').text('Bỏ chặn người dùng này');
+            $('#modalBodyText').text('Bạn có chắc chắn muốn bỏ chặn người dùng này?');
+            $('#modalSubmitBtn').val('Bỏ chặn');
+            $('#processAction').val('unblock');
+        }
     }
 </script>
 <!-- end import script -->
