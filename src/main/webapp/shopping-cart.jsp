@@ -100,15 +100,14 @@
                         <h4><b>Xóa</b></h4>
                     </th>
                 </tr>
-
                 </thead>
-                <form action="/check-out" method="post">
+                <form id="checkoutForm" action="check-out" method="post">
                     <tbody>
                     <c:forEach items="${cartItems}" var="item">
                         <tr id="item-${item.product.id}">
                             <td>
 
-                                <input type="checkbox" class="productCheckbox" name="selectedProducts"
+                                <input type="checkbox" class="productCheckbox" name="selectedProductIds"
                                        value="${item.product.id}"
                                        data-price="${item.product.price}"
                                        data-quantity="${item.quantity}"
@@ -135,14 +134,10 @@
                             <td><strong> ${formattedPrice} VND</strong></td>
                                 <%--                        Cập nhật số lượng--%>
                             <td data-th="Quantity">
-
                                 <table class="table table-hover border bg-white">
-                                    <td style="border: none"><b> <input type="text"
-                                                                        name="quantity1"
-                                                                        value="${item.quantity}"
-
-                                                                        style="width: 45px"> </b>
-                                    </td>
+                                    <td style="border: none"><b> <input type="text" name="quantity-${item.product.id}"
+                                                                        value="${item.quantity}" style="width: 45px">
+                                    </b></td>
 
                                     <td style="border: none"><input type="hidden" name="productId"
                                                                     value="${item.product.id}">
@@ -181,10 +176,9 @@
     </span>
                         </td>
                         <td>
-                            <form action="/check-out" method="post">
-                                <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block"
-                                       value="Thanh toán">
-                            </form>
+                            <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block"
+                                   value="Thanh toán">
+
                         </td>
                     </tr>
                     </tfoot>
@@ -230,6 +224,36 @@
 <!-- /FOOTER -->
 
 <script>
+    $('#checkoutForm').on('submit', function (event) {
+        var checkboxes = $('input[name="selectedProductIds"]:checked');
+        if (checkboxes.length === 0) {
+            event.preventDefault();
+            Toastify({
+                text: "Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#D10024",
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+    });
+
+    $('#selectAll').on('change', function () {
+        var isChecked = $(this).is(':checked');
+        $('input[name="selectedProductIds"]').prop('checked', isChecked);
+        updateTotalAmount();
+    });
+
+    $('input[name="selectedProductIds"]').on('change', function () {
+        updateTotalAmount();
+    });
+
     function updateTotalAmount() {
         var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
         var totalAmount = 0;

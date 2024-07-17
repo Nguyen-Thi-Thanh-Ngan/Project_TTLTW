@@ -205,7 +205,7 @@ $(document).ready(function () {
 					position: "right", // `left`, `center` or `right`
 					stopOnFocus: true, // Prevents dismissing of toast on hover
 					style: {
-						background: "red",
+						background: "#D10024",
 					},
 					onClick: function(){} // Callback after click
 				}).showToast();

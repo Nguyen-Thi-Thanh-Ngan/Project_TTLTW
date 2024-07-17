@@ -257,9 +257,7 @@
     $("#payment-1").change(() => {
         var productPriceText = $('.product-price.total').text();
         productPriceText = productPriceText.replace(' VNĐ', '');
-        console.loger(productPriceText)
         productPriceText = productPriceText.replace('.', '');
-        console.loger(productPriceText)
         var price = parseInt(productPriceText);
         payByVNPay(price);
     });
