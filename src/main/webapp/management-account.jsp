@@ -169,7 +169,6 @@
                 <div class="card-content">
                     <table>
                         <thead>
-                        <c:forEach var="item" items="${users}">
                         <tr>
                             <th>#</th>
                             <th>Họ tên</th>
@@ -231,75 +230,38 @@
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
-                            <input type="tel" class="form-control" required name="phone" id="editPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Địa chỉ</label>
-                            <textarea class="form-control" required name="address" id="editAddress"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="date" id="editDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Giới tính</label>
-                            <select class="form-control" required name="gender" id="editGender">
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
+                            <input type="tel" class="form-control" required name="phone_number" id="editPhone_number">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
                             <input type="email" class="form-control" required name="email" id="editEmail">
                         </div>
                         <div class="form-group">
-                            <label>User</label>
-                            <input type="text" class="form-control" required name="user" id="editUser">
+                            <label>Username</label>
+                            <input type="text" class="form-control" required name="user_name" id="editUser_name">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
                             <input type="password" class="form-control" required name="password" id="editPassword">
                         </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required name="address" id="editAddress">
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-info" value="Lưu">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-info" value="Save">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!--/ Edit-->
-
-    <!-- Delete-->
-
-    <div id="deleteEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/account/delete" method="post">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Xóa tài khoản này</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Bạn có chắc chắn muốn xóa tài khoản này?</p>
-                        <p class="text-warning"><small>Hành động này sẽ không thể hoàn lại.</small></p>
-                    </div>
-                    <input type="text" hidden name="id" id="idDel">
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" id="btnDel" class="btn btn-danger" value="Xóa">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--/ Delete-->
-    <!--/ Add-->
+    <!-- Add -->
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/account/add" method="post" id="add">
+                <form action="/account/create" method="post" id="create">
                     <div class="modal-header">
                         <h4 class="modal-title">Thêm tài khoản mới</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -307,176 +269,68 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>Họ tên</label>
-                            <input type="text" class="form-control" required name="name" id="addName">
+                            <input type="text" class="form-control" required name="name" id="createName">
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
-                            <input type="tel" class="form-control" required name="phone" id="addPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="date" id="addDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Giới tính</label>
-                            <select class="form-control" required name="gender" id="addGender">
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Quyền</label>
-                            <select class="form-control" required name="role" id="addRole">
-                                <option value="admin">Admin</option>
-                                <option value="user">Khách hàng</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Địa chỉ</label>
-                            <textarea class="form-control" required name="address" id="addAddress"></textarea>
+                            <input type="tel" class="form-control" required name="phone_number" id="createPhone_number">
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" required name="email" id="addEmail">
+                            <input type="email" class="form-control" required name="email" id="createEmail">
                         </div>
                         <div class="form-group">
-                            <label>User</label>
-                            <input type="text" class="form-control" required name="user" id="addUser">
+                            <label>Username</label>
+                            <input type="text" class="form-control" required name="user_name" id="createUser_name">
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control" required name="password" id="addPassword">
+                            <input type="password" class="form-control" required name="password" id="createPassword">
+                        </div>
+                        <div class="form-group">
+                            <label>Địa chỉ</label>
+                            <input type="text" class="form-control" required name="address" id="createAddress">
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="button" id="btnAdd" class="btn btn-success" value="Thêm">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-success" value="Add">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!--/ Add -->
+    <!-- Delete -->
+    <div id="deleteEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="/account/delete" method="post" id="delete">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Xóa tài khoản</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn xóa tài khoản này không?</p>
+                        <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                        <input type="text" hidden class="form-control" required name="id" id="deleteId">
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Cancel">
+                        <input type="submit" class="btn btn-danger" value="Delete">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 <!-- end main content -->
 
-<!-- import script -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-<script src="js/admin.js"></script>
 <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-<!-- end import script -->
-<script>
-    $('.delete').off('click').on('click', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        $('#idDel').val(btn.data('id'));
-        $('#deleteEmployeeModal').modal('show');
-    });
-    $('.edit').off('click').on('click', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        $.ajax({
-            url: "/account/edit?id=" + btn.data('id'),
-            dataType: "json",
-            method: "GET",
-            success: (rs) => {
-                $('#editId').val(btn.data('id'));
-                $('#editAddress').val(rs);
-                $('#editName').val(btn.data('name'));
-                $('#editPhone').val(btn.data('phone_number'));
-                $('#editDate').val(btn.data('birth_day'));
-                $('#editGender').val(btn.data('sex'));
-                $('#editEmail').val(btn.data('email'));
-                $('#editUser').val(btn.data('user_name'));
-                $('#editPassword').val(btn.data('password'));
-                $('#editEmployeeModal').modal('show');
-            },
-            error: (rs) => {
-                console.log(rs);
-            }
-        });
-
-    });
-    $('#btnDel').on('click', function () {
-        alert('Xóa tài khoản thành công');
-    });
-    $('#edit').on('submit', function () {
-        alert('Cập nhập tài khoản thành công');
-    });
-    $('#add').on('submit', function () {
-        alert('Thêm tài khoản thành công');
-    });
-
-    function removeAscent(str) {
-        str = str.trim();
-        if (str === null || str === undefined) {
-            return str;
-        }
-        str = str.toLowerCase();
-        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/gi, "a");
-        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/gi, "e");
-        str = str.replace(/(ì|í|ị|ỉ|ĩ)/gi, "i");
-        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/gi, "o");
-        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/gi, "u");
-        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/gi, "y");
-        str = str.replace(/đ/gi, "d");
-        return str;
-    }
-
-    $('#btnAdd').on('click', function () {
-        let name = $('#addName').val();
-        let address = $('#addAddress').val();
-        let date = $('#addDate').val();
-        let phone = $('#addPhone').val();
-        let email = $('#addEmail').val();
-        let user = $('#addUser').val();
-        let password = $('#addPassword').val();
-        if (!name || !address || !date || !phone || !email || !user || !password) {
-            alert('Hãy nhập đầy đủ thông tin!');
-            return;
-        }
-        var regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i;
-        if (!regexEmail.test(removeAscent(email))) {
-            alert('Sai định dạng Email, phải có @ đuôi là tên miền');
-            return;
-        }
-        var regexPhone = /^0(3|5|7|8|9)[0-9]{8}$/i;
-        if (!regexPhone.test(removeAscent(phone))) {
-            alert('Sai định dạng, chỉ gồm 10 chữ số bắt đầu bằng 03 hoặc 05 hoặc 07 hoặc 08 hoặc 09');
-            return;
-        }
-        $.ajax({
-            url: "/account/add?email=" + $('#addEmail').val(),
-            dataType: "json",
-            method: "GET",
-            success: (rs) => {
-                if (rs) {
-                    $.ajax({
-                        url: "/account/add?user=" + $('#addUser').val(),
-                        dataType: "json",
-                        method: "PUT",
-                        success: (rs) => {
-                            if (rs) {
-                                $('#add').submit();
-                            } else {
-                                alert("Username đã tồn tại, vui lòng nhập username khác");
-                            }
-                        },
-                        error: (rs) => {
-                            console.log(rs);
-                        }
-                    });
-                } else {
-                    alert("Email đã tồn tại, vui lòng nhập email khác");
-                }
-            },
-            error: (rs) => {
-                console.log(rs);
-            }
-        });
-    });
-</script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.bundle.min.js"></script>
+<script src="./js/all.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/js/all.min.js"></script>
+<script src="./js/style.js"></script>
 </body>
 </html>
