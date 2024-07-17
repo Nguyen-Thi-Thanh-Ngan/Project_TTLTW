@@ -18,4 +18,6 @@ public interface IUserService {
     void update(User user);
     void add(User user, String role);
     User isUserExists(String oauthProvider, String oauthUid);
+
+    List<User> findAllUser();
 }

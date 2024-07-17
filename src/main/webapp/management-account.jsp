@@ -23,8 +23,11 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <!-- End import lib -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
-    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
@@ -53,9 +56,7 @@
             </a>
             <ul id="notification-menu" class="dropdown-menu notification-menu">
                 <div class="dropdown-menu-header">
-						<span>
-							Thông báo
-						</span>
+                    <span>Thông báo</span>
                 </div>
                 <div class="dropdown-menu-content overlay-scrollbar scrollbar-hover">
                     <li class="dropdown-menu-item">
@@ -64,18 +65,15 @@
                                 <i class="fas fa-gift"></i>
                             </div>
                             <span>
-									Thông báo kết thúc khuyến mãi
-									<br>
-									<span>
-										15/07/2020
-									</span>
-								</span>
+                                Thông báo kết thúc khuyến mãi
+                                <br>
+                                <span>15/07/2020</span>
+                            </span>
                         </a>
                     </li>
                 </div>
                 <div class="dropdown-menu-footer">
-						<span>
-						</span>
+                    <span></span>
                 </div>
             </ul>
         </li>
@@ -115,9 +113,7 @@
                 <div>
                     <i class="fa-solid fa-signal"></i>
                 </div>
-                <span>
-						Thông số bán hàng
-					</span>
+                <span>Thông số bán hàng</span>
             </a>
         </li>
         <li class="sidebar-nav-item">
@@ -161,21 +157,17 @@
         <div class="col-8 col-m-12 col-sm-12">
             <div class="card">
                 <div class="card-header" style="display: flex">
-                    <h3>
-                        Quản lý tài khoản
-                    </h3>
+                    <h3>Quản lý tài khoản</h3>
                     <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
-                        <span>Thêm tài khoản mới</span></a>
-
+                        <span>Thêm tài khoản mới</span>
+                    </a>
                 </div>
                 <div class="card-content">
                     <table>
                         <thead>
-                        <c:forEach var="item" items="${users}">
                         <tr>
                             <th>#</th>
                             <th>Họ tên</th>
-                            <th>Số điện thoại</th>
                             <th>Email</th>
                             <th>Username</th>
                             <th>Đơn hàng</th>
@@ -187,32 +179,41 @@
                             <tr>
                                 <td>${item.id}</td>
                                 <td>${item.name}</td>
-                                <td>${item.phoneNumber}</td>
                                 <td>${item.email}</td>
-                                <td>${item.userName}</td>
-                                <td>
-                                    <a href="#"
-                                       data-id="${item.id}"
-                                       data-name="${item.name}"
-                                       data-phone_number="${item.phoneNumber}"
-                                       data-birth_day="${item.birthDay}"
-                                       data-sex="${item.sex}"
-                                       data-email="${item.email}"
-                                       data-user_name="${item.userName}"
-                                       data-password="${item.password}"
-                                       class="edit"
-                                       data-toggle="modal">
-                                        <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i>
-                                    </a>
-                                    <a href="#" data-id="${item.id}" class="delete" data-toggle="modal"><i
-                                            class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                                </td>
+                                <td>${item.username}</td>
                                 <td></td>
+                                <td>
+                                    <a href="#blockUserModal" class="delete" data-toggle="modal"
+                                       onclick="blockUser(${item.id})">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/889/889758.png" height="40px" width="40px" alt=""></a>
+                                </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+            </div>
+        </div>
+    </div>
+    <%--    Block--%>
+    <div id="blockUserModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form id="blockFrom" action="block" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Chặn người dùng này</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <p>Bạn có chắc chắn muốn chặn người dùng này?</p>
+                        <p class="text-warning"><small>Hành động này sẽ có thể hoàn lại.</small></p>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                        <input type="submit" class="btn btn-danger" value="Chặn" onclick="submitBlockForm()">
+                        <input type="hidden" id="userIdToBlock" name="userIdToBlock" value="">
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -228,24 +229,20 @@
                     <div class="modal-body">
                         <input type="text" hidden class="form-control" required name="id" id="editId">
                         <div class="form-group">
-                            <label>Họ tên</label>
+                            <label>Họ và tên</label>
                             <input type="text" class="form-control" required name="name" id="editName">
                         </div>
                         <div class="form-group">
                             <label>Số điện thoại</label>
-                            <input type="tel" class="form-control" required name="phone" id="editPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Địa chỉ</label>
-                            <textarea class="form-control" required name="address" id="editAddress"></textarea>
+                            <input type="text" class="form-control" required name="phoneNumber" id="editPhoneNumber">
                         </div>
                         <div class="form-group">
                             <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="date" id="editDate">
+                            <input type="date" class="form-control" required name="birthDay" id="editBirthDay">
                         </div>
                         <div class="form-group">
                             <label>Giới tính</label>
-                            <select class="form-control" required name="gender" id="editGender">
+                            <select class="form-control" required name="sex" id="editSex">
                                 <option value="Nam">Nam</option>
                                 <option value="Nữ">Nữ</option>
                             </select>
@@ -255,12 +252,12 @@
                             <input type="email" class="form-control" required name="email" id="editEmail">
                         </div>
                         <div class="form-group">
-                            <label>User</label>
-                            <input type="text" class="form-control" required name="user" id="editUser">
+                            <label>Tên đăng nhập</label>
+                            <input type="text" class="form-control" required name="userName" id="editUserName">
                         </div>
                         <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" required name="password" id="editPassword">
+                            <label>Mật khẩu</label>
+                            <input type="text" class="form-control" required name="password" id="editPassword">
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -271,210 +268,44 @@
             </div>
         </div>
     </div>
-    <!--/ Edit-->
-
-    <!-- Delete-->
-
+    <!-- Xóa-->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="/account/delete" method="post">
                     <div class="modal-header">
-                        <h4 class="modal-title">Xóa tài khoản này</h4>
+                        <h4 class="modal-title">Xóa tài khoản</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
+                        <input type="text" hidden class="form-control" required name="id" id="deleteId">
                         <p>Bạn có chắc chắn muốn xóa tài khoản này?</p>
-                        <p class="text-warning"><small>Hành động này sẽ không thể hoàn lại.</small></p>
+                        <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
                     </div>
-                    <input type="text" hidden name="id" id="idDel">
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" id="btnDel" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-danger" value="Xóa">
                     </div>
                 </form>
             </div>
         </div>
     </div>
-    <!--/ Delete-->
-    <!--/ Add-->
-    <div id="addEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/account/add" method="post" id="add">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Thêm tài khoản mới</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group">
-                            <label>Họ tên</label>
-                            <input type="text" class="form-control" required name="name" id="addName">
-                        </div>
-                        <div class="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="tel" class="form-control" required name="phone" id="addPhone">
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="date" id="addDate">
-                        </div>
-                        <div class="form-group">
-                            <label>Giới tính</label>
-                            <select class="form-control" required name="gender" id="addGender">
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Quyền</label>
-                            <select class="form-control" required name="role" id="addRole">
-                                <option value="admin">Admin</option>
-                                <option value="user">Khách hàng</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Địa chỉ</label>
-                            <textarea class="form-control" required name="address" id="addAddress"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required name="email" id="addEmail">
-                        </div>
-                        <div class="form-group">
-                            <label>User</label>
-                            <input type="text" class="form-control" required name="user" id="addUser">
-                        </div>
-                        <div class="form-group">
-                            <label>Password</label>
-                            <input type="password" class="form-control" required name="password" id="addPassword">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="button" id="btnAdd" class="btn btn-success" value="Thêm">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!--/ Add -->
 </div>
 <!-- end main content -->
 
 <!-- import script -->
-
-<!-- end import script -->
 <script>
-    $('.delete').off('click').on('click', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        $('#idDel').val(btn.data('id'));
-        $('#deleteEmployeeModal').modal('show');
-    });
-    $('.edit').off('click').on('click', function (e) {
-        e.preventDefault();
-        var btn = $(this);
-        $.ajax({
-            url: "/account/edit?id=" + btn.data('id'),
-            dataType: "json",
-            method: "GET",
-            success: (rs) => {
-                $('#editId').val(btn.data('id'));
-                $('#editAddress').val(rs);
-                $('#editName').val(btn.data('name'));
-                $('#editPhone').val(btn.data('phone_number'));
-                $('#editDate').val(btn.data('birth_day'));
-                $('#editGender').val(btn.data('sex'));
-                $('#editEmail').val(btn.data('email'));
-                $('#editUser').val(btn.data('user_name'));
-                $('#editPassword').val(btn.data('password'));
-                $('#editEmployeeModal').modal('show');
-            },
-            error: (rs) => {
-                console.log(rs);
-            }
-        });
-
-    });
-    $('#btnDel').on('click', function () {
-        alert('Xóa tài khoản thành công');
-    });
-    $('#edit').on('submit', function () {
-        alert('Cập nhập tài khoản thành công');
-    });
-    $('#add').on('submit', function () {
-        alert('Thêm tài khoản thành công');
-    });
-
-    function removeAscent(str) {
-        str = str.trim();
-        if (str === null || str === undefined) {
-            return str;
-        }
-        str = str.toLowerCase();
-        str = str.replace(/(à|á|ạ|ả|ã|â|ầ|ấ|ậ|ẩ|ẫ|ă|ằ|ắ|ặ|ẳ|ẵ)/gi, "a");
-        str = str.replace(/(è|é|ẹ|ẻ|ẽ|ê|ề|ế|ệ|ể|ễ)/gi, "e");
-        str = str.replace(/(ì|í|ị|ỉ|ĩ)/gi, "i");
-        str = str.replace(/(ò|ó|ọ|ỏ|õ|ô|ồ|ố|ộ|ổ|ỗ|ơ|ờ|ớ|ợ|ở|ỡ)/gi, "o");
-        str = str.replace(/(ù|ú|ụ|ủ|ũ|ư|ừ|ứ|ự|ử|ữ)/gi, "u");
-        str = str.replace(/(ỳ|ý|ỵ|ỷ|ỹ)/gi, "y");
-        str = str.replace(/đ/gi, "d");
-        return str;
+    function blockUser(userId) {
+        document.getElementById('userIdToBlock').value = userId;
+        $('#blockUserModal').modal('show');
     }
 
-    $('#btnAdd').on('click', function () {
-        let name = $('#addName').val();
-        let address = $('#addAddress').val();
-        let date = $('#addDate').val();
-        let phone = $('#addPhone').val();
-        let email = $('#addEmail').val();
-        let user = $('#addUser').val();
-        let password = $('#addPassword').val();
-        if (!name || !address || !date || !phone || !email || !user || !password) {
-            alert('Hãy nhập đầy đủ thông tin!');
-            return;
-        }
-        var regexEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/i;
-        if (!regexEmail.test(removeAscent(email))) {
-            alert('Sai định dạng Email, phải có @ đuôi là tên miền');
-            return;
-        }
-        var regexPhone = /^0(3|5|7|8|9)[0-9]{8}$/i;
-        if (!regexPhone.test(removeAscent(phone))) {
-            alert('Sai định dạng, chỉ gồm 10 chữ số bắt đầu bằng 03 hoặc 05 hoặc 07 hoặc 08 hoặc 09');
-            return;
-        }
-        $.ajax({
-            url: "/account/add?email=" + $('#addEmail').val(),
-            dataType: "json",
-            method: "GET",
-            success: (rs) => {
-                if (rs) {
-                    $.ajax({
-                        url: "/account/add?user=" + $('#addUser').val(),
-                        dataType: "json",
-                        method: "PUT",
-                        success: (rs) => {
-                            if (rs) {
-                                $('#add').submit();
-                            } else {
-                                alert("Username đã tồn tại, vui lòng nhập username khác");
-                            }
-                        },
-                        error: (rs) => {
-                            console.log(rs);
-                        }
-                    });
-                } else {
-                    alert("Email đã tồn tại, vui lòng nhập email khác");
-                }
-            },
-            error: (rs) => {
-                console.log(rs);
-            }
-        });
-    });
+    function submitBlockForm() {
+        document.getElementById('blockFrom').submit();
+        $('#blockUserModal').modal('hide');
+    }
 </script>
+<!-- end import script -->
+
 </body>
 </html>

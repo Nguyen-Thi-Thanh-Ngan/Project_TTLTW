@@ -15,6 +15,9 @@ public interface IUserDao {
     void resetPass(String email, String password);
     List<User> findAll();
     void deleteById(Integer id);
+
     boolean update(User user);
     User isUserExists(String oauthProvider, String oauthUid);
+    void blockUser(String id);
+     List<User> findAllUser();
 }
