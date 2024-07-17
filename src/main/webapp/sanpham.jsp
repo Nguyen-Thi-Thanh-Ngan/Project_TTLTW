@@ -1,4 +1,3 @@
-
 <%@ page import="model.Product" %>
 <%@ page import="dao.impl.ProductDAOImpl" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -34,8 +33,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+
     <jsp:useBean id="a" class="service.impl.ProductServiceImpl" scope="request"/>
-<%--    <jsp:useBean id="b" class="dao.impl.ProductDetailsDAO" scope="request"/>--%>
+
+    <%--    <jsp:useBean id="b" class="dao.impl.ProductDetailsDAO" scope="request"/>--%>
 </head>
 <body>
 <!-- HEADER -->
@@ -87,10 +97,10 @@
             <div class="col-md-2 col-md-pull-5">
                 <div id="product-imgs">
                     <c:forEach var="image" items="${product.images}">
-                    <div class="product-preview">
-                        <img src="${image.linkImage}" alt="Product Image">
-                    </div>
-                </c:forEach>
+                        <div class="product-preview">
+                            <img src="${image.linkImage}" alt="Product Image">
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
             <!-- /Product thumb imgs -->
@@ -106,19 +116,21 @@
                     </div>
                     <p>
                     <ul style="list-style-type: disc">
-                    <li>${product.detail}</li>
+                        <li>${product.detail}</li>
                     </ul>
-<%--                    <div class="form-group">--%>
-<%--                        <label for="quantity">Số lượng:</label>--%>
-<%--                        <input style="width: 70px" type="number" class="form-control" id="quantity" name="quantity"--%>
-<%--                               min="1" max="100">--%>
-<%--                    </div>--%>
+                    <%--                    <div class="form-group">--%>
+                    <%--                        <label for="quantity">Số lượng:</label>--%>
+                    <%--                        <input style="width: 70px" type="number" class="form-control" id="quantity" name="quantity"--%>
+                    <%--                               min="1" max="100">--%>
+                    <%--                    </div>--%>
                     <br>
                     <div class="add-to-cart">
-                        <form action="add-cart" method="post">
-                            <input type="hidden" name="id" value="${product.id}">
-                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>
-                        </form>
+
+
+                        <button class="add-to-cart-btn" data-product="${product.id}"><i class="fa fa-shopping-cart"></i>
+                            Thêm vào giỏ hàngg
+                        </button>
+
                     </div>
                 </div>
             </div>
@@ -133,14 +145,10 @@
 
 <!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
+<script src="js/main.js"></script>
 <!-- /FOOTER -->
 
 <!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+
 </body>
 </html>

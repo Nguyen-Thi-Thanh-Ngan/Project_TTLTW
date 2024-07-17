@@ -33,6 +33,19 @@ public class CartItemDAOImpl implements ICartItemDAO {
         return rowsAffected > 0;
     }
 
+    @Override
+    public CartItem findByProductId(Integer productId, Integer cartId) {
+        CartItem cartItem = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_CARTITEM + " WHERE product_id = :productId AND cart_id = :cartId")
+                    .bind("productId", productId)
+                    .bind("cartId", cartId)
+                    .mapToBean(CartItem.class)
+                    .findFirst()
+                    .orElse(null);
+        });
+        return cartItem;
+    }
+
     public static void main(String[] args) {
         ICartItemDAO cartItemDAO = new CartItemDAOImpl();
         boolean isAdd = cartItemDAO.addCartItem(new CartItem(UUID.randomUUID().toString(), 1, 1, 1));
@@ -40,21 +53,22 @@ public class CartItemDAOImpl implements ICartItemDAO {
     }
 
     @Override
-    public boolean updateCartItem(CartItem cartItem) {
+    public boolean updateCartItem(String cartItemId, Integer newQuantity) {
         int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
             return handle.createUpdate("UPDATE cart_items SET quantity = ? WHERE id = ?")
-                    .bind(0, cartItem.getQuantity())
-                    .bind(1, cartItem.getId())
+                    .bind(0, newQuantity)
+                    .bind(1, cartItemId)
                     .execute();
         });
         return rowsAffected > 0;
     }
 
     @Override
-    public boolean removeCartItem(CartItem cartItem) {
+    public boolean removeCartItem(Integer productId, Integer cartId) {
         int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
-            return handle.createUpdate("DELETE FROM cart_items WHERE id = ?")
-                    .bind(0, cartItem.getId())
+            return handle.createUpdate("DELETE FROM cart_items WHERE product_id = :productId AND cart_id = :cartId")
+                    .bind("productId", productId)
+                    .bind("cartId", cartId)
                     .execute();
         });
         return rowsAffected > 0;

@@ -36,6 +36,17 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
 
+    <script src="js/jquery.min.js"></script>
+
+    <!-- jQuery Plugins -->
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <%--    <jsp:useBean id="a" class="dao.impl.NewProductDAO" scope="request"/>--%>
 </head>
 <body>
@@ -89,93 +100,65 @@
                         <h4><b>Xóa</b></h4>
                     </th>
                 </tr>
-
                 </thead>
-                <form action="updatecart" method="post" id="formupdate">
+                <form id="checkoutForm" action="check-out" method="post">
                     <tbody>
-                    <tr>
-                        <td>
+                    <c:forEach items="${cartItems}" var="item">
+                        <tr id="item-${item.product.id}">
+                            <td>
 
-                            <input type="checkbox" class="productCheckbox" name="selectedProducts"
-                                   value=""
-                                   data-price=""
-                                   data-quantity=""
-                                   onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
+                                <input type="checkbox" class="productCheckbox" name="selectedProductIds"
+                                       value="${item.product.id}"
+                                       data-price="${item.product.price}"
+                                       data-quantity="${item.quantity}"
+                                       onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
 
-                            <div class="row">
-                                <div class="col-lg-2 Product-img">
-                                    <img src="" alt="..." class="img-responsive"/>
-                                </div>
-                                <div class="col-lg-10">
-                                    <h5 class="nomargin"><b>
-                                    </b></h5>
-                                    <p></p>
-                                </div>
-                            </div>
-
-                            <input type="hidden" name=""
-                                   value=""/>
-                            <input type="hidden" name=""
-                                   value="">
-                        </td>
-                        <fmt:formatNumber value="" type="number" pattern="#,##0"
-                                          var="formattedPrice"/>
-                        <td><strong> ${formattedPrice} VND</strong></td>
-                        <%--                        Cập nhật số lượng--%>
-                        <td data-th="Quantity">
-
-                            <table class="table table-hover border bg-white">
-                                <td style="border: none"><b> <input type="text"
-                                                                    name=""
-                                                                    value=""
-
-                                                                    style="width: 45px"> </b>
-                                </td>
-
-                                <td style="border: none"><input type="hidden" name="productId"
-                                                                value="">
-                                    <input type="submit" name="action" class="btn btn-success btn-block"
-                                           value="Cập nhật">
-                                </td>
-                            </table>
-
-                            <%--                        Cập nhật số lượng--%>
-                        </td>
-
-                        <fmt:formatNumber value=""
-                                          type="number" pattern="#,##0"
-                                          var="formattedPrice1"/>
-                        <td><strong> ${formattedPrice1} VND</strong></td>
-                        <td class="actions" data-th="" style="width:10%;">
-                            <!-- Delete-->
-                            <div id="" class="modal fade">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-
-                                        <div class="modal-header">
-                                            <h4 class="modal-title">Xóa sản phẩm này khỏi giỏ hàng</h4>
-                                            <button type="button" class="close" data-dismiss="modal"
-                                                    aria-hidden="true">
-                                                &times;
-                                            </button>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <input type="button" class="btn btn-default" data-dismiss="modal"
-                                                   value="Hủy">
-                                            <input type="hidden" name="productId"
-                                                   value="">
-                                            <input type="submit" class="btn btn-danger" name="action" value="Xóa">
-                                        </div>
-
+                                <div class="row">
+                                    <div class="col-lg-2 Product-img">
+                                        <img src="${item.product.images[0].linkImage}" alt=".   .."
+                                             class="img-responsive"/>
+                                    </div>
+                                    <div class="col-lg-10">
+                                        <h5 class="nomargin"><b>${item.product.name}
+                                        </b></h5>
+                                        <p></p>
                                     </div>
                                 </div>
-                            </div>
-                            <!--/ Delete-->
-                            <p data-toggle="modal"
-                               data-target=""
-                               class="btn btn-danger btn-sm"><i class="fa fa-trash-o"> </i></p>
-                        </td>
-                    </tr>
+
+                                <input type="hidden" name="${item.product.id}"
+                                       value="${item.product.name}"/>
+
+                            </td>
+                            <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
+                                              var="formattedPrice"/>
+                            <td><strong> ${formattedPrice} VND</strong></td>
+                                <%--                        Cập nhật số lượng--%>
+                            <td data-th="Quantity">
+                                <table class="table table-hover border bg-white">
+                                    <td style="border: none"><b> <input type="text" name="quantity-${item.product.id}"
+                                                                        value="${item.quantity}" style="width: 45px">
+                                    </b></td>
+
+                                    <td style="border: none"><input type="hidden" name="productId"
+                                                                    value="${item.product.id}">
+                                        <input type="submit" name="action" class="btn btn-success btn-block"
+                                               value="Cập nhật">
+                                    </td>
+                                </table>
+
+                                    <%--                        Cập nhật số lượng--%>
+                            </td>
+
+                            <fmt:formatNumber value="${item.product.price * item.quantity}"
+                                              type="number" pattern="#,##0"
+                                              var="formattedPrice1"/>
+                            <td><strong> ${formattedPrice1} VND</strong></td>
+                            <td class="actions" data-th="" style="width:10%;">
+                                <p data-toggle="modal" data-product-id="${item.product.id}" data-target="#delete"
+                                   class="btn btn-danger btn-sm delete-product"><i class="fa fa-trash-o"></i></p>
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
                     <tfoot>
 
@@ -186,34 +169,49 @@
                         <td colspan="2" class="hidden-xs"></td>
 
                         <td class="hidden-xs text-center" style="width:10%;">
-                            <fmt:formatNumber value="" type="number" pattern="#,##0"
+                            <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0"
                                               var="formattedPrice2"/>
                             <span id="totalAmountLabel" style="font-weight: bold;">
-                            <strong>Tổng tiền : 0 VND</strong>
-                              </span>
+    <strong>Tổng tiền : 0 VND</strong>
+    </span>
                         </td>
-
                         <td>
                             <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block"
                                    value="Thanh toán">
+
                         </td>
-
                     </tr>
-
                     </tfoot>
                 </form>
             </table>
+            <!-- Delete-->
+            <div id="delete" class="modal fade">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title">Xóa sản phẩm này khỏi giỏ hàng</h4>
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        </div>
+                        <div class="modal-footer">
+                            <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                            <input type="hidden" name="productId" value="${item.product.id}">
+                            <button id="confirm-delete" type="button" class="btn btn-danger">Xóa</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
+            <!--/ Delete-->
         </div>
         <!-- Xử lý khi giỏ hàng không tồn tại -->
-        <a style=" text-align: center; margin-left: 500px; font-size: 30px">
-            <strong>Giỏ hàng trống</strong>
-            <br>
-            <br>
-            <a href="index.jsp" class="btn btn-success " style="margin-left: 540px;"> <i class="fa fa-angle-left"> </i>
-                Tiếp tục mua sắm </a>
-            <br>
-        </a>
+        <%--        <a style=" text-align: center; margin-left: 500px; font-size: 30px">--%>
+        <%--            <strong>Giỏ hàng trống</strong>--%>
+        <%--            <br>--%>
+        <%--            <br>--%>
+        <%--            <a href="index.jsp" class="btn btn-success " style="margin-left: 540px;"> <i class="fa fa-angle-left"> </i>--%>
+        <%--                Tiếp tục mua sắm </a>--%>
+        <%--            <br>--%>
+        <%--        </a>--%>
     </div>
 </div>
 
@@ -224,14 +222,38 @@
 <!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
 <!-- /FOOTER -->
-<!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
+
 <script>
+    $('#checkoutForm').on('submit', function (event) {
+        var checkboxes = $('input[name="selectedProductIds"]:checked');
+        if (checkboxes.length === 0) {
+            event.preventDefault();
+            Toastify({
+                text: "Vui lòng chọn ít nhất một sản phẩm trước khi thanh toán",
+                duration: 3000,
+                newWindow: true,
+                close: true,
+                gravity: "top",
+                position: "right",
+                stopOnFocus: true,
+                style: {
+                    background: "#D10024",
+                },
+                onClick: function(){}
+            }).showToast();
+        }
+    });
+
+    $('#selectAll').on('change', function () {
+        var isChecked = $(this).is(':checked');
+        $('input[name="selectedProductIds"]').prop('checked', isChecked);
+        updateTotalAmount();
+    });
+
+    $('input[name="selectedProductIds"]').on('change', function () {
+        updateTotalAmount();
+    });
+
     function updateTotalAmount() {
         var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
         var totalAmount = 0;
@@ -253,14 +275,12 @@
         formattedTotalAmount = formattedTotalAmount.replace('₫', ' VND');
         document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
     }
-
-
 </script>
-<script type="text/javascript">
-    window.onload = function () {
-        var selectAllCheckbox = document.getElementById('selectAllCheckbox');
-        selectAllCheckbox.onclick = selectAll;
-    }
+<script>
+    // window.onload = function () {
+    //     var selectAllCheckbox = document.getElementById('selectAllCheckbox');
+    //     selectAllCheckbox.onclick = selectAll;
+    // }
 
     function selectAll() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
@@ -273,33 +293,55 @@
         }
         updateTotalAmount();
     }
-</script>
-<script>
-    // Lấy tham chiếu đến nút thanh toán
-    var thanhToanButton = document.getElementById('paybutton');
 
-    var cacSanPham = document.querySelectorAll('input[type="checkbox"]');
+    function addSelectedProductsToForm() {
+        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
+        var selectedProductIds = [];
 
-    // Kiểm tra khi nút thanh toán được nhấn
-    thanhToanButton.addEventListener('click', function (event) {
-        var daChonSanPham = false;
-
-
-        cacSanPham.forEach(function (sanPham) {
-
-            if (sanPham.checked) {
-                daChonSanPham = true;
-                return;
-            }
+        checkboxes.forEach(function (checkbox) {
+            selectedProductIds.push(checkbox.value);
         });
 
+        var selectedProductIdsInput = document.getElementById('selectedProductIds');
+        selectedProductIdsInput.value = selectedProductIds.join(',');
+    }
 
-        if (!daChonSanPham) {
-            event.preventDefault();
-            alert('Vui lòng chọn sản phẩm trước khi thanh toán.');
-        }
+    document.getElementById('checkoutForm').addEventListener('submit', function (event) {
+        addSelectedProductsToForm();
+    });
+
+</script>
+<script>
+    function removeCartItem(productId) {
+        $.ajax({
+            url: 'api/remove-cart-item?productId=' + productId,
+            type: 'DELETE',
+            success: function (response) {
+                $('#item-' + productId).remove();
+                $(`#delete`).modal('hide');
+                const totalItem = $(`#cart-quantity`);
+                totalItem.text(parseInt(totalItem.text()) - 1);
+            },
+            error: function (error) {
+                console.error('Có lỗi xảy ra khi xóa sản phẩm:', error);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        $('.delete-product').click(function () {
+            let productId = $(this).data('product-id');
+            $(`#delete`).data('product-id', productId);
+        });
+
+        $('#confirm-delete').click(function () {
+            let productId = $(`#delete`).data('product-id');
+            removeCartItem(productId);
+        });
     });
 </script>
+<script src="js/main.js"></script>
+
 
 </body>
 </html>

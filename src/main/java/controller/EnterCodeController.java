@@ -3,7 +3,7 @@ package controller;
 import model.User;
 import service.ICartService;
 import service.IUserService;
-import service.impl.CartItemServiceImpl;
+import service.impl.CartServiceImpl;
 import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
@@ -18,7 +18,7 @@ import java.io.IOException;
 @WebServlet(value = "/enter-code")
 public class EnterCodeController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
-    private ICartService cartService = new CartItemServiceImpl();
+    private ICartService cartService = new CartServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

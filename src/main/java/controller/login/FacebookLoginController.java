@@ -3,7 +3,9 @@ package controller.login;
 import model.FacebookAccount;
 import model.GoogleAccount;
 import model.User;
+import service.ICartService;
 import service.IUserService;
+import service.impl.CartServiceImpl;
 import service.impl.UserServiceImpl;
 import utils.SessionUtil;
 
@@ -19,6 +21,8 @@ import java.io.IOException;
 @WebServlet(name = "FacebookLoginController", value = "/login-fb")
 public class FacebookLoginController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
+    private ICartService cartService = new CartServiceImpl();
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -43,7 +47,11 @@ public class FacebookLoginController extends HttpServlet {
                 response.sendRedirect("/home");
             }
         } else {
-            userService.register(user);
+            boolean isRegister = userService.register(user);
+            if (isRegister){
+                Integer userId = userService.getIdByUserName(user.getUsername());
+                cartService.createCart(userId);
+            }
             System.out.println("New user registered: " + user.getEmail());
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());

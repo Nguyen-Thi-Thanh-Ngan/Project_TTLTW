@@ -32,6 +32,17 @@
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
+
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
 </head>
 <body>
 <jsp:include page="header.jsp"/>
@@ -64,7 +75,8 @@
                                     </div>
                                     <div class="product-body">
                                         <p class="product-category">${product.producer.name}</p>
-                                        <h3 class="product-name"><a href="product?id=${product.id}">${product.name}</a></h3>
+                                        <h3 class="product-name"><a href="product?id=${product.id}">${product.name}</a>
+                                        </h3>
                                         <h4 class="product-price">
                                             <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0"/>
                                             VNĐ
@@ -75,26 +87,9 @@
                                         </div>
                                     </div>
                                     <div class="add-to-cart">
-                                            <%--                                        <form action="add-cart" method="post">--%>
-                                            <%--                                            <input type="hidden" name="id" value="${product.id}">--%>
-                                            <%--                                            <button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng</button>--%>
-                                            <%--                                        </form>--%>
-                                        <c:choose>
-                                            <c:when test="${not empty sessionScope.user}">
-                                                <form action="add-cart" method="post">
-                                                    <input type="hidden" name="id" value="${product.id}">
-                                                    <button type="submit" class="add-to-cart-btn">
-                                                        <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                                    </button>
-                                                </form>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <button type="button" class="add-to-cart-btn"
-                                                        onclick="alert('Bạn cần đăng nhập để thêm sản phẩm vào giỏ hàng!')">
-                                                    <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
-                                                </button>
-                                            </c:otherwise>
-                                        </c:choose>
+                                        <button class="add-to-cart-btn" data-product="${product.id}">
+                                            <i class="fa fa-shopping-cart"></i> Thêm vào giỏ hàng
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -111,13 +106,8 @@
 </div>
 
 <jsp:include page="footer.jsp"/>
-
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
 <script src="js/main.js"></script>
+
 
 </body>
 </html>
