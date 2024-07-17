@@ -205,6 +205,7 @@
                             <th>Mã loại sản phẩm</th>
                             <th>Tồn kho</th>
                             <th>Mã hãng sản xuất</th>
+                            <th>Trạng thái</th>
                             <th>Hình ảnh</th>
                         </tr>
                         </thead>
@@ -212,7 +213,7 @@
                         <%
                             if (itemProduct == null) {
                                 ProductDAOImpl productDAO = new ProductDAOImpl();
-                                List<Product> listProduct = productDAO.getAll();
+                                List<Product> listProduct = productDAO.findAll();
                                 request.setAttribute("listAll", listProduct);
                                 for (Product p : listProduct) {
                         %>
@@ -234,8 +235,9 @@
                             </td>
                             <td><%=p.getProducer().getId()%>
                             </td>
+                            <td><%=p.getStatus()%></td>
                             <td>
-                                <img style="width: 70px; height: 70px" src="<%=p.getImg()%>" alt="">
+                                <img style="width: 70px; height: 70px" src="<%=p.getImages()%>" alt="">
                             </td>
                             <td>
                                 <a href="#editEmployeeModal" class="edit" data-toggle="modal"
@@ -245,7 +247,8 @@
                                    data-product-productTypeId="<%=p.getProductType().getId()%>"
                                    data-product-quantity="<%=p.getQuantity()%>"
                                    data-product-prducerId="<%=p.getProducer().getId()%>"
-                                   data-product-img="<%=p.getImg()%>">
+                                   data-product-prducerId="<%=p.getStatus()%>"
+                                   data-product-img="<%=p.getImages()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
 
                                 <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
@@ -255,6 +258,7 @@
                         </tr>
                         <%
                             }
+                        }
                         %>
                         </tbody>
                     </table>

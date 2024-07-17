@@ -139,7 +139,7 @@
                                     </div>
                                 </div>
                                 <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
-                                <c:set var="totalPrice" value="${totalPrice + (product.price * product.quantity)}" />
+<%--                                <c:set var="totalPrice" value="${totalPrice + (product.price * product.quantity)}" />--%>
                             </c:forEach>
                         </div>
                         <div class="order-col">

@@ -5,6 +5,9 @@
 <%@ page import="dao.impl.OrderDetailsDAO" %>
 <%@ page import="java.util.List" %>
 <%@ page import="dao.impl.ProductDAOImpl" %>
+<%@ page import="dao.impl.OrderDAOImpl" %>
+<%@ page import="dao.impl.OrderDetailDAOImpl" %>
+<%@ page import="model.Product" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html lang="en">
@@ -66,8 +69,9 @@
             <div class="menu">
                 <div class="menu-left">
                     <%
-                        OrderDAO orderDAO = new OrderDAO();
-                        Order order = orderDAO.getById(request.getParameter("id"));
+                        OrderDAOImpl orderDAO = new OrderDAOImpl();
+                        Integer idOrder = Integer.parseInt(request.getParameter("id"));
+                        Order order = orderDAO.findById(idOrder);
                     %>
                     <div class="form-group">
                         <div class="top top1">Mã đơn hàng</div>
@@ -96,15 +100,15 @@
                                 </thead>
                                 <tbody>
                                 <%
-                                    OrderDetailsDAO orderDetailsDAO = new OrderDetailsDAO();
-                                    List<OrderDetails> listOrderDetails = orderDetailsDAO.getByIdOrder(request.getParameter("id"));
+                                    OrderDetailDAOImpl orderDetailsDAO = new OrderDetailDAOImpl();
+                                    List<OrderDetails> listOrderDetails = orderDetailsDAO.findByIdOrder(idOrder);
                                     for (OrderDetails orderDetails : listOrderDetails){
                                 %>
                                 <tr>
-                                    <td><img src="<%=orderDetails.getProduct().getImg()%>" width="70px" height="70px"></td>
+                                    <td><img src="<%=orderDetails.getProduct().getImages()%>" width="70px" height="70px"></td>
                                     <td><%=orderDetails.getProduct().getName()%></td>
                                     <td><%=orderDetails.getQuantity()%></td>
-                                    <fmt:formatNumber value="<%=orderDetails.getPrice()%>" type="number"
+                                    <fmt:formatNumber value="<%=orderDetails.getAmount()%>" type="number"
                                                       pattern="#,##0" var="formattedPrice"/>
                                     <td>${formattedPrice} VNĐ</td>
                                 </tr>

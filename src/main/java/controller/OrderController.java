@@ -17,6 +17,7 @@ import model.OrderDetails;
 import model.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -43,9 +44,8 @@ public class OrderController extends HttpServlet {
 
         if (cart != null) {
 
-            Date orderDate = new Date(System.currentTimeMillis() + 3600000);
-            long sevenDaysInMillis = 3 * 24 * 60 * 60 * 1000;
-            Date deliverDate = new Date(orderDate.getTime() + sevenDaysInMillis);
+            LocalDateTime orderDate = LocalDateTime.now();
+            LocalDateTime deliverDate = orderDate.plusDays(3);
 
             String name = request.getParameter("name");
             String email = request.getParameter("email");
@@ -62,7 +62,7 @@ public class OrderController extends HttpServlet {
                 user.setId(idUser);
 
                 String status = String.valueOf(user.getStatus());
-                Order order = new Order(idUserString, user, address, phone, status, note, paymentMethod, (java.sql.Date) orderDate, (java.sql.Date) deliverDate, totalPrice);
+                Order order = new Order(idUser, user, address, phone, status, note, paymentMethod, orderDate,  deliverDate, totalPrice);
                 orderDAO.addOrder(order);
 //                List<> cartProducts = cart.getCartProducts();
 //                for (CartProduct cartProduct : cartProducts) {
