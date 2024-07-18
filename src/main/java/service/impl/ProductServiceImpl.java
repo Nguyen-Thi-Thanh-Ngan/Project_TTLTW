@@ -141,6 +141,11 @@ public class ProductServiceImpl implements IProductService {
         return products;
     }
 
+    @Override
+    public boolean deleteById(Integer productId) {
+        return productDAO.deleteById(productId);
+    }
+
 }
 
 

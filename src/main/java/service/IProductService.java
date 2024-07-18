@@ -14,4 +14,5 @@ public interface IProductService {
     List<Product> findByProducer(Integer idProducer);
     List<Product> findByCategory(Integer idCategory);
     List<Product> getPaging(int index);
+    boolean deleteById(Integer productId);
 }

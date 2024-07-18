@@ -9,7 +9,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
     public class ProductDAOImpl implements IProductDAO {
-        private static final String BASE_QUERY = "SELECT id, name, price, product_type_id, producer_id, quantity, status, coupon_id, detail, import_date FROM products";
+        private static final String BASE_QUERY = "SELECT id, name, price, product_type_id, producer_id, quantity, status, coupon_id, detail, import_date FROM products WHERE active = 1 ";
 
         @Override
         public boolean addProduct(Product product) {
@@ -23,10 +23,10 @@ import java.util.*;
         }
 
         @Override
-        public boolean deleteProduct(Integer idProduct) {
+        public boolean deleteById(Integer productId) {
             int rowsAffected = JDBIConnector.getConnect().withHandle(handle ->
-                    handle.createUpdate("DELETE FROM products WHERE id = :idProduct")
-                            .bind("idProduct", idProduct)
+                    handle.createUpdate("UPDATE products SET active = 0 WHERE id = :productId")
+                            .bind("idProduct", productId)
                             .execute()
             );
             return rowsAffected > 0;

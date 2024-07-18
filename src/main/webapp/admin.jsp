@@ -408,6 +408,25 @@ const loadData = () => {
             $.LoadingOverlay("hide");
         }
     })
+    $('.btn-delete').on('click', function (e) {
+        var id = $(this).attr("data-id");
+        if (window.confirm("Bạn có muốn xóa người dùng này hay không?")) {
+            $.ajax({
+                url: '/home/product-manager?id=' + id,
+                method: 'DELETE',
+                success: function (response) {
+                    if (response.message == true) {
+                        alert("Xóa người dùng thành công");
+                        window.location.href = "user-list.jsp";
+                    } else {
+                        alert("Xóa người dùng thất bại");
+                        window.location.href = "user-list.jsp";
+                    }
+                }
+            });
+        }
+    });
+
 
 
     const loadDataTale = (data) => {
@@ -434,7 +453,27 @@ const loadData = () => {
 
                     }
                 }
-            ]
+            ],
+            initComplete: function () {
+                $('.btn-delete').on('click', function (e) {
+                    var id = $(this).attr("data-id");
+                    if (window.confirm("Bạn có muốn xóa sản phẩm này hay không?")) {
+                        $.ajax({
+                            url: '/home/product-manager?id=' + id,
+                            method: 'DELETE',
+                            success: function (response) {
+                                if (response.message == true) {
+                                    alert("Xóa sản phẩm thành công");
+                                    window.location.href = "product-list.jsp";
+                                } else {
+                                    alert("Xóa sản phẩm thất bại");
+                                    window.location.href = "product-list.jsp";
+                                }
+                            }
+                        });
+                    }
+                });
+            }
         });
     }
 }

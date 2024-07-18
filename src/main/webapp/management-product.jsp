@@ -122,7 +122,6 @@
     <!-- end nav right -->
 </div>
 <!-- end navbar -->
-<!-- sidebar -->
 <div class="sidebar">
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
@@ -181,10 +180,6 @@
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <div class="form-group">
-                            <label>#</label>
-                            <input name="id" value="" type="text" class="form-control" readonly required>
-                        </div>
                         <div class="form-group">
                             <label>Tên sản phẩm</label>
                             <input name="name" value="" type="text" class="form-control" required>
@@ -417,10 +412,6 @@
         });
     });
 </script>--%>
-
-<!--Script Xóa Sản Phẩm-->
-
-<!--Script Sửa Sản Phẩm-->
 <script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
