@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import static com.mysql.cj.conf.PropertyKey.logger;
+
 public class OrderDAOImpl implements IOrderDAO {
     private static final String BASE_QUERY = "SELECT id, user_id, address, phone_number, status, note, payment_method, order_date, delivery_date, total_price FROM orders";
 
@@ -53,7 +55,8 @@ public class OrderDAOImpl implements IOrderDAO {
                         Order order = new Order();
                         order.setId(rs.getInt("o.id"));
                         order.setAddress(rs.getString("o.address"));
-                        order.setPhone_number(rs.getString("o.status"));
+                        order.setPhone_number(rs.getString("o.phone_number"));
+                        order.setStatus(rs.getString("o.status"));
                         order.setNote(rs.getString("o.note"));
                         order.setPayment_method(rs.getString("o.payment_method"));
                         Date orderDate = rs.getDate("o.order_date");
@@ -93,7 +96,7 @@ public class OrderDAOImpl implements IOrderDAO {
     @Override
     public boolean addOrder(Order order) {
         int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
-            return handle.createUpdate("INSERT INTO orders(user_id, address, phone_number, status, note, payment_method, order_date, delivery_date, total_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?)")
+            return handle.createUpdate("INSERT INTO orders(user_id, address, phone_number, status, note, payment_method, order_date, delivery_date, total_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
                     .bind(0, order.getUser().getId())
                     .bind(1, order.getAddress())
                     .bind(2, order.getPhone_number())
@@ -113,13 +116,21 @@ public class OrderDAOImpl implements IOrderDAO {
     public boolean updateOrder(Order order) {
         int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
             return handle.createUpdate("UPDATE orders " +
-                            "SET user_id = :userId, address = :address, phone_number: phoneNumber, status = :status, payment_method = :payment, " +
-                            "order_date = :orderDate, delivery_date = :deliveryDate , total_price = :totalPrice" +
+                            "SET user_id = :userId, address = :address, phone_number = :phoneNumber, status = :status, payment_method = :paymentMethod, " +
+                            "order_date = :orderDate, delivery_date = :deliveryDate , total_price = :totalPrice " +
                             "WHERE id = :id")
                     .bind("userId", order.getUser().getId())
-                    .bindBean(order)
+                    .bind("address", order.getAddress())
+                    .bind("phoneNumber", order.getPhone_number())
+                    .bind("status", order.getStatus())
+                    .bind("paymentMethod", order.getPayment_method())
+                    .bind("orderDate", order.getOrderDate())
+                    .bind("deliveryDate", order.getDeliveryDate())
+                    .bind("totalPrice", order.getTotalPrice())
+                    .bind("id", order.getId())
                     .execute();
         });
+        System.out.println(rowsAffected);
         return rowsAffected > 0;
     }
 
@@ -135,11 +146,15 @@ public class OrderDAOImpl implements IOrderDAO {
 
     public static void main(String[] args) {
         OrderDAOImpl dao = new OrderDAOImpl();
-        List<Order> all = dao.findByIdUser(15);
-//        Order order = dao.findByIdUser(15);
-        for (Order order : all) {
-            System.out.println(order);
-        }
-
+//        List<Order> all = dao.findByIdUser(15);
+//        for (Order order : all) {
+//            System.out.println(order);
+//        }
+        LocalDateTime orderDate = LocalDateTime.now();
+        LocalDateTime deliverDate = orderDate.plusDays(3);
+        Order order = new Order(3, new User(15, null, null, null, null,
+                null, null, null, null, null, null, null), "DHNL", "0774642187", "Đang giao hàng", "", "Thanh toán khi nhận hàng",
+                orderDate, deliverDate, 690000.0);
+        System.out.println(dao.updateOrder(order));
     }
 }

@@ -105,7 +105,7 @@
                                     for (OrderDetails orderDetails : listOrderDetails){
                                 %>
                                 <tr>
-                                    <td><img src="<%=orderDetails.getProduct().getImages()%>" width="70px" height="70px"></td>
+                                    <td><img src="<%=orderDetails.getProduct().getImages().get(0).getLinkImage()%>" width="70px" height="70px"></td>
                                     <td><%=orderDetails.getProduct().getName()%></td>
                                     <td><%=orderDetails.getQuantity()%></td>
                                     <fmt:formatNumber value="<%=orderDetails.getAmount()%>" type="number"
