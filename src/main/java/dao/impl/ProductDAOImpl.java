@@ -133,10 +133,12 @@ import java.util.*;
 
         public static void main(String[] args) {
             ProductDAOImpl productDAO = new ProductDAOImpl();
-            Integer categoryID = 1;
-            List<Product> productsByCategory = productDAO.findByCategory(categoryID);
-            System.out.println("Products found by category '1':");
-            for (Product product : productsByCategory) {
+//            Integer categoryID = 1;
+//            List<Product> productsByCategory = productDAO.findByCategory(categoryID);
+//            System.out.println("Products found by category '1':");
+
+            List<Product> all = productDAO.findAll();
+            for (Product product : all) {
                 System.out.println(product);
             }
         }

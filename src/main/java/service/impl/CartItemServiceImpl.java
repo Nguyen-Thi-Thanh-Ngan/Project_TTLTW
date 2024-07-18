@@ -34,12 +34,12 @@ public class CartItemServiceImpl implements ICartService {
 
     @Override
     public Integer getTotalCartItem(Integer cartId) {
-        return 0;
+        return null;
     }
 
     @Override
     public List<CartResponse> getCartItemByCartId(Integer cartId) {
-        return List.of();
+        return null;
     }
 
     @Override

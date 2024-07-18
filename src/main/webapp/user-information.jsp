@@ -117,10 +117,10 @@
                                     <tbody>
                                     <%
                                         OrderDAOImpl orderDAO = new OrderDAOImpl();
-                                        List<Order> orders = orderDAO.findAll();
+                                        List<Order> orders = orderDAO.findByIdUser(idUser);
 
                                         for (Order order : orders) {
-                                            if (order.getUser().getId().equals(request.getParameter("id"))&& (!order.getStatus().equals("Hoàn tất"))) {
+                                            if ((!order.getStatus().equals("Hoàn tất"))) {
                                     %>
                                     <tr style="background-color: #fff2db">
                                         <td><%=order.getId()%></td>
@@ -166,7 +166,7 @@
                                         <tbody>
                                         <%
                                             for (Order order : orders) {
-                                                if (order.getUser().getId().equals(request.getParameter("id"))&& order.getStatus().equals("Hoàn tất")) {
+                                                if (order.getStatus().equals("Hoàn tất")) {
                                         %>
                                         <tr style="background-color: #fff2db">
                                             <td><%=order.getId()%></td>
