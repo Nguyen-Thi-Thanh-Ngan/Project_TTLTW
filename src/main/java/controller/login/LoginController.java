@@ -1,11 +1,15 @@
 package controller.login;
 
 import model.GoogleAccount;
+import model.Log;
 import model.User;
 import service.ICartService;
+import service.ILogService;
 import service.IUserService;
 import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.LevelLog;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -20,6 +24,7 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
     private ICartService cartService = new CartServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -34,6 +39,13 @@ public class LoginController extends HttpServlet {
             req.setAttribute("username", "");
             req.setAttribute("password", "");
             SessionUtil.getInstance().putKey(req, "user", userService.getUserByUsername(username));
+            User user = userService.getUserByUsername(username);
+            Log log = new Log();
+            log.setUserId(user.getId());
+            log.setAction("Đăng nhập bằng tài khoản");
+            log.setAddressIP(req.getRemoteAddr());
+            log.setLevel(LevelLog.INFO);
+            logService.save(log);
             Integer roleId = userService.getRoleIdByUsername(username);
             if (roleId == 1) {
                 resp.sendRedirect("admin.jsp");
@@ -42,6 +54,12 @@ public class LoginController extends HttpServlet {
                 dispatcher.forward(req, resp);
             }
         } else {
+            Log log = new Log();
+            log.setUserId(0);
+            log.setAction("Đăng nhập bằng tài khoản thất bại");
+            log.setAddressIP(req.getRemoteAddr());
+            log.setLevel(LevelLog.WARN);
+            logService.save(log);
             req.setAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác!");
             RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
             dispatcher.forward(req, resp);
@@ -63,6 +81,13 @@ public class LoginController extends HttpServlet {
 
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
+            Integer userId = userService.getUserByUsername(user.getUsername()).getId();
+            Log log = new Log();
+            log.setUserId(userId);
+            log.setAction("Đăng nhập bằng Google");
+            log.setAddressIP(request.getRemoteAddr());
+            log.setLevel(LevelLog.INFO);
+            logService.save(log);
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
             if (roleId == 1) response.sendRedirect("admin.jsp");
             else {
@@ -71,6 +96,12 @@ public class LoginController extends HttpServlet {
         } else {
             if (userService.register(user)){
                 Integer userId = userService.getIdByUserName(user.getUsername());
+                Log log = new Log();
+                log.setUserId(userId);
+                log.setAction("Đăng nhập bằng Google");
+                log.setAddressIP(request.getRemoteAddr());
+                log.setLevel(LevelLog.INFO);
+                logService.save(log);
                 cartService.createCart(userId);
             }
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));

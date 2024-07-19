@@ -1,13 +1,8 @@
-<%@ page import="model.Product" %>
-<%@ page import="dao.impl.ProductDAOImpl" %>
-<%@ page import="java.util.List" %>
-<%@ page import="dao.impl.ProductTypeDAOImpl" %>
-<%@ page import="dao.impl.ProducerDAOImpl" %>
 <%@ page import="java.util.Objects" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-<%List<Product> itemProduct = (List<Product>) request.getAttribute("item");%>
+
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -29,18 +24,20 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
     <link type="text/css" rel="stylesheet" href="./css/style.css"/>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css">
+    <script type="text/javascript" charset="utf8" src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+            integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- End import lib -->
 
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
-    <!-- import script -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="js/admin.js"></script>
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <!-- import script -->
+
 
     <jsp:useBean id="a" class="dao.impl.ProductDAOImpl" scope="request"></jsp:useBean>
     <jsp:useBean id="b" class="dao.impl.ProducerDAOImpl" scope="request"></jsp:useBean>
@@ -48,7 +45,7 @@
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
-<div class="navbar">
+<div class="navbar" style="z-index: 1000; background: white">
     <!-- nav left -->
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -125,7 +122,6 @@
     <!-- end nav right -->
 </div>
 <!-- end navbar -->
-<!-- sidebar -->
 <div class="sidebar">
     <ul class="sidebar-nav">
         <li class="sidebar-nav-item">
@@ -133,21 +129,19 @@
                 <div>
                     <i class="fa-solid fa-signal"></i>
                 </div>
-                <span>
-						Thông số bán hàng
-					</span>
+                <span>Thông số bán hàng</span>
             </a>
+        </li>
+        <li class="sidebar-nav-item">
+            <%--            <a href="admin.jsp" class="sidebar-nav-link">--%>
+            <div>
+                <i class="fa fa-user"></i>
+            </div>
+            <span>Quản lý nhân viên</span>
+            <%--            </a>--%>
         </li>
         <li class="sidebar-nav-item">
             <a href="admin.jsp" class="sidebar-nav-link">
-                <div>
-                    <i class="fa fa-user"></i>
-                </div>
-                <span>Quản lý nhân viên</span>
-            </a>
-        </li>
-        <li class="sidebar-nav-item">
-            <a href="management-product.jsp" class="sidebar-nav-link">
                 <div>
                     <i class="fa fa-mobile"></i>
                 </div>
@@ -175,97 +169,7 @@
 <!-- end sidebar -->
 <!-- main content -->
 <div class="wrapper">
-    <div class="row">
-        <div class="col-8 col-m-12 col-sm-12">
-            <div class="card">
-                <div class="card-header" style="display: flex; justify-content: space-between; align-items: center; ">
-                    <h3>
-                        Quản lý sản phẩm
-                    </h3>
-                    <div class="col-md-6">
-                        <div class="header-search">
-                            <form action="admin-search" method="get">
-                                <input class="input" name="name" placeholder="Tìm kiếm tại đây" value="${param.name}">
-                                <input class="search-btn" type="submit" name="" value="Tìm kiếm">
-                            </form>
-                        </div>
-                    </div>
-                    <a href="#addEmployeeModal" class="btn" data-toggle="modal"
-                       style="background-color: #d10024; color: white">
-                        <span>Thêm sản phẩm mới</span></a>
 
-                </div>
-                <div class="card-content">
-                    <table>
-                        <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Tên sản phẩm</th>
-                            <th>Giá</th>
-                            <th>Mã loại sản phẩm</th>
-                            <th>Tồn kho</th>
-                            <th>Mã hãng sản xuất</th>
-                            <th>Trạng thái</th>
-                            <th>Hình ảnh</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <%
-                            if (itemProduct == null) {
-                                ProductDAOImpl productDAO = new ProductDAOImpl();
-                                List<Product> listProduct = productDAO.findAll();
-                                request.setAttribute("listAll", listProduct);
-                                for (Product p : listProduct) {
-                        %>
-                        <tr>
-                            <td><%=p.getId()%>
-                            </td>
-                            <td><%=p.getName()%>
-                            </td>
-                            <td>
-                                <div>
-                                    <fmt:formatNumber value="<%=p.getPrice()%>" type="number" pattern="#,##0"
-                                                      var="formattedPrice"/>
-                                    <h6 class="product-price">${formattedPrice} VNĐ</h6>
-                                </div>
-                            </td>
-                            <td><%=p.getProductType().getId()%>
-                            </td>
-                            <td><%=p.getQuantity()%>
-                            </td>
-                            <td><%=p.getProducer().getId()%>
-                            </td>
-                            <td><%=p.getStatus()%></td>
-                            <td>
-                                <img style="width: 70px; height: 70px" src="<%=p.getImages()%>" alt="">
-                            </td>
-                            <td>
-                                <a href="#editEmployeeModal" class="edit" data-toggle="modal"
-                                   data-product-id="<%=p.getId()%>"
-                                   data-product-name="<%=p.getName()%>"
-                                   data-product-price="<%=p.getPrice()%>"
-                                   data-product-productTypeId="<%=p.getProductType().getId()%>"
-                                   data-product-quantity="<%=p.getQuantity()%>"
-                                   data-product-prducerId="<%=p.getProducer().getId()%>"
-                                   data-product-prducerId="<%=p.getStatus()%>"
-                                   data-product-img="<%=p.getImages()%>">
-                                    <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
-
-                                <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
-                                   onclick="deleteProduct(<%=p.getId()%>)">
-                                    <i class="material-icons" data-toggle="tooltip" title="Delete">&#xE872;</i></a>
-                            </td>
-                        </tr>
-                        <%
-                            }
-                        }
-                        %>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
     <!-- Edit-->
     <div id="editEmployeeModal" class="modal fade">
         <div class="modal-dialog">
@@ -277,10 +181,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="form-group">
-                            <label>#</label>
-                            <input name="id" value="" type="text" class="form-control" readonly required>
-                        </div>
-                        <div class="form-group">
                             <label>Tên sản phẩm</label>
                             <input name="name" value="" type="text" class="form-control" required>
                         </div>
@@ -291,9 +191,9 @@
                         <div class="form-group">
                             <label>Mã loại sản phẩm</label>
                             <select name="productType" class="form-select">
-                                <c:forEach items="${c.selectAll()}" var="pt">
-                                    <option value="${pt.id}">${pt.id}</option>
-                                </c:forEach>
+                                <%--                                <c:forEach items="${c.selectAll()}" var="pt">--%>
+                                <%--                                    <option value="${pt.id}">${pt.id}</option>--%>
+                                <%--                                </c:forEach>--%>
                             </select>
                         </div>
                         <div class="form-group">
@@ -304,11 +204,12 @@
                         <div class="form-group">
                             <label>Mã hãng sản xuất</label>
                             <select name="productCategory" class="form-select">
-                                <c:forEach items="${b.selectAll()}" var="pc">
-                                    <option value="${pc.id}">${pc.id}</option>
-                                </c:forEach>
+                                <%--                                <c:forEach items="${b.selectAll()}" var="pc">--%>
+                                <%--                                    <option value="${pc.id}">${pc.id}</option>--%>
+                                <%--                                </c:forEach>--%>
                             </select>
                         </div>
+                        x
                         <div class="form-group">
                             <label>Hình ảnh</label>
                             <input name="img" value="" type="text" class="form-control" required>
@@ -469,23 +370,48 @@
 
 
 <!-- end import script -->
-
 <!--Script-->
 <!--Script Xóa Sản Phẩm-->
-<script>
-    function deleteProduct(productId) {
-        document.getElementById('productIdToDelete').value = productId;
-        $('#deleteEmployeeModal').modal('show');
-    }
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script src="js/admin.js"></script>
 
-    function submitDeleteForm() {
-        document.getElementById('deleteForm').submit();
-        $('#deleteEmployeeModal').modal('hide');
-    }
-</script>
-<!--Script Xóa Sản Phẩm-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+        integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+        crossOrigin="anonymous" referrerpolicy="no-referrer"></script>
+<%--<script>
+    $(document).ready(function () {
+        $('#product-list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/home/product-manager",
+                "type": "GET"
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "price"},
+                {"data": "productType.code"},
+                {"data": "quantity"},
+                {"data": "producer.code"},
+                {"data": "images[0].linkImage"},
+                {
+                    "data": "id",
+                    "render": function (data, type, row) {
+                        return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
+                            '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
 
-<!--Script Sửa Sản Phẩm-->
+                    }
+                }
+            ]
+        });
+    });
+</script>--%>
 <script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);
@@ -511,45 +437,5 @@
         $('#editEmployeeModal').modal('hide');
     }
 </script>
-<!--Script Sửa Sản Phẩm-->
-
-<!--Script Thông báo Xóa Sản Phẩm-->
-<script>
-    $(document).ready(function () {
-        <% Boolean deleteSuccess = (Boolean)session.getAttribute("deleteSuccess"); %>
-        <% if (deleteSuccess != null && deleteSuccess) { %>
-        $('#deleteSuccessModal').modal('show');
-        <% session.removeAttribute("deleteSuccess"); %>
-        <% } %>
-    });
-</script>
-<!--Script Thông báo Xóa Sản Phẩm-->
-
-<!--Script Thông báo Thêm Sản Phẩm-->
-<script>
-    $(document).ready(function () {
-        <% Boolean addProductSuccess = (Boolean)session.getAttribute("addProductSuccess"); %>
-        <% if (Objects.nonNull(addProductSuccess) && addProductSuccess) { %>
-        $('#addProductSuccessModal').modal('show');
-        <% session.removeAttribute("addProductSuccess"); %>
-        <% } %>
-    });
-</script>
-<!--Script Thông báo Thêm Sản Phẩm-->
-
-<!--Script Thông báo Thêm Sản Phẩm-->
-<script>
-    $(document).ready(function () {
-        <% Boolean editProductSuccess = (Boolean)session.getAttribute("editProductSuccess"); %>
-        <% if (Objects.nonNull(editProductSuccess) && editProductSuccess) { %>
-        $('#editProductSuccessModal').modal('show');
-        <% session.removeAttribute("editProductSuccess"); %>
-        <% } %>
-    });
-</script>
-<!--Script Thông báo Thêm Sản Phẩm-->
-
-<!-- Script -->
-
 </body>
 </html>

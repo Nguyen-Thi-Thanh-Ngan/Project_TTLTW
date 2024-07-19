@@ -43,6 +43,16 @@ public class CartServiceImpl implements ICartService {
         }
     }
 
+    @Override
+    public boolean updateCartItem(CartItem cartItem) {
+        CartItem cartItem1 = cartItemDAO.findByProductId(cartItem.getProductId(), cartItem.getCartId());
+        if (cartItem1 != null) {
+            return cartItemDAO.updateCartItem(cartItem1.getId(), cartItem.getQuantity());
+        } else {
+            return false;
+        }
+    }
+
 
     @Override
     public boolean createCart(Integer userId) {

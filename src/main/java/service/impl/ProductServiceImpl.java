@@ -28,9 +28,9 @@ public class ProductServiceImpl implements IProductService {
         for (Product product : products){
             List<Image> images = imageDAO.findByProductId(product.getId());
             product.setImages(images);
-            ProductType productType = productTypeDAO.findById(product.getProductType().getId());
+            ProductType productType = productTypeDAO.findById(product.getProductTypeID());
             product.setProductType(productType);
-            Producer producer = producerDAO.findById(product.getProducer().getId());
+            Producer producer = producerDAO.findById(product.getProducerID());
             product.setProducer(producer);
         }
         return products;
@@ -139,6 +139,11 @@ public class ProductServiceImpl implements IProductService {
             product.setProducer(producer);
         }
         return products;
+    }
+
+    @Override
+    public boolean deleteById(Integer productId) {
+        return productDAO.deleteById(productId);
     }
 
 }
