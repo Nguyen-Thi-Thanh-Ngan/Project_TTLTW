@@ -29,16 +29,29 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (userService.login(username, password)) {
-            req.setAttribute("success", "Đăng nhập thành công!");
-            req.setAttribute("username", "");
-            req.setAttribute("password", "");
-            SessionUtil.getInstance().putKey(req, "user", userService.getUserByUsername(username));
-            Integer roleId = userService.getRoleIdByUsername(username);
-            if (roleId == 1) {
-                resp.sendRedirect("admin.jsp");
+        User user = userService.getUserByUsername(username);
+
+        if (user != null) {
+            if (user.getStatus() == 2) {
+                req.setAttribute("error", "Tài khoản của bạn đã bị chặn và không thể đăng nhập!");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
+                dispatcher.forward(req, resp);
+            } else if (userService.login(username, password)) {
+                req.setAttribute("success", "Đăng nhập thành công!");
+                req.setAttribute("username", "");
+                req.setAttribute("password", "");
+                SessionUtil.getInstance().putKey(req, "user", user);
+
+                Integer roleId = userService.getRoleIdByUsername(username);
+                if (roleId == 1) {
+                    resp.sendRedirect("admin.jsp");
+                } else {
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+                    dispatcher.forward(req, resp);
+                }
             } else {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+                req.setAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác!");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
                 dispatcher.forward(req, resp);
             }
         } else {
@@ -47,7 +60,6 @@ public class LoginController extends HttpServlet {
             dispatcher.forward(req, resp);
         }
     }
-
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
