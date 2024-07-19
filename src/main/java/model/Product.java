@@ -12,8 +12,10 @@ public class Product {
     private Integer id;
     private String name;
     private Double price;
+    private Integer productTypeID;
     private ProductType productType;
     private Integer quantity;
+    private Integer producerID;
     private Producer producer;
     private String status;
     private Date import_date;
