@@ -104,7 +104,7 @@
                 <form id="checkoutForm" action="check-out" method="post">
                     <tbody>
                     <c:forEach items="${cartItems}" var="item">
-                        <tr id="item-${item.product.id}">
+                        <tr class="cart-item" id="item-${item.product.id}">
                             <td>
 
                                 <input type="checkbox" class="productCheckbox" name="selectedProductIds"
@@ -131,28 +131,29 @@
                             </td>
                             <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
                                               var="formattedPrice"/>
-                            <td><strong> ${formattedPrice} VND</strong></td>
+                            <td class="product-price"><strong class="product-price">${formattedPrice} VNĐ</strong></td>
                                 <%--                        Cập nhật số lượng--%>
                             <td data-th="Quantity">
                                 <table class="table table-hover border bg-white">
-                                    <td style="border: none"><b> <input type="text" name="quantity-${item.product.id}"
-                                                                        value="${item.quantity}" style="width: 45px">
+                                    <td style="border: none"><b>
+                                        <input type="number" id="quantity-${item.product.id}"
+                                               name="quantity-${item.product.id} quantity"
+                                               value="${item.quantity}" style="width: 45px">
                                     </b></td>
-
-                                    <td style="border: none"><input type="hidden" name="productId"
-                                                                    value="${item.product.id}">
-                                        <input type="submit" name="action" class="btn btn-success btn-block"
-                                               value="Cập nhật">
+                                    <td style="border: none">
+                                        <input type="hidden" id="productId" name="productId"
+                                               value="${item.product.id}">
+                                        <input type="button" name="action" class="btn btn-success btn-block"
+                                               value="Cập nhật" onclick="updateQuantity(${item.product.id})"/>
                                     </td>
                                 </table>
-
-                                    <%--                        Cập nhật số lượng--%>
                             </td>
 
                             <fmt:formatNumber value="${item.product.price * item.quantity}"
                                               type="number" pattern="#,##0"
                                               var="formattedPrice1"/>
-                            <td><strong> ${formattedPrice1} VND</strong></td>
+                            <td id="subtotal-${item.product.id}">
+                                <strong class="total-price">${formattedPrice1} VNĐ</strong></td>
                             <td class="actions" data-th="" style="width:10%;">
                                 <p data-toggle="modal" data-product-id="${item.product.id}" data-target="#delete"
                                    class="btn btn-danger btn-sm delete-product"><i class="fa fa-trash-o"></i></p>
@@ -239,7 +240,8 @@
                 style: {
                     background: "#D10024",
                 },
-                onClick: function(){}
+                onClick: function () {
+                }
             }).showToast();
         }
     });
@@ -272,7 +274,7 @@
             currency: 'VND'
         }).format(totalAmount);
         formattedTotalAmount = formattedTotalAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        formattedTotalAmount = formattedTotalAmount.replace('₫', ' VND');
+        formattedTotalAmount = formattedTotalAmount.replace('₫', ' VNĐ');
         document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
     }
 </script>
@@ -281,7 +283,6 @@
     //     var selectAllCheckbox = document.getElementById('selectAllCheckbox');
     //     selectAllCheckbox.onclick = selectAll;
     // }
-
     function selectAll() {
         var checkboxes = document.querySelectorAll('input[type="checkbox"]');
         var selectAllCheckbox = document.getElementById('selectAll');
@@ -339,9 +340,69 @@
             removeCartItem(productId);
         });
     });
+
+    const formatter = Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+
+    function updateQuantity(productId) {
+        var quantity = $('#quantity-' + productId).val();
+        var data = {
+            productId: productId,
+            quantity: parseInt(quantity)
+        };
+
+        $.ajax({
+            url: '/home/update-quantity-cart-item',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                Toastify({
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "green",
+                    },
+                    onClick: function () {
+                    } // Callback after click
+                }).showToast();
+                // productId = response.productId;
+                updateCartItem(productId, response)
+            },
+            error: function (xhr) {
+                console.log(xhr)
+                Toastify({
+                    text: 'Cập nhật thất bại',
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#D10024",
+                    },
+                    onClick: function () {
+                    } // Callback after click
+                }).showToast();
+            }
+        });
+    }
+
+
+    const updateCartItem = (productId, reponse) => {
+        const cartItem = $(`#item- \${productId}`);
+        const eTotalPrice = cartItem.find('.total-price');
+        eTotalPrice.text(formatter.format(reponse.newPrice).substring(0, formatter.format(reponse.newPrice).length - 1) + "VNĐ");
+    }
 </script>
 <script src="js/main.js"></script>
-
-
 </body>
 </html>

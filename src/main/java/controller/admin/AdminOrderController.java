@@ -1,4 +1,4 @@
-package controller;
+package controller.admin;
 
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

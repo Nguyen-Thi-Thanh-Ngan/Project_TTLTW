@@ -1,10 +1,14 @@
 package controller;
 
+import model.Log;
 import model.User;
 import service.ICartService;
+import service.ILogService;
 import service.IUserService;
 import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.LevelLog;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -19,6 +23,7 @@ import java.io.IOException;
 public class EnterCodeController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
     private ICartService cartService = new CartServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -47,6 +52,12 @@ public class EnterCodeController extends HttpServlet {
                         User user = (User) SessionUtil.getInstance().getKey(req, "userObj");
                         boolean signUp = userService.register(user);
                         if(!signUp){
+                            Log log = new Log();
+                            log.setUserId(0);
+                            log.setAction("Đăng ký thất bại");
+                            log.setAddressIP(req.getRemoteAddr());
+                            log.setLevel(LevelLog.WARN);
+                            logService.save(log);
                             req.setAttribute("error", "Đăng ký thất bại!");
                             RequestDispatcher dispatcher = req.getRequestDispatcher("enter-code.jsp");
                             dispatcher.forward(req, resp);
