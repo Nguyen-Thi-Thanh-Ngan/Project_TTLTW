@@ -2,11 +2,15 @@ package controller.login;
 
 import model.FacebookAccount;
 import model.GoogleAccount;
+import model.Log;
 import model.User;
 import service.ICartService;
+import service.ILogService;
 import service.IUserService;
 import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.LevelLog;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -22,6 +26,7 @@ import java.io.IOException;
 public class FacebookLoginController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
     private ICartService cartService = new CartServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -39,7 +44,15 @@ public class FacebookLoginController extends HttpServlet {
         User user = fb.createUserFromFacebookAccount(facebookAccount, accessToken);
 
         if (userService.isUserExists("facebook", facebookAccount.getId()) != null) {
+
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
+            User user1 = userService.getUserByUsername(user.getUsername());
+            Log log = new Log();
+            log.setUserId(user1.getId());
+            log.setAction("Đăng nhập bằng Facebook");
+            log.setAddressIP(request.getRemoteAddr());
+            log.setLevel(LevelLog.INFO);
+            logService.save(log);
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
             if (roleId == 1) {
                 response.sendRedirect("admin.jsp");
@@ -48,8 +61,14 @@ public class FacebookLoginController extends HttpServlet {
             }
         } else {
             boolean isRegister = userService.register(user);
-            if (isRegister){
+            if (isRegister) {
                 Integer userId = userService.getIdByUserName(user.getUsername());
+                Log log = new Log();
+                log.setUserId(userId);
+                log.setAction("Đăng nhập bằng Facebook");
+                log.setAddressIP(request.getRemoteAddr());
+                log.setLevel(LevelLog.INFO);
+                logService.save(log);
                 cartService.createCart(userId);
             }
             System.out.println("New user registered: " + user.getEmail());

@@ -1,10 +1,14 @@
 package controller;
 
 import model.CartResponse;
+import model.Log;
 import model.User;
 import model.cart.Cart;
 import service.ICartService;
+import service.ILogService;
 import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
+import utils.LevelLog;
 import utils.SessionUtil;
 
 import javax.servlet.ServletException;
@@ -18,23 +22,31 @@ import java.util.List;
 @WebServlet(name = "DisplayCartItemController", value = "/cart.html")
 public class DisplayCartItemController extends HttpServlet {
     private ICartService cartService = new CartServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         User user = (User) SessionUtil.getInstance().getKey(req, "user");
-        if(user == null) {
+        if (user == null) {
             resp.sendRedirect("sign-in.jsp");
             return;
         }
         Integer userId = user.getId();
 
         Cart cart = cartService.findByUserId(userId);
+        Log log = new Log();
+        log.setUserId(userId);
+        log.setAction("Xem giỏ hàng");
+        log.setAddressIP(req.getRemoteAddr());
+        log.setLevel(LevelLog.INFO);
+        logService.save(log);
+
         if (cart != null) {
             Double totalPrice = 0d;
             List<CartResponse> cartItems = cartService.getCartItemByCartId(cart.getId());
-            for (CartResponse cartResponse : cartItems){
+            for (CartResponse cartResponse : cartItems) {
                 Double total = cartResponse.getQuantity() * cartResponse.getProduct().getPrice();
                 totalPrice += total;
             }

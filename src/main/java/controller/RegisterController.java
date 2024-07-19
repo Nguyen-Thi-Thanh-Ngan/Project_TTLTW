@@ -1,8 +1,12 @@
 package controller;
 
+import model.Log;
 import model.User;
+import service.ILogService;
 import service.IUserService;
+import service.impl.LogServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.LevelLog;
 import utils.MailUtil;
 import utils.SessionUtil;
 
@@ -19,6 +23,7 @@ import java.util.Random;
 @WebServlet(value = "/sign-up")
 public class RegisterController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -56,6 +61,12 @@ public class RegisterController extends HttpServlet {
         }
 
         if (userService.isUserNameExists(username)) {
+            Log log = new Log();
+            log.setUserId(0);
+            log.setAction("Đăng ký tài khoản thất bại");
+            log.setAddressIP(req.getRemoteAddr());
+            log.setLevel(LevelLog.WARN);
+            logService.save(log);
             req.setAttribute("error", "Tên người dùng đã tồn tại!");
             RequestDispatcher dispatcher = req.getRequestDispatcher("sign-up.jsp");
             dispatcher.forward(req, resp);

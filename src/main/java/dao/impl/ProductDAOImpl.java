@@ -42,18 +42,10 @@ import java.util.*;
             return products;
         }
 
-        public static void main(String[] args) {
-            IProductDAO productDAO = new ProductDAOImpl();
-            List<Product> products = productDAO.findAll();
-            for (Product product : products) {
-                System.out.println(product);
-            }
-        }
-
         @Override
         public Product findById(Integer id) {
             Product product = JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " WHERE id = :id")
+                return handle.createQuery(BASE_QUERY + " AND id = :id")
                         .bind("id", id)
                         .mapToBean(Product.class)
                         .findFirst()
@@ -65,7 +57,7 @@ import java.util.*;
         @Override
         public List<Product> findByName(String name) {
             List<Product> products =  JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " where name LIKE '" +name +  "%'" + " OR name LIKE '%" +name + "%'" + " OR name LIKE '%" + name+ "'")
+                return handle.createQuery(BASE_QUERY + " AND (name LIKE '" +name +  "%'" + " OR name LIKE '%" +name + "%'" + " OR name LIKE '%" + name+ "')")
                         .mapToBean(Product.class)
                         .list();
             });
@@ -75,7 +67,7 @@ import java.util.*;
         @Override
         public List<Product> findByCategory(Integer categoryId) {
             List<Product> products = JDBIConnector.getConnect().withHandle(handle -> {
-                 return handle.createQuery(BASE_QUERY + " where product_type_id = :productTypeId")
+                 return handle.createQuery(BASE_QUERY + " AND product_type_id = :productTypeId")
                         .bind("productTypeId", categoryId)
                          .mapToBean(Product.class)
                          .list();
@@ -86,7 +78,7 @@ import java.util.*;
         @Override
         public List<Product> findByProducer(Integer producerId){
             List<Product> products = JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " where producer_id = :producerId")
+                return handle.createQuery(BASE_QUERY + " AND producer_id = :producerId")
                         .bind("producerId", producerId)
                         .mapToBean(Product.class)
                         .list();
@@ -97,7 +89,7 @@ import java.util.*;
         @Override
         public List<Product> findNewProduct() {
             List<Product> products = JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " WHERE import_date >= :date")
+                return handle.createQuery(BASE_QUERY + " AND import_date >= :date")
                         .bind("date", LocalDate.now().minusDays(10).format(DateTimeFormatter.ISO_DATE))
                         .mapToBean(Product.class)
                         .list();
@@ -108,7 +100,7 @@ import java.util.*;
         @Override
         public List<Product> findSaleProduct() {
             List<Product> products = JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " WHERE status = 'sale'")
+                return handle.createQuery(BASE_QUERY + " AND status = 'sale'")
                         .mapToBean(Product.class)
                         .list();
             });
@@ -118,7 +110,7 @@ import java.util.*;
         @Override
         public List<Product> findProductIsSelling() {
             List<Product> products = JDBIConnector.getConnect().withHandle(handle -> {
-                return handle.createQuery(BASE_QUERY + " WHERE status = 'selling'")
+                return handle.createQuery(BASE_QUERY + " AND status = 'selling'")
                         .mapToBean(Product.class)
                         .list();
             });
