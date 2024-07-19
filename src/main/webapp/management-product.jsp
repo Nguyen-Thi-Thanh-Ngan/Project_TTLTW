@@ -133,12 +133,12 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-<%--            <a href="admin.jsp" class="sidebar-nav-link">--%>
-                <div>
-                    <i class="fa fa-user"></i>
-                </div>
-                <span>Quản lý nhân viên</span>
-<%--            </a>--%>
+            <%--            <a href="admin.jsp" class="sidebar-nav-link">--%>
+            <div>
+                <i class="fa fa-user"></i>
+            </div>
+            <span>Quản lý nhân viên</span>
+            <%--            </a>--%>
         </li>
         <li class="sidebar-nav-item">
             <a href="admin.jsp" class="sidebar-nav-link">

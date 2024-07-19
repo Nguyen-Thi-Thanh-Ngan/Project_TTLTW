@@ -44,7 +44,6 @@ public class FacebookLoginController extends HttpServlet {
         User user = fb.createUserFromFacebookAccount(facebookAccount, accessToken);
 
         if (userService.isUserExists("facebook", facebookAccount.getId()) != null) {
-
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             User user1 = userService.getUserByUsername(user.getUsername());
             Log log = new Log();

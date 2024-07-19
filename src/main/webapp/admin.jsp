@@ -389,120 +389,120 @@
 
 <script>
 
-const loadData = () => {
-    $('.manager-display').hidden
-    $.ajax({
-        url: "/home/product-manager",
-        type: "GET",
-        beforeSend: function () {
-            $.LoadingOverlay("show", {
-                image: "",
-                fontawesome: "fa fa-spinner fa-spin",
-                background: "rgba(0, 0, 0, 0.5)"
-            });
-        },
-        success: function (data) {
-            loadDataTale(data);
-        },
-        complete: function () {
-            $.LoadingOverlay("hide");
-        }
-    })
-    $('.btn-delete').on('click', function (e) {
-        var id = $(this).attr("data-id");
-        if (window.confirm("Bạn có muốn xóa người dùng này hay không?")) {
-            $.ajax({
-                url: '/home/product-manager?id=' + id,
-                method: 'DELETE',
-                success: function (response) {
-                    if (response.message == true) {
-                        alert("Xóa người dùng thành công");
-                        window.location.href = "user-list.jsp";
-                    } else {
-                        alert("Xóa người dùng thất bại");
-                        window.location.href = "user-list.jsp";
-                    }
-                }
-            });
-        }
-    });
-
-
-
-    const loadDataTale = (data) => {
-        $('#product-manager-display table').DataTable({
-            data: data,
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "price"},
-                {"data": "productType.code"},
-                {"data": "quantity"},
-                {"data": "producer.code"},
-                {
-                    "data": "images[0].linkImage",
-                    "render": function (data, type, row) {
-                        return '<img src="' + data + '" style="width: 50px; height: 50px">'
-                    }
-                },
-                {
-                    "data": "id",
-                    "render": function (data, type, row) {
-                        return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
-                            '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
-
-                    }
-                }
-            ],
-            initComplete: function () {
-                $('.btn-delete').on('click', function (e) {
-                    var id = $(this).attr("data-id");
-                    if (window.confirm("Bạn có muốn xóa sản phẩm này hay không?")) {
-                        $.ajax({
-                            url: '/home/product-manager?id=' + id,
-                            method: 'DELETE',
-                            success: function (response) {
-                                if (response.message == true) {
-                                    alert("Xóa sản phẩm thành công");
-                                    window.location.href = "product-list.jsp";
-                                } else {
-                                    alert("Xóa sản phẩm thất bại");
-                                    window.location.href = "product-list.jsp";
-                                }
-                            }
-                        });
+    const loadData = () => {
+        $('.manager-display').hidden
+        $.ajax({
+            url: "/home/product-manager",
+            type: "GET",
+            beforeSend: function () {
+                $.LoadingOverlay("show", {
+                    image: "",
+                    fontawesome: "fa fa-spinner fa-spin",
+                    background: "rgba(0, 0, 0, 0.5)"
+                });
+            },
+            success: function (data) {
+                loadDataTale(data);
+            },
+            complete: function () {
+                $.LoadingOverlay("hide");
+            }
+        })
+        $('.btn-delete').on('click', function (e) {
+            var id = $(this).attr("data-id");
+            if (window.confirm("Bạn có muốn xóa người dùng này hay không?")) {
+                $.ajax({
+                    url: '/home/product-manager?id=' + id,
+                    method: 'DELETE',
+                    success: function (response) {
+                        if (response.message == true) {
+                            alert("Xóa người dùng thành công");
+                            window.location.href = "user-list.jsp";
+                        } else {
+                            alert("Xóa người dùng thất bại");
+                            window.location.href = "user-list.jsp";
+                        }
                     }
                 });
             }
         });
+
+
+
+        const loadDataTale = (data) => {
+            $('#product-manager-display table').DataTable({
+                data: data,
+                "columns": [
+                    {"data": "id"},
+                    {"data": "name"},
+                    {"data": "price"},
+                    {"data": "productType.code"},
+                    {"data": "quantity"},
+                    {"data": "producer.code"},
+                    {
+                        "data": "images[0].linkImage",
+                        "render": function (data, type, row) {
+                            return '<img src="' + data + '" style="width: 50px; height: 50px">'
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
+                                '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
+
+                        }
+                    }
+                ],
+                initComplete: function () {
+                    $('.btn-delete').on('click', function (e) {
+                        var id = $(this).attr("data-id");
+                        if (window.confirm("Bạn có muốn xóa sản phẩm này hay không?")) {
+                            $.ajax({
+                                url: '/home/product-manager?id=' + id,
+                                method: 'DELETE',
+                                success: function (response) {
+                                    if (response.message == true) {
+                                        alert("Xóa sản phẩm thành công");
+                                        window.location.href = "product-list.jsp";
+                                    } else {
+                                        alert("Xóa sản phẩm thất bại");
+                                        window.location.href = "product-list.jsp";
+                                    }
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        }
     }
-}
 
-const showDisplay = (id) => {
-    $('.manager-display').removeClass("d-flex").addClass("d-none")
-    $(id).addClass("d-flex").removeClass("d-none");
-}
+    const showDisplay = (id) => {
+        $('.manager-display').removeClass("d-flex").addClass("d-none")
+        $(id).addClass("d-flex").removeClass("d-none");
+    }
 
-$("#product-manager").click(function () {
-    if ($(this).hasClass("active")) return;
-    $(this).addClass("active");
-    const id = $(this).data("id-display");
-    showDisplay(id)
-    loadData();
-});
+    $("#product-manager").click(function () {
+        if ($(this).hasClass("active")) return;
+        $(this).addClass("active");
+        const id = $(this).data("id-display");
+        showDisplay(id)
+        loadData();
+    });
 
-$("#user-manager").click(function () {
-    if ($(this).has("active")) return;
-    $(this).addClass("active");
-    const id = $(this).data("id-display");
-    showDisplay(id)
-});
+    $("#user-manager").click(function () {
+        if ($(this).has("active")) return;
+        $(this).addClass("active");
+        const id = $(this).data("id-display");
+        showDisplay(id)
+    });
 
-$(document).ready(function () {
-    const hash = window.location.hash;
-    if(hash === "#quan-ly-san-pham")
-        $("#product-manager").click();
-});
+    $(document).ready(function () {
+        const hash = window.location.hash;
+        if(hash === "#quan-ly-san-pham")
+            $("#product-manager").click();
+    });
 </script>
 
 <%--<script>
