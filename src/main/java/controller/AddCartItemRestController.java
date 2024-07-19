@@ -31,7 +31,6 @@ public class AddCartItemRestController extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
-
         String id = request.getParameter("productId");
         Integer productId = Integer.parseInt(request.getParameter("productId"));
         User user = (User) SessionUtil.getInstance().getKey(request, "user");
