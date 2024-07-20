@@ -93,9 +93,8 @@ public class OrderDAOImpl implements IOrderDAO {
         return orders;
     }
 
-    @Override
-    public boolean addOrder(Order order) {
-        int rowsAffected = JDBIConnector.getConnect().withHandle(handle -> {
+    public int addOrder(Order order) {
+        return JDBIConnector.getConnect().withHandle(handle -> {
             return handle.createUpdate("INSERT INTO orders(user_id, address, phone_number, status, note, payment_method, order_date, delivery_date, total_price) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)")
                     .bind(0, order.getUser().getId())
                     .bind(1, order.getAddress())
@@ -106,10 +105,10 @@ public class OrderDAOImpl implements IOrderDAO {
                     .bind(6, order.getOrderDate())
                     .bind(7, order.getDeliveryDate())
                     .bind(8, order.getTotalPrice())
-                    .execute();
-
+                    .executeAndReturnGeneratedKeys("id")
+                    .mapTo(int.class)
+                    .one();
         });
-        return rowsAffected > 0;
     }
 
     @Override

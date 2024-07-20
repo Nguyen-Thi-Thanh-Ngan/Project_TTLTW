@@ -38,13 +38,25 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
 
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/slick.min.js"></script>
+    <script src="js/nouislider.min.js"></script>
+    <script src="js/jquery.zoom.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
     <jsp:useBean id="a" class="dao.impl.UserDaoImpl" scope="request"/>
 
-<%--    <style>--%>
-<%--        .top, .card-content th{--%>
-<%--            color: white;--%>
-<%--        }--%>
-<%--    </style>--%>
+        <style>
+            .top, .card-content th{
+                color: white;
+            }
+        </style>
 
 </head>
 <body>
@@ -77,19 +89,23 @@
                         %>
                         <div class="form-group">
                             <div class="top">Tên Người Dùng</div>
-                            <div class="bot"><%=user.getName()%></div>
+                            <div class="bot"><%=user.getName()%>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="top">Email</div>
-                            <div class="bot"><%=user.getEmail()%></div>
+                            <div class="bot"><%=user.getEmail()%>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="top">Ngày tạo</div>
-                            <div class="bot"><%=user.getCreatedAt()%></div>
+                            <div class="bot"><%=user.getCreatedAt()%>
+                            </div>
                         </div>
                         <div class="form-group">
                             <div class="top">Tên đăng nhập</div>
-                            <div class="bot"><%=user.getUsername()%></div>
+                            <div class="bot"><%=user.getUsername()%>
+                            </div>
                         </div>
                     </div>
                     <!-- /Billing Details -->
@@ -123,16 +139,24 @@
                                             if ((!order.getStatus().equals("Hoàn tất"))) {
                                     %>
                                     <tr style="background-color: #fff2db">
-                                        <td><%=order.getId()%></td>
-                                        <td><%=order.getAddress()%></td>
-                                        <td><%=order.getStatus()%></td>
-                                        <td><%=order.getPayment_method()%></td>
-                                        <td><%=order.getOrderDate()%></td>
-                                        <td><%=order.getDeliveryDate()%></td>
-                                        <td><%=order.getTotalPrice()%></td>
+                                        <td><%=order.getId()%>
+                                        </td>
+                                        <td><%=order.getAddress()%>
+                                        </td>
+                                        <td><%=order.getStatus()%>
+                                        </td>
+                                        <td><%=order.getPayment_method()%>
+                                        </td>
+                                        <td><%=order.getOrderDate()%>
+                                        </td>
+                                        <td><%=order.getDeliveryDate()%>
+                                        </td>
+                                        <td><%=order.getTotalPrice()%>
+                                        </td>
                                         <td>
                                             <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
-                                                <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
+                                                <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png"
+                                                     width="35px" height="35px" style="margin-left: 20px" alt="">
                                             </a>
                                         </td>
                                     </tr>
@@ -169,16 +193,24 @@
                                                 if (order.getStatus().equals("Hoàn tất")) {
                                         %>
                                         <tr style="background-color: #fff2db">
-                                            <td><%=order.getId()%></td>
-                                            <td><%=order.getAddress()%></td>
-                                            <td><%=order.getStatus()%></td>
-                                            <td><%=order.getPayment_method()%></td>
-                                            <td><%=order.getOrderDate()%></td>
-                                            <td><%=order.getDeliveryDate()%></td>
-                                            <td><%=order.getTotalPrice()%></td>
+                                            <td><%=order.getId()%>
+                                            </td>
+                                            <td><%=order.getAddress()%>
+                                            </td>
+                                            <td><%=order.getStatus()%>
+                                            </td>
+                                            <td><%=order.getPayment_method()%>
+                                            </td>
+                                            <td><%=order.getOrderDate()%>
+                                            </td>
+                                            <td><%=order.getDeliveryDate()%>
+                                            </td>
+                                            <td><%=order.getTotalPrice()%>
+                                            </td>
                                             <td>
                                                 <a href="chitietdonhang.jsp?id=<%=order.getId()%>">
-                                                    <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png" width="35px" height="35px" style="margin-left: 20px" alt="">
+                                                    <img src="https://cdn-icons-png.flaticon.com/128/9183/9183248.png"
+                                                         width="35px" height="35px" style="margin-left: 20px" alt="">
                                                 </a>
                                             </td>
                                         </tr>
@@ -199,17 +231,13 @@
         </div>
         <!-- /SECTION -->
     </div>
-    <!-- FOOTER -->
-    <jsp:include page="footer.jsp"/>
-    <!-- /FOOTER -->
+</div>
+<!-- FOOTER -->
+<jsp:include page="footer.jsp"/>
+<!-- /FOOTER -->
 <!-- jQuery Plugins -->
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/slick.min.js"></script>
-<script src="js/nouislider.min.js"></script>
-<script src="js/jquery.zoom.min.js"></script>
-<script src="js/main.js"></script>
 
+<script src="js/main.js"></script>
 </body>
 
 </html>

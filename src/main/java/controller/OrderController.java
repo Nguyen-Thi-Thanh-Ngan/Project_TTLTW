@@ -1,36 +1,41 @@
 package controller;
 
-import cart.Cart;
+import dao.IOrderDAO;
+import dao.IOrderDetailDAO;
+import dao.IUserDao;
 import dao.impl.OrderDAOImpl;
 import dao.impl.OrderDetailDAOImpl;
-import dao.impl.OrderDetailsDAO;
 import dao.impl.UserDaoImpl;
-import jakarta.servlet.RequestDispatcher;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.annotation.WebServlet;
-import jakarta.servlet.http.HttpServlet;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
-import model.CartResponse;
-import model.Order;
-import model.OrderDetails;
-import model.User;
+import model.*;
+import service.ICartService;
+import service.ILogService;
+import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
+import utils.LevelLog;
+import utils.SessionUtil;
 
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicLong;
+
 
 @WebServlet(name = "OrderController", value = "/order")
 public class OrderController extends HttpServlet {
-    private OrderDAOImpl orderDAO = new OrderDAOImpl();
-    private OrderDetailDAOImpl orderDetailsDAO = new OrderDetailDAOImpl();
+    private ILogService logService = new LogServiceImpl();
+    private IOrderDAO orderDAO = new OrderDAOImpl();
+    private IOrderDetailDAO orderDetailsDAO = new OrderDetailDAOImpl();
 
-    private UserDaoImpl userDAO = new UserDaoImpl();
-    private static final AtomicLong counter = new AtomicLong(System.currentTimeMillis());
+    private IUserDao userDAO = new UserDaoImpl();
+    private ICartService cartService = new CartServiceImpl();
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -44,30 +49,46 @@ public class OrderController extends HttpServlet {
 
         HttpSession session = request.getSession();
 
-        List<CartResponse> selectedProductsList = new ArrayList<>();
-        request.setAttribute("selectedProductsList", selectedProductsList);
+        List<CartResponse> selectedProductsList = (List<CartResponse>) session.getAttribute("selectedProductsList");
 
         if (!selectedProductsList.isEmpty()) {
 
             LocalDateTime orderDate = LocalDateTime.now();
             LocalDateTime deliverDate = orderDate.plusDays(3);
 
+            String province = request.getParameter("selectedProvince");
+            String district = request.getParameter("selectedDistrict");
+            String ward = request.getParameter("selectedWard");
+
             String name = request.getParameter("name");
             String email = request.getParameter("email");
-            String address = request.getParameter("delivery_address");
-            String phone = request.getParameter("phoneNumber");
+            String address = province + "_" + district + "_" + ward;
+            String phone = request.getParameter("phone_number");
             String paymentMethod = request.getParameter("payment");
             String note = request.getParameter("note");
-            double totalPrice = 0;
+            double totalPrice = Double.parseDouble(request.getParameter("totalPrice"));
 
             if (email != null && !email.isEmpty()) {
-                Integer idUser = Integer.parseInt(request.getParameter("id"));
-                User user = userDAO.getUserByUserId(idUser);
-                user.setId(idUser);
+                User user = (User) SessionUtil.getInstance().getKey(request, "user");
+                Integer userId = user.getId();
+                user.setId(userId);
+                user.setName(name);
+                user.setEmail(email);
 
-                String status = String.valueOf(user.getStatus());
-                Order order = new Order(idUser, user, address, phone, status, note, paymentMethod, orderDate,  deliverDate, totalPrice);
-                orderDAO.addOrder(order);
+                String status = "Chờ xác nhận đơn hàng";
+                Order order = new Order();
+                order.setUser(user);
+                order.setAddress(address);
+                order.setPhone_number(phone);
+                order.setStatus(status);
+                order.setNote(note);
+                order.setPayment_method(paymentMethod);
+                order.setOrderDate(orderDate);
+                order.setDeliveryDate(deliverDate);
+                order.setTotalPrice(totalPrice);
+
+                Integer orderId = orderDAO.addOrder(order);
+                order.setId(orderId);
 
                 for (CartResponse cartItem : selectedProductsList) {
                     OrderDetails orderDetails = new OrderDetails();
@@ -78,14 +99,25 @@ public class OrderController extends HttpServlet {
                     orderDetails.setAmount(amount);
 
                     orderDetailsDAO.addOrderDetails(orderDetails);
+
+                    Integer cartId = cartService.findByUserId(userId).getId();
+                    Integer productId = cartItem.getProduct().getId();
+                    boolean isRemoved = false;
+                    if (productId != null && userId != null && cartId != null) {
+                        isRemoved = cartService.removeCartItem(productId, cartId);
+                    }
                 }
             } else {
                 request.setAttribute("error", "Tên người dùng hoặc email hoặc số điện thoại không chính xác!");
                 RequestDispatcher dispatcher = request.getRequestDispatcher("check-out.jsp");
                 dispatcher.forward(request, response);
             }
+            session.setAttribute("OrderSuccess", true);
+            response.sendRedirect("index.jsp");
+        } else {
+            request.setAttribute("error", "Không có sản phẩm nào cả!");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("check-out.jsp");
+            dispatcher.forward(request, response);
         }
-        session.setAttribute("OrderSuccess", true);
-        response.sendRedirect("index.jsp");
     }
 }

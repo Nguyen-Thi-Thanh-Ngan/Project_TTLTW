@@ -83,7 +83,7 @@
     <div class="container">
         <!-- row -->
         <div class="row">
-            <form id="orderForm" action="./order" method="post">
+            <form id="orderForm" action="order" method="post" onsubmit="updateAddress()">
                 <div class="col-md-7">
                     <c:if test="${error != null}">
                         <p class="alert alert-danger">${error}</p>
@@ -123,7 +123,6 @@
                             <input class="input" type="tel" name="phone_number" placeholder="Số điện thoại" required
                                    value="${phone_number}">
                         </div>
-
                     </div>
                     <!-- /Billing Details -->
 
@@ -132,17 +131,15 @@
                         <div class="section-title">
                             <h3 class="title">Yêu cầu khác</h3>
                         </div>
-
                     </div>
                     <!-- /Shiping Details -->
 
                     <!-- Order notes -->
                     <div class="order-notes">
-                        <textarea class="input" placeholder="Yêu cầu khác(Không bắt buộc)"></textarea>
+                        <textarea name="note" class="input" placeholder="Yêu cầu khác(Không bắt buộc)"></textarea>
                     </div>
                     <!-- /Order notes -->
                 </div>
-
                 <!-- Order Details -->
                 <div class="col-md-5 order-details">
                     <div class="section-title text-center">
@@ -216,6 +213,10 @@
                             <span></span>
                             Tôi đã đọc và chấp nhận <a href="chinhsachbaomat.jsp">các điều khoản trên</a>
                         </label>
+                        <input type="hidden" id="selectedProvince" name="selectedProvince">
+                        <input type="hidden" id="selectedDistrict" name="selectedDistrict">
+                        <input type="hidden" id="selectedWard" name="selectedWard">
+                        <input type="hidden" name="totalPrice" value="${totalPrice}">
                         <button onclick="validateForm()" data-toggle="modal" class="primary-btn order-submit">Đặt hàng
                         </button>
                     </div>
@@ -317,6 +318,24 @@
         <% request.getSession().removeAttribute("OrderSuccess"); %>
         <% } %>
     });
+</script>
+
+<script>
+    // Function to update selected values and submit form
+    function updateAddress() {
+        var provinceSelect = document.getElementById('province-select');
+        var districtSelect = document.getElementById('district-select');
+        var wardSelect = document.getElementById('ward-select');
+
+        var provinceName = provinceSelect.options[provinceSelect.selectedIndex].text;
+        var districtName = districtSelect.options[districtSelect.selectedIndex].text;
+        var wardName = wardSelect.options[wardSelect.selectedIndex].text;
+
+        // Set the names to hidden fields or directly to form fields
+        document.getElementById('selectedProvince').value = provinceName;
+        document.getElementById('selectedDistrict').value = districtName;
+        document.getElementById('selectedWard').value = wardName;
+    }
 </script>
 
 </body>
