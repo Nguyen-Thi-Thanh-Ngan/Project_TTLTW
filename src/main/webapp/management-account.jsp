@@ -1,6 +1,13 @@
+<%@ page import="service.impl.UserServiceImpl" %>
+<%@ page import="utils.SessionUtil" %>
+<%@ page import="model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+<%
+    //    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
+//        response.sendRedirect("sign-in.jsp");
+//    }
+%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -9,7 +16,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport"
           content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
-    <link rel="icon" type="image/png" href="./img/logo.png"/>
+    <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
+
 
     <!-- Import lib -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round">
@@ -23,15 +31,22 @@
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <!-- End import lib -->
     <link rel="stylesheet" type="text/css" href="css/styleAdmin.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
-    <script src="js/admin.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/css/jquery.dataTables.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
+            integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"
+            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
 </head>
 <body class="overlay-scrollbar">
+
 <!-- navbar -->
 <div class="navbar">
     <!-- nav left -->
@@ -42,56 +57,21 @@
             </a>
         </li>
         <li class="nav-item">
-            <img src="./img/logo.png" alt="logo" class="logo logo-light">
+            <a href="index.jsp"><img src="./img/logo.png" alt="logo" class="logo logo-light"></a>
         </li>
     </ul>
     <!-- end nav left -->
 
     <!-- nav right -->
     <ul class="navbar-nav nav-right">
-        <li class="nav-item dropdown">
-            <a class="nav-link">
-                <i class="fas fa-bell dropdown-toggle" data-toggle="notification-menu"></i>
-                <span class="navbar-badge">1</span>
-            </a>
-            <ul id="notification-menu" class="dropdown-menu notification-menu">
-                <div class="dropdown-menu-header">
-                    <span>Thông báo</span>
-                </div>
-                <div class="dropdown-menu-content overlay-scrollbar scrollbar-hover">
-                    <li class="dropdown-menu-item">
-                        <a href="#" class="dropdown-menu-link">
-                            <div>
-                                <i class="fas fa-gift"></i>
-                            </div>
-                            <span>
-                                Thông báo kết thúc khuyến mãi
-                                <br>
-                                <span>15/07/2020</span>
-                            </span>
-                        </a>
-                    </li>
-                </div>
-                <div class="dropdown-menu-footer">
-                    <span></span>
-                </div>
-            </ul>
-        </li>
-
-        <li class="nav-item avt-wrapper">
+        <li class="nav-item">
             <div class="avt dropdown">
-                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+                <c:if test="${sessionScope.user != null}">
+                    <%--                    <a href="user-information.jsp?id=<%=new User ServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "><i class="fa fa-user-o"></i> <%= new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").%></a>--%>
+                </c:if>
                 <ul id="user-menu" class="dropdown-menu">
                     <li class="dropdown-menu-item">
-                        <a class="dropdown-menu-link">
-                            <div>
-                                <i class="fas fa-user-tie"></i>
-                            </div>
-                            <span>Thông tin cá nhân</span>
-                        </a>
-                    </li>
-                    <li class="dropdown-menu-item">
-                        <a href="#" class="dropdown-menu-link">
+                        <a href="logout" class="dropdown-menu-link">
                             <div>
                                 <i class="fas fa-sign-out-alt"></i>
                             </div>
@@ -101,7 +81,13 @@
                 </ul>
             </div>
         </li>
+        <li class="nav-item">
+            <div class="avt dropdown">
+                <img src="./img/admin1.jpg" alt="User image" class="dropdown-toggle" data-toggle="user-menu">
+            </div>
+        </li>
     </ul>
+
     <!-- end nav right -->
 </div>
 <!-- end navbar -->
@@ -117,7 +103,8 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="admin.jsp" class="sidebar-nav-link">
+            <a href="#quan-ly-nhan-vien" id="user-manager" data-id-display="#user-manager-display"
+               class="sidebar-nav-link">
                 <div>
                     <i class="fa fa-user"></i>
                 </div>
@@ -125,7 +112,8 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="management-product.jsp" class="sidebar-nav-link">
+            <a href="#quan-ly-san-pham" id="product-manager" data-id-display="#product-manager-display"
+               class="sidebar-nav-link">
                 <div>
                     <i class="fa fa-mobile"></i>
                 </div>
@@ -151,6 +139,7 @@
     </ul>
 </div>
 <!-- end sidebar -->
+
 <!-- main content -->
 <div class="wrapper">
     <div class="row">
@@ -158,9 +147,6 @@
             <div class="card">
                 <div class="card-header" style="display: flex">
                     <h3>Quản lý tài khoản</h3>
-                    <a href="#addEmployeeModal" class="btn btn-success" data-toggle="modal" style="margin-left: auto">
-                        <span>Thêm tài khoản mới</span>
-                    </a>
                 </div>
                 <div class="card-content">
                     <table>
@@ -171,7 +157,8 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Đơn hàng</th>
-                            <th>Chặn</th>
+                            <th>Chỉnh sửa</th>
+                            <th>Chặn / Xóa</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -181,11 +168,27 @@
                                 <td>${item.name}</td>
                                 <td>${item.email}</td>
                                 <td>${item.username}</td>
-                                <td></td>
+                                <td>
+
+                                </td>
+                                <!-- Button để mở modal chỉnh sửa -->
+                                <td>
+                                    <a href="#" class="edit" onclick="editUser(${item.id}, '${item.name}', '${item.email}', '${item.username}', '${item.roleId}')">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/1827/1827933.png" width="40px" height="40px" alt="">
+                                    </a>
+                                </td>
                                 <td>
                                     <a href="#blockUnblockUserModal" class="block" data-toggle="modal"
                                        onclick="setModalContent(${item.id}, ${item.status})">
-                                        <img id="blockUserImg" src="${item.status == 1 ? 'https://cdn-icons-png.flaticon.com/128/889/889758.png' : 'https://cdn-icons-png.flaticon.com/128/889/889754.png'}" height="40px" width="40px" alt="">
+                                        <img id="blockUserImg"
+                                             src="${item.status == 1 ? 'https://cdn-icons-png.flaticon.com/128/889/889758.png' : 'https://cdn-icons-png.flaticon.com/128/889/889754.png'}"
+                                             height="40px" width="40px" alt="">
+                                    </a>
+                                    /
+                                    <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
+                                       onclick="deleteUser(${item.id})">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/10309/10309493.png"
+                                             height="40px" width="40px" alt="">
                                     </a>
                                 </td>
                             </tr>
@@ -196,6 +199,53 @@
             </div>
         </div>
     </div>
+
+    <!-- Edit-->
+    <div id="editEmployeeModal" class="modal fade">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <form action="editRoleUser" method="post">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Chỉnh sửa vai trò người dùng</h4>
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label>ID</label>
+                            <input type="text" class="form-control" required name="idEdit" id="editId"  readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Họ tên</label>
+                            <input type="text" class="form-control" required name="nameEdit" id="editName" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Email</label>
+                            <input type="email" class="form-control" required name="emailEdit" id="editEmail"  readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Username</label>
+                            <input type="text" class="form-control" required name="usernameEdit" id="editUser" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label>Vai trò</label>
+                            <input type="hidden" name="idUserToEditRole" id="idUserToEditRole" value=""> <!-- ID người dùng -->
+                            <select class="form-control" name="editRole" id="editRole">
+                                <option value="1">ADMIN</option>
+                                <option value="2">MOD</option>
+                                <option value="4">USER</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
+                        <input type="submit" class="btn btn-info" value="Lưu">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--/ Edit-->
+    <%--    Block--%>
     <div id="blockUnblockUserModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -218,83 +268,41 @@
             </div>
         </div>
     </div>
-    <!-- Edit-->
-    <div id="editEmployeeModal" class="modal fade">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <form action="/account/edit" method="post" id="edit">
-                    <div class="modal-header">
-                        <h4 class="modal-title">Thay đổi thông tin</h4>
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    </div>
-                    <div class="modal-body">
-                        <input type="text" hidden class="form-control" required name="id" id="editId">
-                        <div class="form-group">
-                            <label>Họ và tên</label>
-                            <input type="text" class="form-control" required name="name" id="editName">
-                        </div>
-                        <div class="form-group">
-                            <label>Số điện thoại</label>
-                            <input type="text" class="form-control" required name="phoneNumber" id="editPhoneNumber">
-                        </div>
-                        <div class="form-group">
-                            <label>Ngày sinh</label>
-                            <input type="date" class="form-control" required name="birthDay" id="editBirthDay">
-                        </div>
-                        <div class="form-group">
-                            <label>Giới tính</label>
-                            <select class="form-control" required name="sex" id="editSex">
-                                <option value="Nam">Nam</option>
-                                <option value="Nữ">Nữ</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" class="form-control" required name="email" id="editEmail">
-                        </div>
-                        <div class="form-group">
-                            <label>Tên đăng nhập</label>
-                            <input type="text" class="form-control" required name="userName" id="editUserName">
-                        </div>
-                        <div class="form-group">
-                            <label>Mật khẩu</label>
-                            <input type="text" class="form-control" required name="password" id="editPassword">
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-info" value="Lưu">
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    <!-- Xóa-->
+    <%--    Block--%>
+    <!-- Delete-->
     <div id="deleteEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form action="/account/delete" method="post">
+                <form id="deleteForm" action="account/delete" method="post">
                     <div class="modal-header">
-                        <h4 class="modal-title">Xóa tài khoản</h4>
+                        <h4 class="modal-title">Xóa sản phẩm này</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                     </div>
                     <div class="modal-body">
-                        <input type="text" hidden class="form-control" required name="id" id="deleteId">
-                        <p>Bạn có chắc chắn muốn xóa tài khoản này?</p>
-                        <p class="text-warning"><small>Hành động này không thể hoàn tác.</small></p>
+                        <p>Bạn có chắc chắn muốn xóa người dùng này?</p>
+                        <p class="text-warning"><small>Hành động này sẽ không thể hoàn lại.</small></p>
                     </div>
                     <div class="modal-footer">
                         <input type="button" class="btn btn-default" data-dismiss="modal" value="Hủy">
-                        <input type="submit" class="btn btn-danger" value="Xóa">
+                        <input type="submit" class="btn btn-danger" value="Xóa" onclick="submitDeleteForm()">
+                        <input type="hidden" id="userIdToDelete" name="userIdToDelete" value="">
                     </div>
                 </form>
             </div>
         </div>
     </div>
+    <!--/ Delete-->
 </div>
+
 <!-- end main content -->
 
+
 <!-- import script -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script src="js/admin.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<!-- end import script -->
 <script>
     function setModalContent(userId, status) {
         $('#userIdToBlockOrUnblock').val(userId);
@@ -312,7 +320,141 @@
         }
     }
 </script>
-<!-- end import script -->
 
+<script>
+    function deleteUser(userId) {
+        document.getElementById('userIdToDelete').value = userId;
+        $('#deleteEmployeeModal').modal('show');
+    }
+
+    function submitDeleteForm() {
+        document.getElementById('deleteForm').submit();
+        $('#deleteEmployeeModal').modal('hide');
+    }
+
+    function editUser(userId, name, email, username, role) {
+        // Cập nhật các trường trong modal
+        document.getElementById('editId').value = userId;
+        document.getElementById('editName').value = name;
+        document.getElementById('editEmail').value = email;
+        document.getElementById('editUser').value = username;
+        document.getElementById('idUserToEditRole').value = userId;
+
+        // Chọn vai trò hiện tại
+        document.getElementById('editRole').value = role;
+
+        // Hiển thị modal
+        $('#editEmployeeModal').modal('show');
+    }
+</script>
+
+<script>
+
+    const loadData = () => {
+        $('.manager-display').hidden
+        $.ajax({
+            url: "/home/product-manager",
+            type: "GET",
+            beforeSend: function () {
+                $.LoadingOverlay("show", {
+                    image: "",
+                    fontawesome: "fa fa-spinner fa-spin",
+                    background: "rgba(0, 0, 0, 0.5)"
+                });
+            },
+            success: function (data) {
+                loadDataTale(data);
+            },
+            complete: function () {
+                $.LoadingOverlay("hide");
+            }
+        })
+
+
+        const loadDataTale = (data) => {
+            $('#product-manager-display table').DataTable({
+                data: data,
+                "columns": [
+                    {"data": "id"},
+                    {"data": "name"},
+                    {"data": "price"},
+                    {"data": "productType.code"},
+                    {"data": "quantity"},
+                    {"data": "producer.code"},
+                    {
+                        "data": "images[0].linkImage",
+                        "render": function (data, type, row) {
+                            return '<img src="' + data + '" style="width: 50px; height: 50px">'
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
+                                '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
+
+                        }
+                    }
+                ]
+            });
+        }
+    }
+
+    const showDisplay = (id) => {
+        $('.manager-display').removeClass("d-flex").addClass("d-none")
+        $(id).addClass("d-flex").removeClass("d-none");
+    }
+
+    $("#product-manager").click(function () {
+        if ($(this).hasClass("active")) return;
+        $(this).addClass("active");
+        const id = $(this).data("id-display");
+        showDisplay(id)
+        loadData();
+    });
+
+    $("#user-manager").click(function () {
+        if ($(this).has("active")) return;
+        $(this).addClass("active");
+        const id = $(this).data("id-display");
+        showDisplay(id)
+    });
+
+    $(document).ready(function () {
+        const hash = window.location.hash;
+        if (hash === "#quan-ly-san-pham")
+            $("#product-manager").click();
+    });
+</script>
+
+<%--<script>
+    $(document).ready(function () {
+        $('#product-list').DataTable({
+            "processing": true,
+            "serverSide": true,
+            "ajax": {
+                "url": "/home/product-manager",
+                "type": "GET"
+            },
+            "columns": [
+                {"data": "id"},
+                {"data": "name"},
+                {"data": "price"},
+                {"data": "productType.code"},
+                {"data": "quantity"},
+                {"data": "producer.code"},
+                {"data": "images[0].linkImage"},
+                {
+                    "data": "id",
+                    "render": function (data, type, row) {
+                        return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
+                            '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
+
+                    }
+                }
+            ]
+        });
+    });
+</script>--%>
 </body>
 </html>
