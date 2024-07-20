@@ -29,7 +29,7 @@
         <input class="form-control form-control-xl" type="email" placeholder="Email"
                value="${success == null && user != null ? user.email : ""}" name="email" required>
         <input type="text" class="form-control form-control-xl" placeholder="Tên đăng nhập"
-               value="${success == null && user != null ? user.user_name : ""}" name="username" required>
+               value="${success == null && user != null ? user.username : ""}" name="username" required>
         <input class="form-control form-control-xl" type="password" placeholder="Mật khẩu"
                value="${success == null && user != null ? user.password : ""}" name="password" id="password" required>
         <input class="form-control form-control-xl" type="password" placeholder="Nhập lại mật khẩu"

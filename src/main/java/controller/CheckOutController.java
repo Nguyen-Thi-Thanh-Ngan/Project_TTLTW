@@ -50,7 +50,8 @@ public class CheckOutController extends HttpServlet {
                 selectedProductsList.add(cartResponse);
             }
         }
-        req.setAttribute("selectedProductsList", selectedProductsList);
+        req.getSession().setAttribute("selectedProductsList", selectedProductsList);
+        System.out.println(selectedProductsList);
         req.getRequestDispatcher("check-out.jsp").forward(req, resp);
     }
 }
