@@ -43,7 +43,7 @@ public class LoginController extends HttpServlet {
                 SessionUtil.getInstance().putKey(req, "user", user);
 
                 Integer roleId = userService.getRoleIdByUsername(username);
-                if (roleId == 1) {
+                if (roleId == 1 || roleId == 2) {
                     resp.sendRedirect("admin.jsp");
                 } else {
                     RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
@@ -76,7 +76,7 @@ public class LoginController extends HttpServlet {
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) response.sendRedirect("admin.jsp");
+            if (roleId == 1 || roleId == 2) response.sendRedirect("admin.jsp");
             else {
                 response.sendRedirect("/home");
             }
@@ -87,7 +87,7 @@ public class LoginController extends HttpServlet {
             }
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) response.sendRedirect("admin.jsp");
+            if (roleId == 1 || roleId == 2) response.sendRedirect("admin.jsp");
             else {
                 response.sendRedirect("/home");
             }
