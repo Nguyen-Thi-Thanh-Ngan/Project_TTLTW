@@ -19,7 +19,17 @@ public class ProductDAOImpl implements IProductDAO {
 
     @Override
     public boolean updateProduct(Product product) {
-        return false;
+        int rowsAffected = JDBIConnector.getConnect().withHandle(handle ->
+                handle.createUpdate("UPDATE products SET name = :name, price = :price, product_type_id = :productTypeId, producer_id = :producerId, detail = :detail WHERE id = :productId")
+                        .bind("name", product.getName())
+                        .bind("price", product.getPrice())
+                        .bind("productTypeId", product.getProductType().getId())
+                        .bind("producerId", product.getProducer().getId())
+                        .bind("detail", product.getDetail())
+                        .bind("productId", product.getId())
+                        .execute()
+        );
+        return rowsAffected > 0;
     }
 
     @Override

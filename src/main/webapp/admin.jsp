@@ -1,5 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -27,10 +28,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
             integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
             crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.js"
-            crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/gasparesganga-jquery-loading-overlay@2.1.7/dist/loadingoverlay.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
@@ -43,6 +40,7 @@
     <jsp:useBean id="b" class="dao.impl.ProducerDAOImpl" scope="request"/>
 </head>
 <body class="overlay-scrollbar">
+<c:out value="${product}"/>
 <div class="navbar">
     <ul class="navbar-nav">
         <li class="nav-item">
@@ -212,6 +210,10 @@
                         Quản lý sản phẩm
                     </h3>
                     <div>
+                        <a class="btn" data-toggle="modal" data-target="#addProductModal"
+                           style="background-color: #d10024; color: white">
+                            <span>Thêm sản phẩm</span>
+                        </a>
                         <a class="btn all-product" data-toggle="modal"
                            style="background-color: #d10024; color: white">
                             <span>Tất cả sản phẩm</span>
@@ -256,7 +258,8 @@
 <div id="editProductModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form action="add" method="post">
+            <form id="editProductForm">
+                <input type="hidden" name="id">
                 <div class="modal-header">
                     <h4 class="modal-title">Sửa sản phẩm</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -264,22 +267,22 @@
                 <div class="modal-body">
                     <div class="form-group">
                         <label>Tên sản phẩm<span class="text-danger">*</span></label>
-                        <input name="name" type="text" class="form-control" value="${product.name}" required>
+                        <input name="name" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Giá<span class="text-danger">*</span></label>
-                        <input name="price" type="text" class="form-control" value="${product.price}" required>
+                        <input name="price" type="text" class="form-control" value="${formattedPrice}" required>
                     </div>
                     <div class="form-group">
                         <label>Mô tả chi tiết<span class="text-danger">*</span></label>
-                        <input name="description" type="text" class="form-control" value="${product.description}"
-                               required>
+                        <input name="description" type="text" class="form-control" required>
                     </div>
                     <div class="form-group">
                         <label>Mã loại sản phẩm<span class="text-danger">*</span></label>
-                        <select name="productType" class="form-select">
+                        <select name="productTypeId" class="form-select">
                             <c:forEach items="${c.findAll()}" var="productType">
-                                <option value="${productType.id}" ${product.productType.id == productType.id ? 'selected' : ''}>
+                                <option data-product-type-id="${productType.id}"
+                                        value="${productType.code}" ${product.productType.code == productType.code ? 'selected' : ''}>
                                         ${productType.code}
                                 </option>
                             </c:forEach>
@@ -287,9 +290,10 @@
                     </div>
                     <div class="form-group">
                         <label>Mã hãng sản xuất<span class="text-danger">*</span></label>
-                        <select name="productCategory" class="form-select">
+                        <select name="producerId" class="form-select">
                             <c:forEach items="${b.findAll()}" var="pc">
-                                <option value="${pc.id}" ${product.productCategory.id == pc.id ? 'selected' : ''}>
+                                <option data-producer-id="${pc.id}"
+                                        value="${pc.code}" ${product.productCategory.code == pc.code ? 'selected' : ''}>
                                         ${pc.code}
                                 </option>
                             </c:forEach>
@@ -314,7 +318,7 @@
         <div class="modal-content">
             <form action="add" method="post">
                 <div class="modal-header">
-                    <h4 class="modal-title">Sửa sản phẩm</h4>
+                    <h4 class="modal-title">Thêm sản phẩm</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -359,6 +363,7 @@
         </div>
     </div>
 </div>
+
 <div id="editEmployeeModal" class="modal fade">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -466,7 +471,6 @@
             </form>
         </div>
     </div>
-</div>
 </div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <script src="js/admin.js"></script>
@@ -696,8 +700,7 @@
                         "data": "id",
                         "render": function (data, type, row) {
                             return '<button class="btn btn-danger btn-sm btn-delete" data-delete-product-id="' + row.id + '">Xóa</button>' +
-                                '<button style="margin-left: .2em" class="btn btn-primary btn-sm btn-edit" data-edit-id="' + row.id + '" data-toggle="modal" data-target="#editProductModal">Sửa</button>' +
-                                '<button style="margin-left: .2em" class="btn btn-sm btn-success btn-add" data-id="' + row.id + '" data-toggle="modal" data-target="#addProductModal">Thêm</button>';
+                                '<button style="margin-left: .2em" class="btn btn-primary btn-sm btn-edit" data-edit-id="' + row.id + '" data-toggle="modal" data-target="#editProductModal">Sửa</button>';
                         }
                     }
                 ],
@@ -776,13 +779,11 @@
             showDisplay(id)
         });
 
-        // Hiển thị phần hiển thị dựa trên ID
         const showDisplay = (id) => {
             $('.manager-display').removeClass("d-flex").addClass("d-none")
             $(id).addClass("d-flex").removeClass("d-none");
         }
 
-        // Kiểm tra hash trong URL khi trang được tải
         const hash = window.location.hash;
         if (hash === "#quan-ly-san-pham")
             $("#product-manager").click();
@@ -795,21 +796,70 @@
                 method: 'GET',
                 dataType: 'json',
                 success: function (response) {
-                    const product = response.product;
-
-                    // Cập nhật giá trị của các input
+                    const product = response;
+                    $('#editProductModal input[name="id"]').val(productId);
                     $('#editProductModal input[name="name"]').val(product.name);
                     $('#editProductModal input[name="price"]').val(product.price);
-                    $('#editProductModal input[name="description"]').val(product.description);
-                    $('#editProductModal select[name="productType"]').val(product.productTypeId); // hoặc product.productType.id nếu có
-                    $('#editProductModal select[name="productCategory"]').val(product.productCategoryId); // hoặc product.productCategory.id nếu có
-                    $('#editProductModal input[name="img"]').val(product.img);
-                    $('#editProductModal').modal('show');
+                    $('#editProductModal input[name="description"]').val(product.detail);
+                    $('#editProductModal select[name="productTypeId"]').val(product.productType.code);
+                    $('#editProductModal select[name="producerId"]').val(product.producer.code);
+                    $('#editProductModal input[name="img"]').val(product.images[0].link);
+                    $('#editProductModal').modal('show')
                 },
                 error: function (xhr, status, error) {
                     console.error('Failed to fetch product details:', error);
                 }
             });
+        });
+    });
+
+    $('#editProductForm').on('submit', function (event) {
+        event.preventDefault();
+        var arrayValue = $(this).serializeArray();
+        const formData = {}
+        arrayValue.forEach(item => {
+            formData[item.name] = item.value
+        })
+        formData.productTypeId = $(`#editProductModal select[name="productTypeId"] option:selected`).data('product-type-id')
+        formData.producerId = $(`#editProductModal select[name="producerId"] option:selected`).data('producer-id')
+        $.ajax({
+            url: '/home/edit-product',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('#editProductModal').modal('hide')
+                Toastify({
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "green",
+                    },
+                    onClick: function () {
+                    }
+                }).showToast();
+                window.location.reload();
+            },
+            error: function (xhr) {
+                Toastify({
+                    text: xhr.responseJSON.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "red",
+                    },
+                    onClick: function () {
+                    }
+                }).showToast();
+            }
         });
     });
 

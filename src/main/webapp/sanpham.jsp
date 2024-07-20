@@ -115,20 +115,15 @@
                         <h3 class="product-price">${formattedPrice} VNĐ</h3>
                     </div>
                     <p>
-                    <ul style="list-style-type: disc">
+                    <ul>
                         <li>${product.detail}</li>
                     </ul>
-                    <%--                    <div class="form-group">--%>
-                    <%--                        <label for="quantity">Số lượng:</label>--%>
-                    <%--                        <input style="width: 70px" type="number" class="form-control" id="quantity" name="quantity"--%>
-                    <%--                               min="1" max="100">--%>
-                    <%--                    </div>--%>
                     <br>
                     <div class="add-to-cart">
 
 
                         <button class="add-to-cart-btn" data-product="${product.id}"><i class="fa fa-shopping-cart"></i>
-                            Thêm vào giỏ hàngg
+                            Thêm vào giỏ hàng
                         </button>
 
                     </div>

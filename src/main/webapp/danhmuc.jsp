@@ -122,7 +122,7 @@
                             </div>
                             <div class="product-body">
                                 <p class="product-category">${product.producer.name}</p>
-                                <h3 class="product-name"><a href="sanpham.jsp?id=${product.id}">${product.name}</a></h3>
+                                <h3 class="product-name"><a href="product?id=${product.id}">${product.name}</a></h3>
                                 <fmt:formatNumber value="${product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
                                 <h4 class="product-price">${formattedPrice} VNĐ</h4>
                                 <div class="product-rating">

@@ -18,4 +18,5 @@ public interface IProductService {
     List<Product> findProductToImport();
     List<Product> findBestSeller();
     List<Product> findProductInStock();
+    boolean updateProduct(Product product);
 }

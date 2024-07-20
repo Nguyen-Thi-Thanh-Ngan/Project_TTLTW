@@ -8,31 +8,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
-    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-    <title>Giỏ hàng</title>
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
-
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
     <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
-
     <!-- nouislider -->
     <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
-
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
-
     <script src="js/jquery.min.js"></script>
-
     <!-- jQuery Plugins -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slick.min.js"></script>
@@ -41,8 +29,7 @@
 
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
-
-    <%--    <jsp:useBean id="a" class="dao.impl.NewProductDAO" scope="request"/>--%>
+    <title>Giỏ hàng</title>
 </head>
 <body>
 <!-- HEADER -->
@@ -101,13 +88,11 @@
                     <c:forEach items="${cartItems}" var="item">
                         <tr class="cart-item" id="item-${item.product.id}">
                             <td>
-
                                 <input type="checkbox" class="productCheckbox" name="selectedProductIds"
                                        value="${item.product.id}"
                                        data-price="${item.product.price}"
                                        data-quantity="${item.quantity}"
                                        onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
-
                                 <div class="row">
                                     <div class="col-lg-2 Product-img">
                                         <img src="${item.product.images[0].linkImage}" alt=".   .."
@@ -127,49 +112,37 @@
                             <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
                                               var="formattedPrice"/>
                             <td class="product-price"><strong class="product-price">${formattedPrice} VNĐ</strong></td>
-                                <%--                        Cập nhật số lượng--%>
                             <td data-th="Quantity">
-                                <table class="table table-hover border bg-white">
-                                    <td style="border: none"><b>
-                                        <input type="number" id="quantity-${item.product.id}"
-                                               name="quantity-${item.product.id} quantity"
-                                               value="${item.quantity}" style="width: 45px">
-                                    </b></td>
-                                    <td style="border: none">
-                                        <input type="hidden" id="productId" name="productId"
-                                               value="${item.product.id}">
-                                        <input type="button" name="action" class="btn btn-success btn-block"
-                                               value="Cập nhật" onclick="updateQuantity(${item.product.id})"/>
-                                    </td>
-                                </table>
+                                <div class="input-group quantity mx-auto" style="width: 100px;">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-minus" style="background: #5cb85c; border: none">
+                                            <i class="fa fa-minus"></i>
+                                        </button>
+                                    </div>
+                                    <input type="text" class="form-control bg-secondary text-center" value="${item.quantity}">
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-sm btn-primary btn-plus" style="background: #5cb85c; border: none">
+                                            <i class="fa fa-plus"></i>
+                                        </button>
+                                    </div>
+                                </div>
                             </td>
-
-                            <fmt:formatNumber value="${item.product.price * item.quantity}"
-                                              type="number" pattern="#,##0"
-                                              var="formattedPrice1"/>
-                            <td id="subtotal-${item.product.id}">
-                                <strong class="total-price">${formattedPrice1} VNĐ</strong></td>
-                            <td class="actions" data-th="" style="width:10%;">
-                                <p data-toggle="modal" data-product-id="${item.product.id}" data-target="#delete"
+                            <fmt:formatNumber value="${item.product.price * item.quantity}" type="number" pattern="#,##0" var="formattedPrice1"/>
+                            <td id="subtotal-${item.product.id}"> <strong class="total-price">${formattedPrice1} VNĐ</strong></td>
+                            <td class="actions" data-th="" style="width:10%;"><p data-toggle="modal" data-product-id="${item.product.id}" data-target="#delete"
                                    class="btn btn-danger btn-sm delete-product"><i class="fa fa-trash-o"></i></p>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                     <tfoot>
-
                     <tr>
-                        <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua
-                            sắm
-                        </a></td>
+                        <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-
                         <td class="hidden-xs text-center" style="width:10%;">
                             <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0"
                                               var="formattedPrice2"/>
-                            <span id="totalAmountLabel" style="font-weight: bold;">
-    <strong>Tổng tiền : 0 VND</strong>
-    </span>
+                            <span id="totalAmountLabel" style="font-weight: bold;"><strong>Tổng tiền : ${formattedPrice2}</strong></span>
                         </td>
                         <td>
                             <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block"
@@ -196,29 +169,101 @@
                     </div>
                 </div>
             </div>
-
-            <!--/ Delete-->
         </div>
-        <!-- Xử lý khi giỏ hàng không tồn tại -->
-        <%--        <a style=" text-align: center; margin-left: 500px; font-size: 30px">--%>
-        <%--            <strong>Giỏ hàng trống</strong>--%>
-        <%--            <br>--%>
-        <%--            <br>--%>
-        <%--            <a href="index.jsp" class="btn btn-success " style="margin-left: 540px;"> <i class="fa fa-angle-left"> </i>--%>
-        <%--                Tiếp tục mua sắm </a>--%>
-        <%--            <br>--%>
-        <%--        </a>--%>
     </div>
 </div>
-
-
-<!-- /SECTION -->
-
-
-<!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
-<!-- /FOOTER -->
+<script>
+    $('.btn-minus').click(function () {
+        var input = $(this).closest('.input-group').find('input');
+        var newValue = parseInt(input.val()) - 1;
+        if (newValue >= 1) {
+            input.val(newValue);
+            var productId = $(this).closest('.cart-item').attr('id').split('-')[1];
+            updateQuantity(productId, newValue);
+        }
+    });
 
+    // Update quantity when clicking the plus button
+    $('.btn-plus').click(function () {
+        var input = $(this).closest('.input-group').find('input');
+        var newValue = parseInt(input.val()) + 1;
+        input.val(newValue);
+        var productId = $(this).closest('.cart-item').attr('id').split('-')[1];
+        updateQuantity(productId, newValue);
+    });
+
+    // Update quantity when manually entering the value
+    $('.quantity input').change(function () {
+        var newValue = parseInt($(this).val());
+        if (newValue >= 1) {
+            var productId = $(this).closest('.cart-item').attr('id').split('-')[1];
+            updateQuantity(productId, newValue);
+        } else {
+            $(this).val(1);
+            var productId = $(this).closest('.cart-item').attr('id').split('-')[1];
+            updateQuantity(productId, 1);
+        }
+    });
+
+    function updateQuantity(productId, quantity) {
+        var data = {
+            productId: productId,
+            quantity: quantity
+        };
+        $.ajax({
+            url: '/home/update-quantity-cart-item',
+            type: 'POST',
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function (response) {
+                updateCartItem(productId, response.newPrice);
+                updateTotalAmount();
+            },
+            error: function (xhr) {
+                Toastify({
+                    text: 'Cập nhật thất bại',
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "#D10024",
+                    },
+                    onClick: function () {
+                    }
+                }).showToast();
+            }
+        });
+    }
+
+    const formatter = Intl.NumberFormat('vi-VN', {
+        style: 'currency',
+        currency: 'VND'
+    });
+
+    function updateCartItem(productId, newPrice) {
+        var cartItem = $('#item-' + productId);
+        var totalElement = cartItem.find('.total-price');
+        totalElement.text(formatter.format(newPrice).replace(/₫/, 'VNĐ'));
+    }
+
+    function updateTotalAmount() {
+        var totalAmount = 0;
+
+        $('input[name="selectedProductIds"]:checked').each(function () {
+            var price = parseFloat($(this).data('price'));
+            var quantity = parseInt($(this).data('quantity'));
+            totalAmount += price * quantity;
+        });
+
+        var formattedTotalAmount = formatter.format(totalAmount).replace(/₫/, ' VNĐ');
+        $('#totalAmountLabel').text('Tổng tiền: ' + formattedTotalAmount);
+    }
+
+</script>
 <script>
     $('#checkoutForm').on('submit', function (event) {
         var checkboxes = $('input[name="selectedProductIds"]:checked');
@@ -241,71 +286,17 @@
         }
     });
 
+    // Select all products
     $('#selectAll').on('change', function () {
         var isChecked = $(this).is(':checked');
         $('input[name="selectedProductIds"]').prop('checked', isChecked);
         updateTotalAmount();
     });
 
+    // Update total amount when selecting products
     $('input[name="selectedProductIds"]').on('change', function () {
         updateTotalAmount();
     });
-
-    function updateTotalAmount() {
-        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]');
-        var totalAmount = 0;
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                var price = checkboxes[i].getAttribute('data-price');
-                var quantity = checkboxes[i].getAttribute('data-quantity');
-                var productTotal = price * quantity;
-                totalAmount += productTotal;
-            }
-        }
-
-        var formattedTotalAmount = new Intl.NumberFormat('vi-VN', {
-            style: 'currency',
-            currency: 'VND'
-        }).format(totalAmount);
-        formattedTotalAmount = formattedTotalAmount.replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
-        formattedTotalAmount = formattedTotalAmount.replace('₫', ' VNĐ');
-        document.getElementById('totalAmountLabel').textContent = 'Tổng tiền: ' + formattedTotalAmount;
-    }
-</script>
-<script>
-    // window.onload = function () {
-    //     var selectAllCheckbox = document.getElementById('selectAllCheckbox');
-    //     selectAllCheckbox.onclick = selectAll;
-    // }
-    function selectAll() {
-        var checkboxes = document.querySelectorAll('input[type="checkbox"]');
-        var selectAllCheckbox = document.getElementById('selectAll');
-
-        for (var i = 0; i < checkboxes.length; i++) {
-            if (checkboxes[i] !== selectAllCheckbox) {
-                checkboxes[i].checked = selectAllCheckbox.checked;
-            }
-        }
-        updateTotalAmount();
-    }
-
-    function addSelectedProductsToForm() {
-        var checkboxes = document.querySelectorAll('input[name="selectedProducts"]:checked');
-        var selectedProductIds = [];
-
-        checkboxes.forEach(function (checkbox) {
-            selectedProductIds.push(checkbox.value);
-        });
-
-        var selectedProductIdsInput = document.getElementById('selectedProductIds');
-        selectedProductIdsInput.value = selectedProductIds.join(',');
-    }
-
-    document.getElementById('checkoutForm').addEventListener('submit', function (event) {
-        addSelectedProductsToForm();
-    });
-
 </script>
 <script>
     function removeCartItem(productId) {
@@ -335,68 +326,6 @@
             removeCartItem(productId);
         });
     });
-
-    const formatter = Intl.NumberFormat('vi-VN', {
-        style: 'currency',
-        currency: 'VND'
-    });
-
-    function updateQuantity(productId) {
-        var quantity = $('#quantity-' + productId).val();
-        var data = {
-            productId: productId,
-            quantity: parseInt(quantity)
-        };
-
-        $.ajax({
-            url: '/home/update-quantity-cart-item',
-            type: 'POST',
-            contentType: 'application/json',
-            data: JSON.stringify(data),
-            success: function (response) {
-                Toastify({
-                    text: response.message,
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    stopOnFocus: true,
-                    style: {
-                        background: "green",
-                    },
-                    onClick: function () {
-                    } // Callback after click
-                }).showToast();
-                // productId = response.productId;
-                updateCartItem(productId, response)
-            },
-            error: function (xhr) {
-                console.log(xhr)
-                Toastify({
-                    text: 'Cập nhật thất bại',
-                    duration: 3000,
-                    newWindow: true,
-                    close: true,
-                    gravity: "top",
-                    position: "right",
-                    stopOnFocus: true,
-                    style: {
-                        background: "#D10024",
-                    },
-                    onClick: function () {
-                    } // Callback after click
-                }).showToast();
-            }
-        });
-    }
-
-
-    const updateCartItem = (productId, reponse) => {
-        const cartItem = $(`#item- \${productId}`);
-        const eTotalPrice = cartItem.find('.total-price');
-        eTotalPrice.text(formatter.format(reponse.newPrice).substring(0, formatter.format(reponse.newPrice).length - 1) + "VNĐ");
-    }
 </script>
 <script src="js/main.js"></script>
 </body>
