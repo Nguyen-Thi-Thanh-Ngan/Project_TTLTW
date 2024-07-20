@@ -36,7 +36,7 @@ public class RemoveCartItemRestController extends HttpServlet {
         Product product = productService.findProductById(productId);
         boolean isRemoved = false;
         if (productId != null && userId != null && cartId != null) {
-            isRemoved = cartService.removeCartItem(productId, cartId);
+            isRemoved = cartService.removeCartItem(productId, cartId);  
         }
 
         resp.setContentType("application/json");

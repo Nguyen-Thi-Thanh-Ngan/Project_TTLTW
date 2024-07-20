@@ -232,7 +232,7 @@
                                                               pattern="#,##0" var="formattedPrice"/>
                                             <h4 class="product-price">${formattedPrice} VNĐ</h4>
                                             <div class="product-rating"></div>
-                                        </div>
+                                        </div>q
                                         <div class="add-to-cart">
                                             <button class="add-to-cart-btn  d-block"
                                                     data-product="${product.id}">

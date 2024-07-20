@@ -1,6 +1,7 @@
-package controller.admin;
+package controller.admin.product;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import model.Log;
 import service.ILogService;
 import service.IProductService;
@@ -21,14 +22,14 @@ import java.util.Map;
 public class DeleteProductController extends HttpServlet {
     private IProductService productService = new ProductServiceImpl();
     private ILogService logService = new LogServiceImpl();
+
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         req.setCharacterEncoding("UTF-8");
         resp.setCharacterEncoding("UTF-8");
         Integer productId = Integer.parseInt(req.getParameter("id"));
         boolean success = productService.deleteById(productId);
-
-        Map<String, Object> response = new HashMap<>();
+        JsonObject jsonObject = new JsonObject();
         if (success) {
             Log log = new Log();
             log.setUserId(1);
@@ -36,14 +37,13 @@ public class DeleteProductController extends HttpServlet {
             log.setAddressIP(req.getRemoteAddr());
             log.setLevel(LevelLog.WARN);
             logService.save(log);
-            response.put("message", "Product deleted successfully.");
-            response.put("success", true);
+            jsonObject.addProperty("message", "Xóa sản phẩm thành công.");
+            jsonObject.addProperty("success", true);
         } else {
-            response.put("message", "Failed to delete product.");
-            response.put("success", false);
+            jsonObject.addProperty("message", "Xóa sản phẩm thất bại.");
+            jsonObject.addProperty("success", false);
         }
-
-        String json = new Gson().toJson(response);
+        String json = new Gson().toJson(jsonObject);
         resp.getWriter().write(json);
     }
 }

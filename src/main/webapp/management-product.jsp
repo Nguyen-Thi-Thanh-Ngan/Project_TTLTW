@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
-
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -39,9 +38,9 @@
     <!-- import script -->
 
 
-    <jsp:useBean id="a" class="dao.impl.ProductDAOImpl" scope="request"></jsp:useBean>
-    <jsp:useBean id="b" class="dao.impl.ProducerDAOImpl" scope="request"></jsp:useBean>
-    <jsp:useBean id="c" class="dao.impl.ProductTypeDAOImpl" scope="request"></jsp:useBean>
+<%--    <jsp:useBean id="a" class="dao.impl.ProductDAOImpl" scope="request"></jsp:useBean>--%>
+<%--    <jsp:useBean id="b" class="dao.impl.ProducerDAOImpl" scope="request"></jsp:useBean>--%>
+<%--    <jsp:useBean id="c" class="dao.impl.ProductTypeDAOImpl" scope="request"></jsp:useBean>--%>
 </head>
 <body class="overlay-scrollbar">
 <!-- navbar -->
@@ -247,12 +246,11 @@
             </div>
         </div>
     </div>
-    <!--/ Delete-->
-    <!--/ Add-->
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="add" method="post">
+
                     <div class="modal-header">
                         <h4 class="modal-title">Thêm sản phẩm</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -303,75 +301,7 @@
             </div>
         </div>
     </div>
-    <!--/ Add -->
 </div>
-<!-- end main content -->
-
-<!-- Modal Thông báo-->
-
-<!-- Modal Thông báo Xóa Thành Công -->
-<div id="deleteSuccessModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Xóa Thành Công</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Sản phẩm đã được xóa thành công!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Thông báo Xóa Thành Công -->
-
-<!-- Modal Thông báo Thêm Sản Phẩm Thành Công -->
-<div id="addProductSuccessModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Thêm sản phẩm thành công</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Sản phẩm đã được thêm thành công!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Thông báo Thêm Sản Phẩm Thành Công -->
-
-<!-- Modal Thông báo Sửa Sản Phẩm Thành Công -->
-<div id="editProductSuccessModal" class="modal fade">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Sửa sản phẩm thành công</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-            </div>
-            <div class="modal-body">
-                <p>Sản phẩm đã được sửa thành công!</p>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Modal Thông báo Sửa Sản Phẩm Thành Công -->
-
-<!-- Modal Thông báo-->
-
-
-<!-- end import script -->
-<!--Script-->
-<!--Script Xóa Sản Phẩm-->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
@@ -383,35 +313,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.21/js/jquery.dataTables.min.js"
         integrity="sha512-BkpSL20WETFylMrcirBahHfSnY++H2O1W+UnEEO4yNIl+jI2+zowyoGJpbtk6bx97fBXf++WJHSSK2MV4ghPcg=="
         crossOrigin="anonymous" referrerpolicy="no-referrer"></script>
-<%--<script>
-    $(document).ready(function () {
-        $('#product-list').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "/home/product-manager",
-                "type": "GET"
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "price"},
-                {"data": "productType.code"},
-                {"data": "quantity"},
-                {"data": "producer.code"},
-                {"data": "images[0].linkImage"},
-                {
-                    "data": "id",
-                    "render": function (data, type, row) {
-                        return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
-                            '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
-
-                    }
-                }
-            ]
-        });
-    });
-</script>--%>
 <script type="text/javascript">
     $('#editEmployeeModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget);

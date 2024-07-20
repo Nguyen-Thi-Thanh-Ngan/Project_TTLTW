@@ -146,6 +146,48 @@ public class ProductServiceImpl implements IProductService {
         return productDAO.deleteById(productId);
     }
 
+    @Override
+    public List<Product> findProductToImport() {
+        List<Product> products = productDAO.findProductToImport();
+        for (Product product : products) {
+            List<Image> images = imageDAO.findByProductId(product.getId());
+            product.setImages(images);
+            ProductType productType = productTypeDAO.findById(product.getProductTypeID());
+            product.setProductType(productType);
+            Producer producer = producerDAO.findById(product.getProducerID());
+            product.setProducer(producer);
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> findBestSeller() {
+        List<Product> products = productDAO.findBestSeller();
+        for (Product product : products) {
+            List<Image> images = imageDAO.findByProductId(product.getId());
+            product.setImages(images);
+            ProductType productType = productTypeDAO.findById(product.getProductTypeID());
+            product.setProductType(productType);
+            Producer producer = producerDAO.findById(product.getProducerID());
+            product.setProducer(producer);
+        }
+        return products;
+    }
+
+    @Override
+    public List<Product> findProductInStock() {
+        List<Product> products = productDAO.findProductInStock();
+        for (Product product : products) {
+            List<Image> images = imageDAO.findByProductId(product.getId());
+            product.setImages(images);
+            ProductType productType = productTypeDAO.findById(product.getProductTypeID());
+            product.setProductType(productType);
+            Producer producer = producerDAO.findById(product.getProducerID());
+            product.setProducer(producer);
+        }
+        return products;
+    }
+
 }
 
 

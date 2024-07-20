@@ -42,7 +42,6 @@ public class UpdateQuantityCartItemController extends HttpServlet {
         Integer userId = user != null ? user.getId() : null;
         Integer cartId = userId != null ? cartService.findByUserId(userId).getId() : null;
 
-
         boolean isUpdate = false;
         if (productId != null && userId != null && cartId != null) {
             CartItem cartItem = new CartItem();

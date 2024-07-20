@@ -17,4 +17,7 @@ public interface IProductDAO {
     List<Product> findSaleProduct();
     List<Product> findProductIsSelling();
     List<Product> getPaging(int index);
+    List<Product> findProductToImport();
+    List<Product> findBestSeller();
+    List<Product> findProductInStock();
 }
