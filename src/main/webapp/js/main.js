@@ -308,41 +308,21 @@ $(document).ready(function () {
 		let fromWard = "90737"; // Linh Trung
 		let toProvinceId = parseInt($('#province-select').val());
 		let toDistrictID = parseInt($('#district-select').val());
-		let toWard = $(this).val(); // Sử dụng giá trị của phường/xã
+		let toWard = $(this).val();
 		$.ajax({
-			url: "https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee",
-			type: "POST",
+			url: `https://online-gateway.ghn.vn/shiip/public-api/v2/shipping-order/fee?from_province_id=202&from_district_id=3695&from_ward_code=90737&to_province_id=${toProvinceId}&to_district_id=${toDistrictID}&to_ward_code=${toWard}&service_type_id=2&weight=500`,
+			type: "GET",
 			headers: {
 				"token": "7e2513c5-ed99-11ee-983e-5a49fc0dd8ec",
 				"shop_id": "4982538"
 			},
-			contentType: "application/json",
-			data: JSON.stringify({
-				"service_type_id":1,
-				"from_district_id": fromDistrictID,
-				"from_ward_code": fromWard,
-				"to_district_id": toDistrictID,
-				"to_ward_code": toWard,
-				"height":20,
-				"length":30,
-				"weight":3000,
-				"width":40,
-				"insurance_value":0,
-				"coupon": null,
-				"items": [
-					{
-						"name": "TEST1",
-						"quantity": 1,
-						"height": 200,
-						"weight": 1000,
-						"length": 200,
-						"width": 200
-					}
-				]
-			}),
 			success: function (response) {
 				if (response.code === 200) {
-					$('#fee-delivery').html('<strong>' + response.data.total + ' VND</strong>');
+					let formattedFee = new Intl.NumberFormat('vi-VN', {
+						style: 'currency',
+						currency: 'VND'
+					}).format(response.data.total);
+					$('#formattedPrice').html(formattedFee);
 				} else {
 					console.error("Error calculating fee", response.message);
 					$('#fee-delivery').html('<strong>Success nhưng lỗi</strong>');

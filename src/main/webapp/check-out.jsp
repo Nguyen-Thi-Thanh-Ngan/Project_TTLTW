@@ -158,13 +158,17 @@
                                         <h5 class="product-price">${formattedPrice} VNĐ</h5>
                                     </div>
                                 </div>
-                                <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
                                 <c:set var="totalPrice" value="${totalPrice + (item.product.price * item.quantity)}"/>
                             </c:forEach>
                         </div>
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
-                            <div><strong>Miễn Phí</strong></div>
+
+                            <div id="fee-delivery">
+                                <strong class="order-total">
+                                    <h5 class="product-price total" id="formattedPrice">0 VNĐ</h5>
+                                </strong>
+                            </div>
                         </div>
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
