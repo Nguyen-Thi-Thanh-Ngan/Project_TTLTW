@@ -3,9 +3,10 @@ package model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.json.JSONObject;
 import utils.LevelLog;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -16,5 +17,5 @@ public class Log {
     private String action;
     private String addressIP;
     private Integer userId;
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 }

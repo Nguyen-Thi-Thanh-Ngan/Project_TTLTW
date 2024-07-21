@@ -28,7 +28,7 @@ public class LogDAOImpl implements ILogDAO {
     @Override
     public List<Log> findAll() {
        List<Log> logs = JDBIConnector.getConnect().withHandle(handle -> {
-            return handle.createQuery("SELECT id, level, action, message, ip_address, user_id, created_at FROM logs")
+            return handle.createQuery("SELECT id, level, action, address_ip, user_id, created_at FROM logs")
                     .mapToBean(Log.class)
                     .list();
         });
@@ -38,7 +38,7 @@ public class LogDAOImpl implements ILogDAO {
     @Override
     public List<Log> findByUserId(int userId) {
         List<Log> logs = JDBIConnector.getConnect().withHandle(handle -> {
-            return handle.createQuery("SELECT id, level, action, message, ip_address, user_id, created_at FROM logs WHERE user_id = ?")
+            return handle.createQuery("SELECT id, level, action, address_ip, user_id, created_at FROM logs WHERE user_id = ?")
                     .bind(0, userId)
                     .mapToBean(Log.class)
                     .list();
