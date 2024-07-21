@@ -1,11 +1,15 @@
 package controller.login;
 
 import model.GoogleAccount;
+import model.Log;
 import model.User;
 import service.ICartService;
+import service.ILogService;
 import service.IUserService;
 import service.impl.CartServiceImpl;
+import service.impl.LogServiceImpl;
 import service.impl.UserServiceImpl;
+import utils.LevelLog;
 import utils.SessionUtil;
 
 import javax.servlet.RequestDispatcher;
@@ -20,6 +24,7 @@ import java.io.IOException;
 public class LoginController extends HttpServlet {
     private IUserService userService = new UserServiceImpl();
     private ICartService cartService = new CartServiceImpl();
+    private ILogService logService = new LogServiceImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,16 +41,20 @@ public class LoginController extends HttpServlet {
                 req.setAttribute("error", "Tài khoản của bạn đã bị chặn và không thể đăng nhập!");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
                 dispatcher.forward(req, resp);
-            } else if (userService.login(username, password)) {
+                return; // Dừng thực thi nếu tài khoản bị chặn
+            }
+
+            if (userService.login(username, password)) {
                 req.setAttribute("success", "Đăng nhập thành công!");
                 req.setAttribute("username", "");
                 req.setAttribute("password", "");
                 SessionUtil.getInstance().putKey(req, "user", user);
-
-
-                // Xóa thuộc tính "fromHome" khi đăng nhập lại
-                req.getSession().removeAttribute("fromHome");
-
+                Log log = new Log();
+                log.setUserId(user.getId());
+                log.setAction("Đăng nhập bằng tài khoản");
+                log.setAddressIP(req.getRemoteAddr());
+                log.setLevel(LevelLog.INFO);
+                logService.save(log);
                 Integer roleId = userService.getRoleIdByUsername(username);
                 if (roleId == 1 || roleId == 2) {
                     resp.sendRedirect("admin.jsp");
@@ -54,6 +63,12 @@ public class LoginController extends HttpServlet {
                     dispatcher.forward(req, resp);
                 }
             } else {
+                Log log = new Log();
+                log.setUserId(user.getId());
+                log.setAction("Đăng nhập bằng tài khoản thất bại");
+                log.setAddressIP(req.getRemoteAddr());
+                log.setLevel(LevelLog.WARN);
+                logService.save(log);
                 req.setAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác!");
                 RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
                 dispatcher.forward(req, resp);
@@ -64,6 +79,8 @@ public class LoginController extends HttpServlet {
             dispatcher.forward(req, resp);
         }
     }
+
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -77,25 +94,42 @@ public class LoginController extends HttpServlet {
         GoogleAccount googleAccount = gg.getUserInfo(accessToken);
         User user = gg.createUserFromGoogleAccount(googleAccount, accessToken);
 
-        // Xóa thuộc tính "fromHome" khi đăng nhập lại
-        request.getSession().removeAttribute("fromHome");
-
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
-            SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
+            user = userService.getUserByUsername(user.getUsername());
+            if (user.getStatus() == 2) {
+                request.setAttribute("error", "Tài khoản của bạn đã bị chặn và không thể đăng nhập!");
+                request.getRequestDispatcher("sign-in.jsp").forward(request, response);
+                return; // Dừng thực thi nếu tài khoản bị chặn
+            }
+            SessionUtil.getInstance().putKey(request, "user", user);
+            Log log = new Log();
+            log.setUserId(user.getId());
+            log.setAction("Đăng nhập bằng Google");
+            log.setAddressIP(request.getRemoteAddr());
+            log.setLevel(LevelLog.INFO);
+            logService.save(log);
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1 || roleId == 2) response.sendRedirect("admin.jsp");
-            else {
+            if (roleId == 1 || roleId == 2) {
+                response.sendRedirect("admin.jsp");
+            } else {
                 response.sendRedirect("/home");
             }
         } else {
-            if (userService.register(user)){
+            if (userService.register(user)) {
                 Integer userId = userService.getIdByUserName(user.getUsername());
+                Log log = new Log();
+                log.setUserId(userId);
+                log.setAction("Đăng nhập bằng Google");
+                log.setAddressIP(request.getRemoteAddr());
+                log.setLevel(LevelLog.INFO);
+                logService.save(log);
                 cartService.createCart(userId);
             }
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1 || roleId == 2) response.sendRedirect("admin.jsp");
-            else {
+            if (roleId == 1 || roleId == 2) {
+                response.sendRedirect("admin.jsp");
+            } else {
                 response.sendRedirect("/home");
             }
         }
