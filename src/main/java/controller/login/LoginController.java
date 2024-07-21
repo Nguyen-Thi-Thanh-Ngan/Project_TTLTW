@@ -42,6 +42,10 @@ public class LoginController extends HttpServlet {
                 req.setAttribute("password", "");
                 SessionUtil.getInstance().putKey(req, "user", user);
 
+
+                // Xóa thuộc tính "fromHome" khi đăng nhập lại
+                req.getSession().removeAttribute("fromHome");
+
                 Integer roleId = userService.getRoleIdByUsername(username);
                 if (roleId == 1 || roleId == 2) {
                     resp.sendRedirect("admin.jsp");
@@ -72,6 +76,9 @@ public class LoginController extends HttpServlet {
         String accessToken = gg.getToken(code);
         GoogleAccount googleAccount = gg.getUserInfo(accessToken);
         User user = gg.createUserFromGoogleAccount(googleAccount, accessToken);
+
+        // Xóa thuộc tính "fromHome" khi đăng nhập lại
+        request.getSession().removeAttribute("fromHome");
 
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
