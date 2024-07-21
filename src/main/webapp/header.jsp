@@ -11,6 +11,8 @@
 <head>
     <title>Header</title>
     <link rel="icon" type="image/png" href="./img/logo.png"/>
+
+
 </head>
 <body>
 <!-- HEADER -->
@@ -27,8 +29,10 @@
                 <c:set var="user" value="${sessionScope.user}"/>
                 <c:choose>
                     <c:when test="${user != null}">
-                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a>
-                        </li>
+                        <c:if test="${user.roleId == 1 || user.roleId == 2}">
+                            <li><a href="admin"><i class="fa fa-user-o"></i> Quản trị</a></li>
+                        </c:if>
+                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a></li>
                         <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
                     </c:when>
                     <c:otherwise>

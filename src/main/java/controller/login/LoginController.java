@@ -34,32 +34,46 @@ public class LoginController extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        if (userService.login(username, password)) {
-            req.setAttribute("success", "Đăng nhập thành công!");
-            req.setAttribute("username", "");
-            req.setAttribute("password", "");
-            SessionUtil.getInstance().putKey(req, "user", userService.getUserByUsername(username));
-            User user = userService.getUserByUsername(username);
-            Log log = new Log();
-            log.setUserId(user.getId());
-            log.setAction("Đăng nhập bằng tài khoản");
-            log.setAddressIP(req.getRemoteAddr());
-            log.setLevel(LevelLog.INFO);
-            logService.save(log);
-            Integer roleId = userService.getRoleIdByUsername(username);
-            if (roleId == 1) {
-                resp.sendRedirect("admin.jsp");
+        User user = userService.getUserByUsername(username);
+
+        if (user != null) {
+            if (user.getStatus() == 2) {
+                req.setAttribute("error", "Tài khoản của bạn đã bị chặn và không thể đăng nhập!");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
+                dispatcher.forward(req, resp);
+                return; // Dừng thực thi nếu tài khoản bị chặn
+            }
+
+            if (userService.login(username, password)) {
+                req.setAttribute("success", "Đăng nhập thành công!");
+                req.setAttribute("username", "");
+                req.setAttribute("password", "");
+                SessionUtil.getInstance().putKey(req, "user", user);
+                Log log = new Log();
+                log.setUserId(user.getId());
+                log.setAction("Đăng nhập bằng tài khoản");
+                log.setAddressIP(req.getRemoteAddr());
+                log.setLevel(LevelLog.INFO);
+                logService.save(log);
+                Integer roleId = userService.getRoleIdByUsername(username);
+                if (roleId == 1 || roleId == 2) {
+                    resp.sendRedirect("admin.jsp");
+                } else {
+                    RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+                    dispatcher.forward(req, resp);
+                }
             } else {
-                RequestDispatcher dispatcher = req.getRequestDispatcher("index.jsp");
+                Log log = new Log();
+                log.setUserId(user.getId());
+                log.setAction("Đăng nhập bằng tài khoản thất bại");
+                log.setAddressIP(req.getRemoteAddr());
+                log.setLevel(LevelLog.WARN);
+                logService.save(log);
+                req.setAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác!");
+                RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
                 dispatcher.forward(req, resp);
             }
         } else {
-            Log log = new Log();
-            log.setUserId(0);
-            log.setAction("Đăng nhập bằng tài khoản thất bại");
-            log.setAddressIP(req.getRemoteAddr());
-            log.setLevel(LevelLog.WARN);
-            logService.save(log);
             req.setAttribute("error", "Tên người dùng hoặc mật khẩu không chính xác!");
             RequestDispatcher dispatcher = req.getRequestDispatcher("sign-in.jsp");
             dispatcher.forward(req, resp);
@@ -80,21 +94,27 @@ public class LoginController extends HttpServlet {
         User user = gg.createUserFromGoogleAccount(googleAccount, accessToken);
 
         if (userService.isUserExists("google", googleAccount.getId()) != null) {
-            SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
-            Integer userId = userService.getUserByUsername(user.getUsername()).getId();
+            user = userService.getUserByUsername(user.getUsername());
+            if (user.getStatus() == 2) {
+                request.setAttribute("error", "Tài khoản của bạn đã bị chặn và không thể đăng nhập!");
+                request.getRequestDispatcher("sign-in.jsp").forward(request, response);
+                return; // Dừng thực thi nếu tài khoản bị chặn
+            }
+            SessionUtil.getInstance().putKey(request, "user", user);
             Log log = new Log();
-            log.setUserId(userId);
+            log.setUserId(user.getId());
             log.setAction("Đăng nhập bằng Google");
             log.setAddressIP(request.getRemoteAddr());
             log.setLevel(LevelLog.INFO);
             logService.save(log);
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) response.sendRedirect("admin.jsp");
-            else {
+            if (roleId == 1 || roleId == 2) {
+                response.sendRedirect("admin.jsp");
+            } else {
                 response.sendRedirect("/home");
             }
         } else {
-            if (userService.register(user)){
+            if (userService.register(user)) {
                 Integer userId = userService.getIdByUserName(user.getUsername());
                 Log log = new Log();
                 log.setUserId(userId);
@@ -106,8 +126,9 @@ public class LoginController extends HttpServlet {
             }
             SessionUtil.getInstance().putKey(request, "user", userService.getUserByUsername(user.getUsername()));
             Integer roleId = userService.getRoleIdByUsername(user.getUsername());
-            if (roleId == 1) response.sendRedirect("admin.jsp");
-            else {
+            if (roleId == 1 || roleId == 2) {
+                response.sendRedirect("admin.jsp");
+            } else {
                 response.sendRedirect("/home");
             }
         }

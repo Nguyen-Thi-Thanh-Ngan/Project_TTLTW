@@ -246,11 +246,12 @@
             </div>
         </div>
     </div>
+    <!--/ Delete-->
+    <!--/ Add-->
     <div id="addEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
                 <form action="add" method="post">
-
                     <div class="modal-header">
                         <h4 class="modal-title">Thêm sản phẩm</h4>
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>

@@ -9,18 +9,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
+
     <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
+
     <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
     <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
+
     <!-- nouislider -->
     <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
+
     <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
+
     <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
+
     <script src="js/jquery.min.js"></script>
+
     <!-- jQuery Plugins -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slick.min.js"></script>
@@ -88,11 +95,13 @@
                     <c:forEach items="${cartItems}" var="item">
                         <tr class="cart-item" id="item-${item.product.id}">
                             <td>
+
                                 <input type="checkbox" class="productCheckbox" name="selectedProductIds"
                                        value="${item.product.id}"
                                        data-price="${item.product.price}"
                                        data-quantity="${item.quantity}"
                                        onchange="updateTotalAmount()" style="margin-left: -30px; position: absolute;">
+
                                 <div class="row">
                                     <div class="col-lg-2 Product-img">
                                         <img src="${item.product.images[0].linkImage}" alt=".   .."
@@ -136,9 +145,11 @@
                     </c:forEach>
                     </tbody>
                     <tfoot>
+
                     <tr>
                         <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm</a></td>
                         <td colspan="2" class="hidden-xs"></td>
+
                         <td class="hidden-xs text-center" style="width:10%;">
                             <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0"
                                               var="formattedPrice2"/>
@@ -286,14 +297,12 @@
         }
     });
 
-    // Select all products
     $('#selectAll').on('change', function () {
         var isChecked = $(this).is(':checked');
         $('input[name="selectedProductIds"]').prop('checked', isChecked);
         updateTotalAmount();
     });
 
-    // Update total amount when selecting products
     $('input[name="selectedProductIds"]').on('change', function () {
         updateTotalAmount();
     });

@@ -22,4 +22,12 @@ public class User {
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private Integer status;
+
+    public User(Integer id, String name, String email, String username, Integer roleId) {
+        this.id = id;
+        this.name = name;
+        this.email = email;
+        this.username = username;
+        this.roleId = roleId;
+    }
 }

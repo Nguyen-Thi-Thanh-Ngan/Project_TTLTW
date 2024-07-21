@@ -5,6 +5,8 @@
 
 <%@ page import="utils.SessionUtil" %>
 <%@ page import="service.impl.UserServiceImpl" %>
+<%@ page import="dao.impl.OrderDAOImpl" %>
+<%@ page import="dao.impl.UserDaoImpl" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <!DOCTYPE html>
 <html>
@@ -159,8 +161,8 @@
                         </thead>
                         <tbody>
                         <%
-                            OrderDAO orderDAO = new OrderDAO();
-                            List<Order> list = orderDAO.selectAll();
+                            OrderDAOImpl orderDAO = new OrderDAOImpl();
+                            List<Order> list = orderDAO.findAll();
                             for (Order order : list) {
                         %>
                         <tr>
@@ -172,7 +174,7 @@
                             </td>
                             <td><%=order.getStatus()%>
                             </td>
-                            <td><%=order.getPayment()%>
+                            <td><%=order.getPayment_method()%>
                             </td>
                             <td><%=order.getOrderDate()%>
                             </td>
@@ -184,7 +186,7 @@
                                    data-order-user-id="<%=order.getUser().getId()%>"
                                    data-order-address="<%=order.getAddress()%>"
                                    data-order-status="<%=order.getStatus()%>"
-                                   data-order-payment="<%=order.getPayment()%>"
+                                   data-order-payment="<%=order.getPayment_method()%>"
                                    data-order-order-date="<%=order.getOrderDate()%>"
                                    data-order-delivery-date="<%=order.getDeliveryDate()%>">
                                     <i class="material-icons" data-toggle="tooltip" title="Edit">&#xE254;</i></a>
@@ -269,7 +271,7 @@
                             <label>Mã khách hàng</label>
                             <select name="userId" class="form-control" required>
                                 <option value="" disabled selected>Chọn mã khách hàng</option>
-                                <% List<User> u = new UserDAO().selectAll();
+                                <% List<User> u = new UserDaoImpl().findAll();
                                     for (User user : u) {%>
                                 <option value="<%= user.getId() %>"><%= user.getId() %></option>
                                 <%
