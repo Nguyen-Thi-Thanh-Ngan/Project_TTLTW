@@ -157,8 +157,8 @@
                             <th>Email</th>
                             <th>Username</th>
                             <th>Đơn hàng</th>
-                            <th>Chỉnh sửa</th>
-                            <th>Chặn / Xóa</th>
+                            <th class="edit-column">Chỉnh sửa</th>
+                            <th class="block-delete-column">Chặn / Xóa</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -184,7 +184,7 @@
                                              src="${item.status == 1 ? 'https://cdn-icons-png.flaticon.com/128/889/889758.png' : 'https://cdn-icons-png.flaticon.com/128/889/889754.png'}"
                                              height="40px" width="40px" alt="">
                                     </a>
-                                    /
+                                    <span class="line-span">/</span>
                                     <a href="#deleteEmployeeModal" class="delete" data-toggle="modal"
                                        onclick="deleteUser(${item.id})">
                                         <img src="https://cdn-icons-png.flaticon.com/128/10309/10309493.png"
@@ -347,7 +347,23 @@
         $('#editEmployeeModal').modal('show');
     }
 </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Lấy vai trò người dùng từ session hoặc một biến toàn cục
+        var userRole = "${sessionScope.user.roleId}"; // Hoặc cách khác để lấy vai trò
 
+        // Nếu vai trò không phải là ADMIN, ẩn các nút chỉnh sửa, khóa/mở khóa và xóa
+        if (userRole != 1) { // 1: ADMIN
+            document.querySelectorAll(".edit, .block, .delete").forEach(function(el) {
+                el.style.display = "none"; // Ẩn các nút
+            });
+            document.querySelectorAll(".edit-column, .block-delete-column, .line-span").forEach(function(el) {
+                el.style.display = "none"; // Ẩn các tiêu đề cột
+            });
+
+        }
+    });
+</script>
 <script>
 
     const loadData = () => {
