@@ -22,7 +22,7 @@
         <div class="container">
             <ul class="header-links pull-left">
                 <li><a href="#"><i class="fa fa-phone"></i> 0973206403</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> hadung6765@gmail.com</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> support@phoneaccessories.com</a></li>
                 <li><a href="#"><i class="fa fa-map-marker"></i>Quận Thủ Đức - Tp.Hồ Chí Minh</a></li>
             </ul>
             <ul class="header-links pull-right">

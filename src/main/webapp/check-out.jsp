@@ -1,10 +1,13 @@
-
 <%@ page import="java.util.Map" %>
 <%@ page import="model.Product" %>
 <%@ page import="java.util.List" %>
 <%@ page import="model.cart.CartProduct" %>
 <%@ page import="cart.Cart" %>
 <%@ page import="java.util.HashMap" %>
+<%@ page import="dao.ICouponDAO" %>
+<%@ page import="dao.impl.CouponImpl" %>
+<%@ page import="model.Coupon" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -45,6 +48,7 @@
 
 
     <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
+    <jsp:useBean id="b" class="dao.impl.CouponImpl" scope="request"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
@@ -157,26 +161,46 @@
                                     <div>${item.quantity} X</div>
                                     <div>${item.product.name}</div>
                                     <div>
-                                        <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
-                                                          var="formattedPrice"/>
-                                        <h5 class="product-price">${formattedPrice} VNĐ</h5>
+                                        <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0" var="formattedPrice"/>
+                                        <h5 class="product-price"
+                                            data-product-id="${item.product.id}"
+                                            data-original-price="${item.product.price}"
+                                            data-coupon-id="${item.product.couponId}">${formattedPrice} VNĐ</h5>
                                     </div>
                                 </div>
                                 <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
                                 <c:set var="totalPrice" value="${totalPrice + (item.product.price * item.quantity)}"/>
                             </c:forEach>
                         </div>
+
+                        <c:if test="${not empty sessionScope.coupons}">
+                            <div class="order-col">
+                                <div>Chọn mã giảm giá</div>
+                                <div>
+                                    <select name="selectedCouponId" id="couponSelect" onchange="calculateDiscount()">
+                                        <c:forEach var="coupon" items="${sessionScope.coupons}">
+                                            <option value="${coupon.id}" data-discount="${coupon.percent_discount}">
+                                                    ${coupon.code} - ${coupon.percent_discount}%
+                                            </option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                        </c:if>
+
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
                             <div><strong>Miễn Phí</strong></div>
                         </div>
+
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
                             <div>
-                                <strong class="order-total"><fmt:formatNumber value="${totalPrice}" type="number"
-                                                                              pattern="#,##0"
-                                                                              var="formattedPrice"/>
-                                    <h5 class="product-price total">${formattedPrice} VNĐ</h5></strong>
+                                <strong class="order-total">
+                                    <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0"
+                                                      var="formattedPrice"/>
+                                    <h5 id="product-price" class="product-price total">${formattedPrice} VNĐ</h5>
+                                </strong>
                             </div>
                         </div>
                     </div>
@@ -216,7 +240,7 @@
                         <input type="hidden" id="selectedProvince" name="selectedProvince">
                         <input type="hidden" id="selectedDistrict" name="selectedDistrict">
                         <input type="hidden" id="selectedWard" name="selectedWard">
-                        <input type="hidden" name="totalPrice" value="${totalPrice}">
+                        <input type="hidden" id="hiddenTotalPrice" name="totalPrice" value="${totalPrice}" />
                         <button onclick="validateForm()" data-toggle="modal" class="primary-btn order-submit">Đặt hàng
                         </button>
                     </div>
@@ -337,6 +361,81 @@
         document.getElementById('selectedWard').value = wardName;
     }
 </script>
+
+<%--<script>--%>
+<%--    var originalTotalPrice = 0;--%>
+<%--    document.addEventListener('DOMContentLoaded', function() {--%>
+<%--        var totalPriceElement = document.getElementById('product-price');--%>
+<%--        originalTotalPrice = parseInt(totalPriceElement.textContent.replace(' VNĐ', '').replace(/,/g, '')) || 0;--%>
+<%--    });--%>
+
+<%--    function calculateDiscount() {--%>
+<%--        var selectElement = document.getElementById('couponSelect');--%>
+<%--        var selectedOption = selectElement.options[selectElement.selectedIndex];--%>
+<%--        var discount = parseInt(selectedOption.getAttribute('data-discount')) || 0;--%>
+<%--        console.log(discount);--%>
+
+<%--        var newPrice = (originalTotalPrice - (originalTotalPrice * (discount / 100)));--%>
+
+<%--        var formattedPrice = newPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VNĐ';--%>
+<%--        var totalPriceElement = document.getElementById('product-price');--%>
+<%--        totalPriceElement.textContent = formattedPrice;--%>
+
+<%--        var hiddenTotalPriceElement = document.getElementById('hiddenTotalPrice');--%>
+<%--        hiddenTotalPriceElement.value = newPrice;--%>
+<%--    }--%>
+<%--</script>--%>
+
+<script>
+    var originalTotalPrice = 0;
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var totalPriceElement = document.getElementById('product-price');
+        originalTotalPrice = parseInt(totalPriceElement.textContent.replace(' VNĐ', '').replace(/,/g, '')) || 0;
+    });
+
+    function calculateDiscount() {
+        var selectElement = document.getElementById('couponSelect');
+        var selectedCouponId = selectElement.value;
+        var discountPercent = parseFloat(selectElement.options[selectElement.selectedIndex].getAttribute('data-discount')) || 0;
+
+        var orderProducts = document.querySelectorAll('.order-products .order-col');
+        var totalPrice = 0;
+
+        orderProducts.forEach(function(productRow) {
+            var productPriceElement = productRow.querySelector('.product-price');
+            var originalPrice = parseFloat(productPriceElement.getAttribute('data-original-price'));
+            var productCouponId = productPriceElement.getAttribute('data-coupon-id');
+            var quantity = parseInt(productRow.querySelector('div:nth-child(1)').textContent.split(' ')[0]);
+
+            var discountedPrice;
+
+            // Chỉ áp dụng giảm giá nếu mã giảm giá của sản phẩm trùng với mã giảm giá đã chọn
+            if (productCouponId === selectedCouponId) {
+                discountedPrice = originalPrice * (1 - discountPercent / 100);
+            } else {
+                discountedPrice = originalPrice;
+            }
+
+            var totalProductPrice = discountedPrice * quantity;
+
+            var formattedDiscountedPrice = discountedPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VNĐ';
+            productPriceElement.textContent = formattedDiscountedPrice;
+
+            totalPrice += totalProductPrice;
+        });
+
+        var formattedTotalPrice = totalPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VNĐ';
+        var totalPriceElement = document.getElementById('product-price');
+        totalPriceElement.textContent = formattedTotalPrice;
+
+        // Cập nhật giá tổng trong form
+        var hiddenTotalPriceElement = document.getElementById('hiddenTotalPrice');
+        hiddenTotalPriceElement.value = totalPrice;
+        console.log(hiddenTotalPriceElement.value);
+    }
+</script>
+
 
 </body>
 </html>
