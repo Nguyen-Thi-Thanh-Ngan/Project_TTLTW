@@ -1,3 +1,4 @@
+
 package service.impl;
 
 import dao.ICartDAO;
@@ -39,6 +40,16 @@ public class CartServiceImpl implements ICartService {
             return cartItemDAO.updateCartItem(cartItem1.getId(), cartItem1.getQuantity());
         } else {
             return cartItemDAO.addCartItem(cartItem);
+        }
+    }
+
+    @Override
+    public boolean updateCartItem(CartItem cartItem) {
+        CartItem cartItem1 = cartItemDAO.findByProductId(cartItem.getProductId(), cartItem.getCartId());
+        if (cartItem1 != null) {
+            return cartItemDAO.updateCartItem(cartItem1.getId(), cartItem.getQuantity());
+        } else {
+            return false;
         }
     }
 
