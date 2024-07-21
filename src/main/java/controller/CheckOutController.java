@@ -1,7 +1,9 @@
 package controller;
 
-import dao.IProductDAO;
+import dao.ICouponDAO;
+import dao.impl.CouponImpl;
 import model.CartResponse;
+import model.Coupon;
 import model.Product;
 import model.User;
 import model.cart.Cart;
@@ -20,11 +22,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @WebServlet(urlPatterns = "/check-out")
 public class CheckOutController extends HttpServlet {
     private ICartService cartService = new CartServiceImpl();
     private IProductService productService = new ProductServiceImpl();
+    private ICouponDAO couponImpl = new CouponImpl();
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,20 +42,40 @@ public class CheckOutController extends HttpServlet {
         List<CartResponse> selectedProductsList = new ArrayList<>();
 
         if (selectedProductIds != null && selectedProductIds.length > 0) {
+            List<Integer> couponIds = new ArrayList<>();
             for (String productId : selectedProductIds) {
                 Integer id = Integer.parseInt(productId);
                 CartItem item = cartService.getCartItemByCartId(id, cart.getId());
                 String quantity = req.getParameter("quantity" + id);
                 Integer quantityProduct = quantity == null ? 1 : Integer.parseInt(quantity);
                 Product product = productService.findProductById(item.getProductId());
+
+                if ("selling".equals(product.getStatus())) {
+                    Integer couponId = product.getCouponId();
+                    if (couponId != null) {
+                        couponIds.add(couponId);
+                    }
+                }
+
                 CartResponse cartResponse = new CartResponse();
                 cartResponse.setQuantity(quantityProduct);
                 cartResponse.setProduct(product);
                 selectedProductsList.add(cartResponse);
             }
+            couponIds = couponIds.stream().distinct().collect(Collectors.toList());
+            List<Coupon> coupons = couponIds.stream()
+                    .map(couponId -> couponImpl.getCouponById(couponId))
+                    .collect(Collectors.toList());
+
+            for (Coupon coupon : coupons){
+                int discount = coupon.getPercent_discount();
+                req.getSession().setAttribute("discount", discount);
+            }
+
+            req.getSession().setAttribute("coupons", coupons);
+
         }
         req.getSession().setAttribute("selectedProductsList", selectedProductsList);
-        System.out.println(selectedProductsList);
         req.getRequestDispatcher("check-out.jsp").forward(req, resp);
     }
 }
