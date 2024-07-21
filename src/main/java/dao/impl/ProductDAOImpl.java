@@ -42,6 +42,14 @@ import java.util.*;
             return products;
         }
 
+        public static void main(String[] args) {
+            IProductDAO productDAO = new ProductDAOImpl();
+            List<Product> products = productDAO.findAll();
+            for (Product product : products) {
+                System.out.println(product);
+            }
+        }
+
         @Override
         public Product findById(Integer id) {
             Product product = JDBIConnector.getConnect().withHandle(handle -> {
