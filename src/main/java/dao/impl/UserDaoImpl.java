@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UserDaoImpl implements IUserDao {
     private static final String SELECT_USER = "SELECT id, username, password, name, email, created_at, updated_at, role_id, status FROM users";
-
+    private static final String SELECT_USER_EXCEPT_ADMIN = "SELECT id, username, password, name, email, created_at, updated_at, role_id, status FROM users WHERE role_id IN (2, 4) and status IN (1, 2)";
     Timestamp currentTimestamp = new Timestamp(System.currentTimeMillis()); // ngày giờ hiện tại
 
     @Override
@@ -70,7 +70,9 @@ public class UserDaoImpl implements IUserDao {
     public static void main(String[] args) {
         IUserDao userDao = new UserDaoImpl();
         User user = userDao.getUserByUserName("admin");
-        System.out.println(user);
+      userDao.updateRole(15, 2);
+//        System.out.println(userDao.findAll());
+//        System.out.println(user);
     }
 
     @Override
@@ -112,6 +114,7 @@ public class UserDaoImpl implements IUserDao {
         return users;
     }
 
+
     @Override
     public void deleteById(Integer id) {
         JDBIConnector.getConnect().useHandle(handle ->
@@ -120,6 +123,45 @@ public class UserDaoImpl implements IUserDao {
                         .execute()
         );
     }
+    @Override
+    public void blockUser(String id) {
+        JDBIConnector.getConnect().useHandle(handle ->
+                handle.createUpdate("UPDATE users SET status = 2 WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+
+    @Override
+    public void unBlock(String id) {
+        JDBIConnector.getConnect().useHandle(handle ->
+                handle.createUpdate("UPDATE users SET status = 1 WHERE id = :id")
+                        .bind("id", id)
+                        .execute()
+        );
+    }
+
+    @Override
+    public void updateRole(int id, int roleId) {
+        JDBIConnector.getConnect().useHandle(handle ->
+                handle.createUpdate("UPDATE users SET role_id = :roleId WHERE id = :id")
+                        .bind("id", id)
+                        .bind("roleId", roleId)
+                        .execute()
+        );
+    }
+
+    @Override
+    public List<User> findAllUser() {
+        List<User> users = JDBIConnector.getConnect().withHandle(handle -> {
+            return handle.createQuery(SELECT_USER_EXCEPT_ADMIN)
+                    .mapToBean(User.class)
+                    .list();
+        });
+        return users;
+    }
+
 
     @Override
     public boolean update(User user) {

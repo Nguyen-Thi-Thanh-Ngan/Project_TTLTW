@@ -98,4 +98,9 @@ public class UserServiceImpl implements IUserService {
     public User isUserExists(String oauthProvider, String oauthUid) {
         return userDao.isUserExists(oauthProvider, oauthUid);
     }
+
+    @Override
+    public List<User> findAllUser() {
+        return null;
+    }
 }

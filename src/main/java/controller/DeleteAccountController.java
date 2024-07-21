@@ -1,5 +1,8 @@
 package controller;
 
+import dao.IUserDao;
+import dao.impl.UserDaoImpl;
+import model.User;
 import service.IUserService;
 import service.impl.UserServiceImpl;
 
@@ -12,12 +15,21 @@ import java.io.IOException;
 
 @WebServlet(value = "/account/delete")
 public class DeleteAccountController extends HttpServlet {
-    private IUserService userService = new UserServiceImpl();
+    private IUserDao userService = new UserDaoImpl();
 
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer id = Integer.parseInt(req.getParameter("id"));
-        userService.deleteById(id);
-        resp.sendRedirect("/management-account");
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        request.setCharacterEncoding("utf-8");
+        response.setCharacterEncoding("utf-8");
+
+        int userIdToDelete = Integer.parseInt(request.getParameter("userIdToDelete"));
+        if (userIdToDelete > 0) { // Kiểm tra điều kiện nếu cần thiết
+            // Lấy thông tin người dùng từ userService hoặc từ cơ sở dữ liệu
+            User user = userService.getUserByUserId(userIdToDelete);
+            userService.deleteById(userIdToDelete);
+            response.sendRedirect(request.getContextPath() + "/management-account");
+        }
+
+
     }
 }

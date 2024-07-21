@@ -22,15 +22,17 @@
         <div class="container">
             <ul class="header-links pull-left">
                 <li><a href="#"><i class="fa fa-phone"></i> 0973206403</a></li>
-                <li><a href="#"><i class="fa fa-envelope-o"></i> support@phoneaccessories.com</a></li>
+                <li><a href="#"><i class="fa fa-envelope-o"></i> hadung6765@gmail.com</a></li>
                 <li><a href="#"><i class="fa fa-map-marker"></i>Quận Thủ Đức - Tp.Hồ Chí Minh</a></li>
             </ul>
             <ul class="header-links pull-right">
                 <c:set var="user" value="${sessionScope.user}"/>
                 <c:choose>
                     <c:when test="${user != null}">
-                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a>
-                        </li>
+                        <c:if test="${user.roleId == 1 || user.roleId == 2}">
+                            <li><a href="admin"><i class="fa fa-user-o"></i> Quản trị</a></li>
+                        </c:if>
+                        <li><a href="user-information.jsp?id=${user.id}"><i class="fa fa-user-o"></i> ${user.name}</a></li>
                         <li><a href="logout"><i class="fa fa-user-o"></i> Đăng xuất</a></li>
                     </c:when>
                     <c:otherwise>
