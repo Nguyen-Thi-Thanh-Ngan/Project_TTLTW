@@ -15,55 +15,29 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Phù hợp mọi loại màn hình -->
-
-
     <title>Chi tiết đơn hàng</title>
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
-
-    <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
     <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
-
-
     <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
-
-    <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <!-- stlylesheet -->
     <link rel="stylesheet" href="css/details.css">
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
-    <!-- jQuery Plugins -->
     <script src="js/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slick.min.js"></script>
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
-
-<!-- HEADER -->
 <jsp:include page="header.jsp"/>
-<!-- /HEADER -->
-
-<!-- MENU -->
 <jsp:include page="menu.jsp"/>
-<!-- /MENU -->
-
-<!-- SECTION -->
 <div class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row row1">
             <div><h3>Chi tiết</h3></div>
             <div class="menu">
@@ -160,23 +134,14 @@
                         </div>
                     </div>
                     <div class="inform-detail detail-right">
-
                     </div>
                 </div>
             </div>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-    <!-- /SECTION -->
 </div>
-<!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
 <script src="js/main.js"></script>
-<!-- /FOOTER -->
-
-
-
 </body>
 </html>
 

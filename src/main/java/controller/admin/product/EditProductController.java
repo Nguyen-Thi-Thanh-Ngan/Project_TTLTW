@@ -58,9 +58,7 @@ public class EditProductController extends HttpServlet {
         product.setDetail(detail);
         product.setProductType(productType);
         product.setProducer(producer);
-
         boolean isUpdate = productService.updateProduct(product);
-
         if (isUpdate) {
             resp.setStatus(HttpServletResponse.SC_OK);
             resp.getWriter().write("{\"message\": \"Cập nhật thành công\"}");

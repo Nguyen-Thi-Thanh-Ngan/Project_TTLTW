@@ -37,10 +37,11 @@ public class CheckOutController extends HttpServlet {
         User user = (User) SessionUtil.getInstance().getKey(req, "user");
         Integer userId = user.getId();
         Cart cart = cartService.findByUserId(userId);
-
         String[] selectedProductIds = req.getParameterValues("selectedProductIds");
         List<CartResponse> selectedProductsList = new ArrayList<>();
-
+        for (CartResponse cartResponse : selectedProductsList){
+            System.out.println(cartResponse);
+        }
         if (selectedProductIds != null && selectedProductIds.length > 0) {
             List<Integer> couponIds = new ArrayList<>();
             for (String productId : selectedProductIds) {
@@ -49,14 +50,12 @@ public class CheckOutController extends HttpServlet {
                 String quantity = req.getParameter("quantity" + id);
                 Integer quantityProduct = quantity == null ? 1 : Integer.parseInt(quantity);
                 Product product = productService.findProductById(item.getProductId());
-
                 if ("selling".equals(product.getStatus())) {
                     Integer couponId = product.getCouponId();
                     if (couponId != null) {
                         couponIds.add(couponId);
                     }
                 }
-
                 CartResponse cartResponse = new CartResponse();
                 cartResponse.setQuantity(quantityProduct);
                 cartResponse.setProduct(product);
@@ -66,14 +65,11 @@ public class CheckOutController extends HttpServlet {
             List<Coupon> coupons = couponIds.stream()
                     .map(couponId -> couponImpl.getCouponById(couponId))
                     .collect(Collectors.toList());
-
-            for (Coupon coupon : coupons){
+            for (Coupon coupon : coupons) {
                 int discount = coupon.getPercent_discount();
                 req.getSession().setAttribute("discount", discount);
             }
-
             req.getSession().setAttribute("coupons", coupons);
-
         }
         req.getSession().setAttribute("selectedProductsList", selectedProductsList);
         req.getRequestDispatcher("check-out.jsp").forward(req, resp);

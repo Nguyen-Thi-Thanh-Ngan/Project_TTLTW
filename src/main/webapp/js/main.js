@@ -94,15 +94,11 @@
     ]
   });
 
-	// Product img zoom
 	var zoomMainProduct = document.getElementById('product-main-img');
 	if (zoomMainProduct) {
 		$('#product-main-img .product-preview').zoom();
 	}
 
-	/////////////////////////////////////////
-
-	// Input number
 	$('.input-number').each(function() {
 		var $this = $(this),
 		$input = $this.find('input[type="number"]'),
@@ -127,14 +123,6 @@
 
 	var priceInputMax = document.getElementById('price-max'),
 			priceInputMin = document.getElementById('price-min');
-
-	/*priceInputMax.addEventListener('change', function(){
-		updatePriceSlider($(this).parent() , this.value)
-	});*/
-
-	// priceInputMin.addEventListener('change', function(){
-	// 	updatePriceSlider($(this).parent() , this.value)
-	// });
 
 	function updatePriceSlider(elem , value) {
 		if ( elem.hasClass('price-min') ) {
@@ -164,23 +152,6 @@
 			handle ? priceInputMax.value = value : priceInputMin.value = value
 		});
 	}
-
-	// $('.quantity button').on('click', function () {
-	// 	var button = $(this);
-	// 	var oldValue = button.parent().parent().find('input').val();
-	// 	if (button.hasClass('btn-plus')) {
-	// 		var newVal = parseFloat(oldValue) + 1;
-	// 	} else {
-	// 		if (oldValue > 0) {
-	// 			var newVal = parseFloat(oldValue) - 1;
-	// 		} else {
-	// 			newVal = 0;
-	// 		}
-	// 	}
-	// 	button.parent().parent().find('input').val(newVal);
-	// });
-
-
 })(jQuery);
 $(document).ready(function () {
 	$('.add-to-cart-btn').click(function () {
@@ -193,19 +164,18 @@ $(document).ready(function () {
 			},
 			success: function (data) {
 				$('#cart-quantity').text(data.message);
-
 				Toastify({
 					text: data.status,
 					duration: 3000,
 					newWindow: true,
 					close: true,
-					gravity: "top", // `top` or `bottom`
-					position: "right", // `left`, `center` or `right`
-					stopOnFocus: true, // Prevents dismissing of toast on hover
+					gravity: "top",
+					position: "right",
+					stopOnFocus: true,
 					style: {
 						background: "green",
 					},
-					onClick: function(){} // Callback after click
+					onClick: function(){}
 				}).showToast();
 			},
 			error: function (data) {
@@ -229,10 +199,9 @@ $(document).ready(function () {
 	});
 });
 $(document).ready(function () {
-	/*Lấy api tỉnh thành*/
 	$.ajax({
 		url: "https://online-gateway.ghn.vn/shiip/public-api/master-data/province", type: "GET", headers: {
-			"Token": "7e2513c5-ed99-11ee-983e-5a49fc0dd8ec" // Thay thế bằng token thực tế của bạn
+			"Token": "7e2513c5-ed99-11ee-983e-5a49fc0dd8ec"
 		}, success: function (response) {
 			if (response.code === 200) {
 				var provinces = response.data;

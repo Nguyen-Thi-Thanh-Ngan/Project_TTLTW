@@ -1,13 +1,3 @@
-<%@ page import="java.util.Map" %>
-<%@ page import="model.Product" %>
-<%@ page import="java.util.List" %>
-<%@ page import="model.cart.CartProduct" %>
-<%@ page import="cart.Cart" %>
-<%@ page import="java.util.HashMap" %>
-<%@ page import="dao.ICouponDAO" %>
-<%@ page import="dao.impl.CouponImpl" %>
-<%@ page import="model.Coupon" %>
-<%@ page import="java.util.ArrayList" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
@@ -17,27 +7,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1"> <!-- Phù hợp mọi loại màn hình -->
-
-
     <title>Thanh toán</title>
-
-    <!-- Google font -->
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
-
-    <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
     <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
-
-
     <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
-
-    <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <!-- stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
     <script src="js/jquery.min.js"></script>
@@ -45,28 +21,16 @@
     <script src="js/slick.min.js"></script>
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
-
-
     <jsp:useBean id="a" class="dao.impl.OrderDetailsDAO" scope="request"/>
     <jsp:useBean id="b" class="dao.impl.CouponImpl" scope="request"/>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
-
-<!-- HEADER -->
 <jsp:include page="header.jsp"/>
-<!-- /HEADER -->
-
-<!-- MENU -->
 <jsp:include page="menu.jsp"/>
-<!-- /MENU -->
-
-<!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
@@ -75,24 +39,16 @@
                 </ul>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
-<!-- /BREADCRUMB -->
-
-<!-- SECTION -->
 <div class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <form id="orderForm" action="order" method="post" onsubmit="updateAddress()">
                 <div class="col-md-7">
                     <c:if test="${error != null}">
                         <p class="alert alert-danger">${error}</p>
                     </c:if>
-                    <!-- Billing Details -->
                     <div class="billing-details">
                         <div class="section-title">
                             <h3 class="title">Thông tin thanh toán</h3>
@@ -128,23 +84,15 @@
                                    value="${phone_number}">
                         </div>
                     </div>
-                    <!-- /Billing Details -->
-
-                    <!-- Shiping Details -->
                     <div class="shiping-details">
                         <div class="section-title">
                             <h3 class="title">Yêu cầu khác</h3>
                         </div>
                     </div>
-                    <!-- /Shiping Details -->
-
-                    <!-- Order notes -->
                     <div class="order-notes">
                         <textarea name="note" class="input" placeholder="Yêu cầu khác(Không bắt buộc)"></textarea>
                     </div>
-                    <!-- /Order notes -->
                 </div>
-                <!-- Order Details -->
                 <div class="col-md-5 order-details">
                     <div class="section-title text-center">
                         <h3 class="title">Đơn hàng của bạn</h3>
@@ -168,11 +116,9 @@
                                             data-coupon-id="${item.product.couponId}">${formattedPrice} VNĐ</h5>
                                     </div>
                                 </div>
-                                <%-- Cộng dồn giá tiền của sản phẩm vào biến tổng --%>
                                 <c:set var="totalPrice" value="${totalPrice + (item.product.price * item.quantity)}"/>
                             </c:forEach>
                         </div>
-
                         <c:if test="${not empty sessionScope.coupons}">
                             <div class="order-col">
                                 <div>Chọn mã giảm giá</div>
@@ -187,12 +133,14 @@
                                 </div>
                             </div>
                         </c:if>
-
                         <div class="order-col">
                             <div>Phí vận chuyển</div>
-                            <div><strong>Miễn Phí</strong></div>
+                            <div id="fee-delivery">
+                                <strong class="order-total">
+                                    <h5 class="product-price total" id="formattedPrice">0 VNĐ</h5>
+                                </strong>
+                            </div>
                         </div>
-
                         <div class="order-col">
                             <div><strong>TỔNG TIỀN</strong></div>
                             <div>
@@ -244,15 +192,10 @@
                         <button onclick="validateForm()" data-toggle="modal" class="primary-btn order-submit">Đặt hàng
                         </button>
                     </div>
-                    <!-- /Order Details -->
                 </div>
             </form>
-            <!-- /row -->
         </div>
-        <!-- /container -->
     </div>
-
-    <!-- Order-->
     <div id="oderEmployeeModal" class="modal fade">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -267,18 +210,9 @@
             </div>
         </div>
     </div>
-    <!--/ Order-->
-
-    <!-- /SECTION -->
 </div>
-<!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
 <script src="js/main.js"></script>
-<!-- /FOOTER -->
-
-<!-- jQuery Plugins -->
-
-
 <script>
     $("#payment-1").change(() => {
         var productPriceText = $('.product-price.total').text();
@@ -299,12 +233,10 @@
             alert("Vui lòng điền đầy đủ thông tin và đồng ý với các điều khoản.");
         }
     }
-
     function confirmOrder() {
         $('#oderEmployeeModal').modal('hide');
         window.location.href = 'index.jsp';
     };
-
     function payByVNPay(amount) {
         $.ajax({
             type: "POST",
@@ -330,10 +262,7 @@
             }
         });
     }
-
-
 </script>
-
 <script>
     $(document).ready(function () {
         <% Boolean OrderSuccess = (Boolean)request.getSession().getAttribute("OrderSuccess");%>
@@ -361,31 +290,6 @@
         document.getElementById('selectedWard').value = wardName;
     }
 </script>
-
-<%--<script>--%>
-<%--    var originalTotalPrice = 0;--%>
-<%--    document.addEventListener('DOMContentLoaded', function() {--%>
-<%--        var totalPriceElement = document.getElementById('product-price');--%>
-<%--        originalTotalPrice = parseInt(totalPriceElement.textContent.replace(' VNĐ', '').replace(/,/g, '')) || 0;--%>
-<%--    });--%>
-
-<%--    function calculateDiscount() {--%>
-<%--        var selectElement = document.getElementById('couponSelect');--%>
-<%--        var selectedOption = selectElement.options[selectElement.selectedIndex];--%>
-<%--        var discount = parseInt(selectedOption.getAttribute('data-discount')) || 0;--%>
-<%--        console.log(discount);--%>
-
-<%--        var newPrice = (originalTotalPrice - (originalTotalPrice * (discount / 100)));--%>
-
-<%--        var formattedPrice = newPrice.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',') + ' VNĐ';--%>
-<%--        var totalPriceElement = document.getElementById('product-price');--%>
-<%--        totalPriceElement.textContent = formattedPrice;--%>
-
-<%--        var hiddenTotalPriceElement = document.getElementById('hiddenTotalPrice');--%>
-<%--        hiddenTotalPriceElement.value = newPrice;--%>
-<%--    }--%>
-<%--</script>--%>
-
 <script>
     var originalTotalPrice = 0;
 

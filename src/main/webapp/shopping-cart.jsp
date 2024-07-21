@@ -9,48 +9,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="icon" href="./img/logo.png" type="image/x-icon"/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700" rel="stylesheet">
-
-    <!-- Bootstrap -->
     <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css"/>
-
-    <!-- Slick -->
     <link type="text/css" rel="stylesheet" href="css/slick.css"/>
     <link type="text/css" rel="stylesheet" href="css/slick-theme.css"/>
-
-    <!-- nouislider -->
     <link type="text/css" rel="stylesheet" href="css/nouislider.min.css"/>
-
-    <!-- Font Awesome Icon -->
     <link rel="stylesheet" href="css/font-awesome.min.css">
-
-    <!-- Custom stlylesheet -->
     <link type="text/css" rel="stylesheet" href="css/style.css"/>
-
     <script src="js/jquery.min.js"></script>
-
-    <!-- jQuery Plugins -->
     <script src="js/bootstrap.min.js"></script>
     <script src="js/slick.min.js"></script>
     <script src="js/nouislider.min.js"></script>
     <script src="js/jquery.zoom.min.js"></script>
-
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <title>Giỏ hàng</title>
 </head>
 <body>
-<!-- HEADER -->
 <jsp:include page="header.jsp"/>
-<!-- /HEADER -->
-
-<!-- MENU -->
 <jsp:include page="menu.jsp"/>
-<!-- /MENU -->
-<!-- BREADCRUMB -->
 <div id="breadcrumb" class="section">
-    <!-- container -->
     <div class="container">
-        <!-- row -->
         <div class="row">
             <div class="col-md-12">
                 <ul class="breadcrumb-tree">
@@ -59,13 +37,8 @@
                 </ul>
             </div>
         </div>
-        <!-- /row -->
     </div>
-    <!-- /container -->
 </div>
-<!-- /BREADCRUMB -->
-
-<!-- SECTION -->
 <div class="container main-section">
     <div class="row">
         <div class="col-lg-12 pl-3 pt-3">
@@ -95,7 +68,6 @@
                     <c:forEach items="${cartItems}" var="item">
                         <tr class="cart-item" id="item-${item.product.id}">
                             <td>
-
                                 <input type="checkbox" class="productCheckbox" name="selectedProductIds"
                                        value="${item.product.id}"
                                        data-price="${item.product.price}"
@@ -113,10 +85,8 @@
                                         <p></p>
                                     </div>
                                 </div>
-
                                 <input type="hidden" name="${item.product.id}"
                                        value="${item.product.name}"/>
-
                             </td>
                             <fmt:formatNumber value="${item.product.price}" type="number" pattern="#,##0"
                                               var="formattedPrice"/>
@@ -124,47 +94,53 @@
                             <td data-th="Quantity">
                                 <div class="input-group quantity mx-auto" style="width: 100px;">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-minus" style="background: #5cb85c; border: none">
+                                        <button type="button" class="btn btn-sm btn-primary btn-minus"
+                                                style="background: #5cb85c; border: none">
                                             <i class="fa fa-minus"></i>
                                         </button>
                                     </div>
-                                    <input type="text" class="form-control bg-secondary text-center" value="${item.quantity}">
+                                    <input type="text" class="form-control bg-secondary text-center"
+                                           value="${item.quantity}">
                                     <div class="input-group-btn">
-                                        <button class="btn btn-sm btn-primary btn-plus" style="background: #5cb85c; border: none">
+                                        <button type="button" class="btn btn-sm btn-primary btn-plus"
+                                                style="background: #5cb85c; border: none">
                                             <i class="fa fa-plus"></i>
                                         </button>
                                     </div>
                                 </div>
                             </td>
-                            <fmt:formatNumber value="${item.product.price * item.quantity}" type="number" pattern="#,##0" var="formattedPrice1"/>
-                            <td id="subtotal-${item.product.id}"> <strong class="total-price">${formattedPrice1} VNĐ</strong></td>
-                            <td class="actions" data-th="" style="width:10%;"><p data-toggle="modal" data-product-id="${item.product.id}" data-target="#delete"
-                                   class="btn btn-danger btn-sm delete-product"><i class="fa fa-trash-o"></i></p>
+                            <fmt:formatNumber value="${item.product.price * item.quantity}" type="number"
+                                              pattern="#,##0" var="formattedPrice1"/>
+                            <td id="subtotal-${item.product.id}"><strong class="total-price">${formattedPrice1}
+                                VNĐ</strong></td>
+                            <td class="actions" data-th="" style="width:10%;"><p data-toggle="modal"
+                                                                                 data-product-id="${item.product.id}"
+                                                                                 data-target="#delete"
+                                                                                 class="btn btn-danger btn-sm delete-product">
+                                <i class="fa fa-trash-o"></i></p>
                             </td>
                         </tr>
                     </c:forEach>
                     </tbody>
                     <tfoot>
-
                     <tr>
-                        <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua sắm</a></td>
+                        <td><a href="index.jsp" class="btn btn-success "> <i class="fa fa-angle-left"> </i> Tiếp tục mua
+                            sắm</a></td>
                         <td colspan="2" class="hidden-xs"></td>
-
                         <td class="hidden-xs text-center" style="width:10%;">
                             <fmt:formatNumber value="${totalPrice}" type="number" pattern="#,##0"
                                               var="formattedPrice2"/>
-                            <span id="totalAmountLabel" style="font-weight: bold;"><strong>Tổng tiền : ${formattedPrice2}</strong></span>
+                            <span id="totalAmountLabel"
+                                  style="font-weight: bold;"><strong>Tổng tiền : ${formattedPrice2}</strong></span>
                         </td>
                         <td>
                             <input type="submit" id="paybutton" name="action" class="btn btn-success btn-block"
                                    value="Thanh toán">
-
                         </td>
                     </tr>
                     </tfoot>
                 </form>
             </table>
-            <!-- Delete-->
             <div id="delete" class="modal fade">
                 <div class="modal-dialog">
                     <div class="modal-content">
@@ -195,7 +171,6 @@
         }
     });
 
-    // Update quantity when clicking the plus button
     $('.btn-plus').click(function () {
         var input = $(this).closest('.input-group').find('input');
         var newValue = parseInt(input.val()) + 1;
@@ -204,7 +179,6 @@
         updateQuantity(productId, newValue);
     });
 
-    // Update quantity when manually entering the value
     $('.quantity input').change(function () {
         var newValue = parseInt($(this).val());
         if (newValue >= 1) {

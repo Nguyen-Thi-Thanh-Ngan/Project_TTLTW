@@ -3,11 +3,6 @@
 <%@ page import="model.User" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%
-    //    if(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user") == null || new UserServiceImpl().getRoleIdByUsername(SessionUtil.getInstance().getKey((HttpServletRequest) request, "user").toString()).getRole_idStr().equals("0")){
-//        response.sendRedirect("sign-in.jsp");
-//    }
-%>
 <!DOCTYPE html>
 <html>
 <head lang="en">
@@ -103,8 +98,8 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="#quan-ly-nhan-vien" id="user-manager" data-id-display="#user-manager-display"
-               class="sidebar-nav-link">
+            <a href="#user-manager" id="user-manager" data-id-display="#user-manager-display"
+               class="sidebar-nav-link  menu-item-manager">
                 <div>
                     <i class="fa fa-user"></i>
                 </div>
@@ -112,12 +107,21 @@
             </a>
         </li>
         <li class="sidebar-nav-item">
-            <a href="#quan-ly-san-pham" id="product-manager" data-id-display="#product-manager-display"
-               class="sidebar-nav-link">
+            <a href="#product-manager" id="product-manager" data-id-display="#product-manager-display"
+               class="sidebar-nav-link menu-item-manager">
                 <div>
                     <i class="fa fa-mobile"></i>
                 </div>
                 <span>Quản lý sản phẩm</span>
+            </a>
+        </li>
+        <li class="sidebar-nav-item">
+            <a href="#log-manager" id="log-manager" data-id-display="#log-manager-display"
+               class="sidebar-nav-link  menu-item-manager">
+                <div>
+                    <i class="fa fa-mobile"></i>
+                </div>
+                <span>Lịch sử truy cập</span>
             </a>
         </li>
         <li class="sidebar-nav-item">
@@ -173,8 +177,10 @@
                                 </td>
                                 <!-- Button để mở modal chỉnh sửa -->
                                 <td>
-                                    <a href="#" class="edit" onclick="editUser(${item.id}, '${item.name}', '${item.email}', '${item.username}', '${item.roleId}')">
-                                        <img src="https://cdn-icons-png.flaticon.com/128/1827/1827933.png" width="40px" height="40px" alt="">
+                                    <a href="#" class="edit"
+                                       onclick="editUser(${item.id}, '${item.name}', '${item.email}', '${item.username}', '${item.roleId}')">
+                                        <img src="https://cdn-icons-png.flaticon.com/128/1827/1827933.png" width="40px"
+                                             height="40px" alt="">
                                     </a>
                                 </td>
                                 <td>
@@ -212,7 +218,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label>ID</label>
-                            <input type="text" class="form-control" required name="idEdit" id="editId"  readonly>
+                            <input type="text" class="form-control" required name="idEdit" id="editId" readonly>
                         </div>
                         <div class="form-group">
                             <label>Họ tên</label>
@@ -220,7 +226,7 @@
                         </div>
                         <div class="form-group">
                             <label>Email</label>
-                            <input type="email" class="form-control" required name="emailEdit" id="editEmail"  readonly>
+                            <input type="email" class="form-control" required name="emailEdit" id="editEmail" readonly>
                         </div>
                         <div class="form-group">
                             <label>Username</label>
@@ -228,7 +234,8 @@
                         </div>
                         <div class="form-group">
                             <label>Vai trò</label>
-                            <input type="hidden" name="idUserToEditRole" id="idUserToEditRole" value=""> <!-- ID người dùng -->
+                            <input type="hidden" name="idUserToEditRole" id="idUserToEditRole" value="">
+                            <!-- ID người dùng -->
                             <select class="form-control" name="editRole" id="editRole">
                                 <option value="1">ADMIN</option>
                                 <option value="2">MOD</option>
@@ -348,16 +355,16 @@
     }
 </script>
 <script>
-    document.addEventListener("DOMContentLoaded", function() {
+    document.addEventListener("DOMContentLoaded", function () {
         // Lấy vai trò người dùng từ session hoặc một biến toàn cục
         var userRole = "${sessionScope.user.roleId}"; // Hoặc cách khác để lấy vai trò
 
         // Nếu vai trò không phải là ADMIN, ẩn các nút chỉnh sửa, khóa/mở khóa và xóa
         if (userRole != 1) { // 1: ADMIN
-            document.querySelectorAll(".edit, .block, .delete").forEach(function(el) {
+            document.querySelectorAll(".edit, .block, .delete").forEach(function (el) {
                 el.style.display = "none"; // Ẩn các nút
             });
-            document.querySelectorAll(".edit-column, .block-delete-column, .line-span").forEach(function(el) {
+            document.querySelectorAll(".edit-column, .block-delete-column, .line-span").forEach(function (el) {
                 el.style.display = "none"; // Ẩn các tiêu đề cột
             });
 
@@ -442,35 +449,256 @@
             $("#product-manager").click();
     });
 </script>
-
-<%--<script>
+<script>
     $(document).ready(function () {
-        $('#product-list').DataTable({
-            "processing": true,
-            "serverSide": true,
-            "ajax": {
-                "url": "/home/product-manager",
-                "type": "GET"
-            },
-            "columns": [
-                {"data": "id"},
-                {"data": "name"},
-                {"data": "price"},
-                {"data": "productType.code"},
-                {"data": "quantity"},
-                {"data": "producer.code"},
-                {"data": "images[0].linkImage"},
-                {
-                    "data": "id",
-                    "render": function (data, type, row) {
-                        return '<button class="btn btn-danger btn-sm btn-delete"  data-id="' + row.id + '">Xóa</button>' +
-                            '<a href="edit-user?id=' + row.id + '"><button style="margin-left: .2em" class="btn btn-primary btn-sm" data-id="' + row.id + '">Sửa</button></a>';
-
+        // Hàm để tải dữ liệu vào DataTable
+        const loadProductDataTable = (data) => {
+            $('#product-manager-display table').DataTable({
+                data: data,
+                "columns": [
+                    {"data": "id"},
+                    {"data": "name"},
+                    {"data": "price"},
+                    {"data": "productType.code"},
+                    {"data": "quantity"},
+                    {"data": "producer.code"},
+                    {
+                        "data": "images[0].linkImage",
+                        "render": function (data) {
+                            return '<img src="' + data + '" style="width: 50px; height: 50px">';
+                        }
+                    },
+                    {
+                        "data": "id",
+                        "render": function (data, type, row) {
+                            return '<button class="btn btn-danger btn-sm btn-delete" data-delete-product-id="' + row.id + '">Xóa</button>' +
+                                '<button style="margin-left: .2em" class="btn btn-primary btn-sm btn-edit" data-edit-id="' + row.id + '" data-toggle="modal" data-target="#editProductModal">Sửa</button>';
+                        }
                     }
+                ],
+                initComplete: function () {
+                    $('#product-manager-display table').on('click', '.btn-delete', function () {
+                        var productId = $(this).data('delete-product-id');
+                        if (window.confirm("Bạn có muốn xóa sản phẩm này hay không?")) {
+                            $.ajax({
+                                url: '/home/delete-product?id=' + productId,
+                                method: 'DELETE',
+                                success: function (response) {
+                                    window.location.reload();
+                                },
+                                error: function (xhr, status, error) {
+                                    console.log(xhr.responseText);
+                                }
+                            });
+                        }
+                    });
+                },
+            });
+        };
+        const loadLogDataTable = (data) => {
+            const logDataTableElement = $('#log-manager-display');
+
+            data = data.data;
+            logDataTableElement.show()
+            logDataTableElement.find("table").DataTable({
+                data: data,
+                "columns": [
+                    {"data": "id"},
+                    {"data": "level"},
+                    {"data": "action"},
+                    {"data": "addressIP"},
+                    {"data": "userId"},
+                    {"data": "createdAt"},
+                ],
+            });
+        };
+
+        const loadData = (pathLoad, callback) => {
+            $('.manager-display').hide(); // Ẩn phần hiển thị quản lý trước khi tải dữ liệu
+
+            $.ajax({
+                url: `/home/` + pathLoad,
+                type: "GET",
+                beforeSend: function () {
+                    $.LoadingOverlay("show", {
+                        image: "",
+                        fontawesome: "fa fa-spinner fa-spin",
+                        background: "rgba(0, 0, 0, 0.5)"
+                    });
+                },
+                success: function (data) {
+                    callback(data);
+                },
+                complete: function () {
+                    $.LoadingOverlay("hide");
+                    $('.manager-display').show();
                 }
-            ]
+            });
+        };
+
+        $('#product-to-import').on('click', function () {
+            loadData('product-to-import', loadProductDataTable);
+        });
+
+        $('#product-stock').on('click', function () {
+            loadData('product-stock', loadProductDataTable);
+        });
+
+        $('#best-selling-products').on('click', function () {
+            loadData('best-selling-products', loadProductDataTable);
+        });
+        $('.all-product').on('click', function () {
+            loadData('product-manager', loadProductDataTable);
+        });
+
+        $('.menu-item-manager').on("click", function () {
+            if ($(this).hasClass("active")) return;
+            const idDisplayFrameManager = $(this).data('id-display');
+            const managerDisplayElement = $('.manager-display');
+
+            managerDisplayElement.removeClass("d-flex").addClass("d-none")
+            $(idDisplayFrameManager).addClass("d-flex").removeClass("d-none");
+
+            $('.menu-item-manager').removeClass("active")
+            $(this).addClass("active")
+
+            managerDisplayElement.find(".card-content").empty()
+            $(idDisplayFrameManager).find(".card-content").append(mapFrameManager[idDisplayFrameManager])
+        });
+
+        $('#log-manager').on('click', function () {
+            loadData('admin/log', loadLogDataTable);
+        });
+
+        $("#product-manager").click(function () {
+            loadData('product-manager', loadProductDataTable)
+        });
+
+        $("#user-manager").click(function () {
+            // loadData('product-manager', loadProductDataTable)
+        });
+
+
+        const hash = window.location.hash;
+        if (hash) $(hash).click();
+
+        // Xử lý sự kiện click cho nút sửa sản phẩm
+        $('#product-manager-display').on('click', '.btn-edit', function () {
+            var productId = $(this).data('edit-id');
+            $.ajax({
+                url: '/home/edit-product?id=' + productId,
+                method: 'GET',
+                dataType: 'json',
+                success: function (response) {
+                    const product = response;
+                    $('#editProductModal input[name="id"]').val(productId);
+                    $('#editProductModal input[name="name"]').val(product.name);
+                    $('#editProductModal input[name="price"]').val(product.price);
+                    $('#editProductModal input[name="description"]').val(product.detail);
+                    $('#editProductModal select[name="productTypeId"]').val(product.productType.code);
+                    $('#editProductModal select[name="producerId"]').val(product.producer.code);
+                    $('#editProductModal input[name="img"]').val(product.images[0].link);
+                    $('#editProductModal').modal('show')
+                },
+                error: function (xhr, status, error) {
+                    console.error('Failed to fetch product details:', error);
+                }
+            });
         });
     });
-</script>--%>
+    $('#editProductForm').on('submit', function (event) {
+        event.preventDefault();
+        var arrayValue = $(this).serializeArray();
+        const formData = {}
+        arrayValue.forEach(item => {
+            formData[item.name] = item.value
+        })
+        formData.productTypeId = $(`#editProductModal select[name="productTypeId"] option:selected`).data('product-type-id')
+        formData.producerId = $(`#editProductModal select[name="producerId"] option:selected`).data('producer-id')
+        $.ajax({
+            url: '/home/edit-product',
+            type: 'POST',
+            data: formData,
+            success: function (response) {
+                $('#editProductModal').modal('hide')
+                Toastify({
+                    text: response.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "green",
+                    },
+                    onClick: function () {
+                    }
+                }).showToast();
+                window.location.reload();
+            },
+            error: function (xhr) {
+                Toastify({
+                    text: xhr.responseJSON.message,
+                    duration: 3000,
+                    newWindow: true,
+                    close: true,
+                    gravity: "top",
+                    position: "right",
+                    stopOnFocus: true,
+                    style: {
+                        background: "red",
+                    },
+                    onClick: function () {
+                    }
+                }).showToast();
+            }
+        });
+    });
+
+
+    const frameHTLMProductManager = `
+        <table className="frame-data-table" style="width: 100% !important;">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th style="display: flex; justify-content: center; align-items: center">Mã loại sản phẩm
+                </th>
+                <th>Tồn kho</th>
+                <th>Mã hãng sản xuất</th>
+                <th>Hình ảnh</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        `;
+
+
+    const frameHTMLLogManager = `
+        <table className="frame-data-table" style="width: 100% !important;">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Level</th>
+                <th>Hoạt động</th>
+                <th>Địa chỉ IP</th>
+                <th>ID người dùng</th>
+                <th>Ngày tạo</th>
+            </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        `;
+
+    const mapFrameManager = {
+        "#product-manager-display": frameHTLMProductManager,
+        "#log-manager-display": frameHTMLLogManager,
+    }
+</script>
 </body>
 </html>

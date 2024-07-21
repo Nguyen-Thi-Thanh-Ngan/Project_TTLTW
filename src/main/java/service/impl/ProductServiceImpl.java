@@ -25,7 +25,7 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> findAll() {
         List<Product> products = productDAO.findAll();
-        for (Product product : products){
+        for (Product product : products) {
             List<Image> images = imageDAO.findByProductId(product.getId());
             product.setImages(images);
             ProductType productType = productTypeDAO.findById(product.getProductTypeID());
@@ -78,25 +78,6 @@ public class ProductServiceImpl implements IProductService {
         return product;
     }
 
-    public static void main(String[] args) {
-        ProductServiceImpl productService = new ProductServiceImpl();
-        Product product = productService.findProductById(1);
-
-            System.out.println("Product ID: " + product.getId());
-            System.out.println("Product Name: " + product.getName());
-            System.out.println("Product Price: " + product.getPrice());
-            System.out.println("Product Detail: " + product.getDetail());
-            if (product.getImages() != null && !product.getImages().isEmpty()) {
-                System.out.println("Images:");
-                for (Image image : product.getImages()) {
-                    System.out.println("  Image ID: " + image.getId());
-                    System.out.println("  Image Link: " + image.getLinkImage());
-                }
-            }
-            System.out.println("---------------------------");
-
-    }
-
     @Override
     public List<Product> findByName(String productName) {
         List<Product> products = productDAO.findByName(productName);
@@ -128,7 +109,7 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public List<Product> getPaging(int index){
+    public List<Product> getPaging(int index) {
         List<Product> products = productDAO.getPaging(index);
         for (Product product : products) {
             List<Image> images = imageDAO.findByProductId(product.getId());
@@ -192,7 +173,6 @@ public class ProductServiceImpl implements IProductService {
     public boolean updateProduct(Product product) {
         return productDAO.updateProduct(product);
     }
-
 }
 
 

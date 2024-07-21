@@ -494,18 +494,18 @@
         };
 
         $('#product-to-import').on('click', function () {
-            loadData('product-to-import');
+            loadData('product-to-import', loadProductDataTable);
         });
 
         $('#product-stock').on('click', function () {
-            loadData('product-stock');
+            loadData('product-stock', loadProductDataTable);
         });
 
         $('#best-selling-products').on('click', function () {
-            loadData('best-selling-products');
+            loadData('best-selling-products', loadProductDataTable);
         });
         $('.all-product').on('click', function () {
-            loadData('product-manager');
+            loadData('product-manager', loadProductDataTable);
         });
 
         $('.menu-item-manager').on("click", function () {
@@ -563,7 +563,6 @@
             });
         });
     });
-
     $('#editProductForm').on('submit', function (event) {
         event.preventDefault();
         var arrayValue = $(this).serializeArray();

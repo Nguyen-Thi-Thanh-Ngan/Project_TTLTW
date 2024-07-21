@@ -249,16 +249,7 @@
         </div>
     </div>
 </div>
-<!-- /SECTION -->
-
-
-<!-- FOOTER -->
 <jsp:include page="footer.jsp"/>
 <script src="js/main.js"></script>
-<!-- /FOOTER -->
-
-<!-- jQuery Plugins -->
-
-
 </body>
 </html>
