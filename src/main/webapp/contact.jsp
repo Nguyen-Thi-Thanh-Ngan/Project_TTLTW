@@ -77,7 +77,7 @@
         <div class="contact-infor">
             <h3>Thông tin liên hệ</h3>
             <p><i class="fas fa-phone"></i>0973206403</p>
-            <p><i class="fas fa-envelope"></i>hadung6765@gmail.com</p>
+            <p><i class="fas fa-envelope"></i>support@phoneaccessories.com</p>
             <p><i class="fas fa-map-marker-alt"></i>Phone Accessories - Linh Trung - Thủ Đức - Hồ Chí Minh</p>
         </div>
         <div class="contact-map">
